@@ -1,0 +1,17 @@
+D:\Projects\Advent-of-Code\Henrique\AdventOfCode\bin\Debug\net6.0\AdventOfCode.exe
+D:\Projects\Advent-of-Code\Henrique\AdventOfCode\bin\Debug\net6.0\AdventOfCode.deps.json
+D:\Projects\Advent-of-Code\Henrique\AdventOfCode\bin\Debug\net6.0\AdventOfCode.runtimeconfig.json
+D:\Projects\Advent-of-Code\Henrique\AdventOfCode\bin\Debug\net6.0\AdventOfCode.dll
+D:\Projects\Advent-of-Code\Henrique\AdventOfCode\bin\Debug\net6.0\AdventOfCode.pdb
+D:\Projects\Advent-of-Code\Henrique\AdventOfCode\obj\Debug\net6.0\AdventOfCode.csproj.AssemblyReference.cache
+D:\Projects\Advent-of-Code\Henrique\AdventOfCode\obj\Debug\net6.0\AdventOfCode.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\Advent-of-Code\Henrique\AdventOfCode\obj\Debug\net6.0\AdventOfCode.AssemblyInfoInputs.cache
+D:\Projects\Advent-of-Code\Henrique\AdventOfCode\obj\Debug\net6.0\AdventOfCode.AssemblyInfo.cs
+D:\Projects\Advent-of-Code\Henrique\AdventOfCode\obj\Debug\net6.0\AdventOfCode.csproj.CoreCompileInputs.cache
+D:\Projects\Advent-of-Code\Henrique\AdventOfCode\obj\Debug\net6.0\AdventOfCode.dll
+D:\Projects\Advent-of-Code\Henrique\AdventOfCode\obj\Debug\net6.0\refint\AdventOfCode.dll
+D:\Projects\Advent-of-Code\Henrique\AdventOfCode\obj\Debug\net6.0\AdventOfCode.pdb
+D:\Projects\Advent-of-Code\Henrique\AdventOfCode\obj\Debug\net6.0\AdventOfCode.genruntimeconfig.cache
+D:\Projects\Advent-of-Code\Henrique\AdventOfCode\obj\Debug\net6.0\ref\AdventOfCode.dll
+D:\Projects\Advent-of-Code\Henrique\AdventOfCode\bin\Debug\net6.0\Problems\2015\Day1.txt
+D:\Projects\Advent-of-Code\Henrique\AdventOfCode\bin\Debug\net6.0\Problems\2015\Day1_Input.txt
