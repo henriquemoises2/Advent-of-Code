@@ -14,17 +14,14 @@
             return $"Part 1 solution: " + part1 + "\n" 
                 + "Part 2 solution: " + part2;
 
-
-
-
         }
 
         private string SolvePart1()
         {
             int upStairs, downStaris = 0;
 
-            upStairs = Input.Count(inpt => inpt == '(');
-            downStaris = Input.Count(inpt => inpt == ')');
+            upStairs = InputFirstLine.Count(inpt => inpt == '(');
+            downStaris = InputFirstLine.Count(inpt => inpt == ')');
 
             return (upStairs - downStaris).ToString();
         }
@@ -32,13 +29,13 @@
         private string SolvePart2()
         {
             int level = 0;
-            for(int i = 0; i < Input.Length; i++)
+            for(int i = 0; i < InputFirstLine.Length; i++)
             {
-                if (Input[i] == '(')
+                if (InputFirstLine[i] == '(')
                 {
                     level++;
                 }
-                if (Input[i] == ')')
+                if (InputFirstLine[i] == ')')
                 {
                     level--;
                 }

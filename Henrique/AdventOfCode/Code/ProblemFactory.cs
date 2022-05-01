@@ -11,6 +11,8 @@
                     {
                         case 1:
                             return new Problem_2015_1();
+                        case 2:
+                            return new Problem_2015_2();
                         default: return null;
                     }
                 default:

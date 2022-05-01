@@ -76,12 +76,23 @@ namespace AdventOfCode.Code
                 {
                     Console.WriteLine("Input:");
                     Console.WriteLine();
-                    Console.WriteLine(problem.Input);
+                    foreach(string line in problem.InputLines)
+                    {
+                        Console.WriteLine(line);
+                    }
                 }
 
                 Console.WriteLine("The solution for this problem is:");
-                string solution = problem.Solve();
-                Console.WriteLine(solution);
+                try
+                {
+                    string solution = problem.Solve();
+                    Console.WriteLine(solution);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                
                 Console.WriteLine();
                 Console.ReadLine();
 

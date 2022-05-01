@@ -8,7 +8,17 @@
     {
         internal int Year { get; }
         internal int DayNumber { get; }
-        internal string Input { get; }
+        internal IEnumerable<string> InputLines { get; }
+        internal string InputFirstLine {
+            get 
+            {
+                if(InputLines != null && InputLines.Any())
+                {
+                    return InputLines.First();
+                }
+                return string.Empty;
+            } 
+        }
 
         internal Problem()
         {
@@ -18,7 +28,7 @@
 
             Year = int.Parse(problemName[1]);
             DayNumber = int.Parse(problemName[2]);
-            Input = GetProblemInput();
+            InputLines = GetProblemInputAllLines();
         }
 
         /// <summary>
@@ -33,10 +43,19 @@
         /// <summary>
         /// Input text file should be in folder "Problems\{YEAR} and should have the following format "Day{DAY_NUMBER}_Input.txt"
         /// </summary>
-        /// <returns>The problem input</returns>
-        internal string GetProblemInput()
+        /// <returns>Returns the input as a single string</returns>
+        internal string GetProblemInputString()
         {
             return File.ReadAllText($"Problems/{Year}/Day{DayNumber}_Input.txt");
+        }
+
+        /// <summary>
+        /// Input text file should be in folder "Problems\{YEAR} and should have the following format "Day{DAY_NUMBER}_Input.txt"
+        /// </summary>
+        /// <returns>Returns the input as a collection of lines as strings</returns>
+        internal IEnumerable<string> GetProblemInputAllLines()
+        {
+            return File.ReadAllLines($"Problems/{Year}/Day{DayNumber}_Input.txt");
         }
 
         internal abstract string Solve();
