@@ -1,0 +1,96 @@
+﻿namespace AdventOfCode.Code
+{
+    internal class Problem_2015_2 : Problem
+    {
+        internal Problem_2015_2() : base()
+        {
+        }
+
+        internal override string Solve()
+        {
+            int totalArea = 0, totalRibbon = 0;
+            // Process each file line
+            foreach (string line in GetProblemInputAllLines())
+            {
+                string[] dimensions = line.Split("x");
+                if(dimensions.Length != 3 
+                    || !int.TryParse(dimensions[0], out int length) || length < 1 
+                    || !int.TryParse(dimensions[1], out int width) || width < 1
+                    || !int.TryParse(dimensions[2], out int height) || height < 1
+                )
+                {
+                    throw new Exception("Invalid line in input file.");
+                }
+                totalArea += CalculateArea(length, width, height);
+                totalRibbon += CalculateRibbon(length, width, height);
+            }
+            return $"Part 1 solution: " + totalArea + "\n"
+                + "Part 2 solution: " + totalRibbon;
+        }
+
+        /// <summary>
+        /// Compute the surface area of the required paper to wrap the present
+        /// </summary>
+        /// <param name="length"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        private int CalculateArea(int length, int width, int height)
+        {
+            int area1 = length * width;
+            int area2 = width * height;
+            int area3 = height * length;
+
+            // Find the smallest value for the margin
+            int margin = Math.Min(area1, Math.Min(area2, area3));
+
+            // Calculate area with margin
+            int area = (2 * area1 ) + (2 * area2) + (2 * area3) + margin;
+            return area;
+        }
+
+        /// <summary>
+        /// Compute the total length of ribbon needed to wrap the present
+        /// </summary>
+        /// <param name="length"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        private int CalculateRibbon(int length, int width, int height)
+        {
+            // Find the two smallest value to use in bow calculation
+            Tuple<int, int> smallestSides = TwoMin(length, width, height);
+
+            int ribbonSize = smallestSides.Item1 + smallestSides.Item1 + smallestSides.Item2 + smallestSides.Item2;
+            int bowSize = length * width * height;
+
+            // return total ribbon size
+            return ribbonSize + bowSize;
+        }
+
+        /// <summary>
+        /// Compute the two smallest values
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="c"></param>
+        /// <returns>Returns the 2 min values</returns>
+        private Tuple<int,int> TwoMin(int a, int b, int c)
+        {
+            int maxValue = Math.Max(a, Math.Max(b, c));
+            if(a == maxValue)
+            {
+                return Tuple.Create(b,c);
+            } 
+            else if(b == maxValue)
+            {
+                return Tuple.Create(a, c);
+            }
+            else
+            {
+                return Tuple.Create(a, b);
+            }
+        }
+
+    }
+}
