@@ -13,6 +13,8 @@
                             return new Problem_2015_1();
                         case 2:
                             return new Problem_2015_2();
+                        case 3:
+                            return new Problem_2015_3();
                         default: return null;
                     }
                 default:
