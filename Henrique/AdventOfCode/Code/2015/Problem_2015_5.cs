@@ -7,6 +7,9 @@ namespace AdventOfCode.Code
         private const string RULE_1 = "^(.*a.*|.*e.*|.*i.*|.*o.*|.*u.*){3,}$";
         private const string RULE_2 = "^.*(?<letter>[a-z])\\k<letter>.*$";
         private const string RULE_3 = "^((?!ab|cd|pq|xy).)+$";
+        private const string RULE_4 = "^.*(?<sequence>[a-z][a-z]).*\\k<sequence>.*$";
+        private const string RULE_5 = "^.*(?<letter>[a-z])[a-z]\\k<letter>.*$";
+
 
         internal Problem_2015_5() : base()
         {
@@ -47,7 +50,25 @@ namespace AdventOfCode.Code
 
         private string SolvePart2()
         {
-            return "";
+            Regex expression4 = new Regex(RULE_4, RegexOptions.Compiled);
+            Regex expression5 = new Regex(RULE_5, RegexOptions.Compiled);
+
+            int niceSentences = 0;
+            int naughtySentences = 0;
+
+            foreach (string line in InputLines)
+            {
+                if (expression4.IsMatch(line) && expression5.IsMatch(line))
+                {
+                    niceSentences++;
+                }
+                else
+                {
+                    naughtySentences++;
+                }
+            }
+
+            return niceSentences.ToString();
         }
     }
 }
