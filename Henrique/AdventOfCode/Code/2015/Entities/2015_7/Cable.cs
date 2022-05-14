@@ -11,7 +11,9 @@
 
         public ushort Evaluate(IDictionary<string, ISource> circuit)
         {
-            return circuit[_cableName].Evaluate(circuit);
+            ushort result = circuit[_cableName].Evaluate(circuit);
+            circuit[_cableName] = new Value(result);
+            return result;
         }
     }
 }

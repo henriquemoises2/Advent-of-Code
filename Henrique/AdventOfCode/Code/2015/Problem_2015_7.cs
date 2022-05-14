@@ -12,32 +12,26 @@ namespace AdventOfCode.Code
         private const string PatternBinaryOperation = "^(\\d+|[a-z]+) ([A-Z]+) (\\d+|[a-z]+) -> ([a-z]+)$";
 
         private const string CableToEvaluate = "a";
+        private const string CableToOverride = "b";
 
         internal Problem_2015_7() : base()
         {
+            
         }
 
         internal override string Solve()
-        {
-            string part1 = SolvePart1();
-            string part2 = SolvePart2();
-
-            return $"Part 1 solution: " + part1 + "\n"
-                + "Part 2 solution: " + part2;
-        }
-
-        private string SolvePart1()
         {
             Regex regexPatterValue = new Regex(PatternValue, RegexOptions.Compiled);
             Regex regexPatternUnaryOperation = new Regex(PatternUnaryOperation, RegexOptions.Compiled);
             Regex regexPatternBinaryOperation = new Regex(PatternBinaryOperation, RegexOptions.Compiled);
             Match match;
-            IDictionary<string, ISource> circuit = new Dictionary<string, ISource>();
-            OperationFactory factory = new OperationFactory(circuit); 
+
+            IDictionary<string, ISource> originalCircuit = new Dictionary<string, ISource>();
+            OperationFactory factory = new OperationFactory(originalCircuit);
 
             foreach (string line in InputLines)
             {
-                if(regexPatterValue.IsMatch(line))
+                if (regexPatterValue.IsMatch(line))
                 {
                     match = regexPatterValue.Match(line);
 
@@ -94,7 +88,7 @@ namespace AdventOfCode.Code
                         {
                             factory.AddBinaryOperation(signalValue1, originValue2, operation, destinationCableName);
                         }
-                    }                    
+                    }
                     else
                     {
                         // Operation with a cable reference and a signal as input is assigned to destination cable
@@ -108,23 +102,32 @@ namespace AdventOfCode.Code
                             factory.AddBinaryOperation(originValue1, originValue2, operation, destinationCableName);
                         }
                     }
-
-
                 }
                 else
                 {
                     throw new Exception("Invalid line in input file.");
                 }
-
             }
 
-            return circuit[CableToEvaluate].Evaluate(circuit).ToString();
+            IDictionary<string, ISource> circuit1 = new Dictionary<string, ISource>(originalCircuit);
+            IDictionary<string, ISource> circuit2 = new Dictionary<string, ISource>(originalCircuit);
 
+            string part1 = SolvePart1(circuit1);
+            string part2 = SolvePart2(circuit2, part1);
+
+            return $"Part 1 solution: " + part1 + "\n"
+                + "Part 2 solution: " + part2;
         }
 
-        private string SolvePart2()
+        private string SolvePart1(IDictionary<string, ISource> circuit)
         {
-            return "";
+            return circuit[CableToEvaluate].Evaluate(circuit).ToString();
+        }
+
+        private string SolvePart2(IDictionary<string, ISource> circuit, string resultSignal)
+        {
+            circuit[CableToOverride] = new Value(ushort.Parse(resultSignal));
+            return circuit[CableToEvaluate].Evaluate(circuit).ToString();
         }
 
 
