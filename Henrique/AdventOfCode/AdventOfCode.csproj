@@ -24,6 +24,8 @@
     <None Remove="Problems\2015\Day7_Input.txt" />
     <None Remove="Problems\2015\Day8.txt" />
     <None Remove="Problems\2015\Day8_Input.txt" />
+    <None Remove="Problems\2015\Day9.txt" />
+    <None Remove="Problems\2015\Day9_Input.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,6 +54,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Problems\2015\Day2.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Problems\2015\Day9.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Problems\2015\Day9_Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Problems\2015\Day8_Input.txt">
