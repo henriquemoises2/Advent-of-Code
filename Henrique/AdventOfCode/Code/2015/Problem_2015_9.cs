@@ -1,4 +1,5 @@
-﻿using AdventOfCode.Code._2015_9;
+﻿using AdventOfCode.Algorithms;
+using AdventOfCode.Code._2015_9;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
@@ -65,9 +66,9 @@ namespace AdventOfCode.Code
             string origin = SelectOrigin();
             string destination = SelectDestination();
 
-            string result = ComputeShortestPath();
+            string result = ComputeShortestPath(origin, destination);
 
-            return "";
+            return result;
         }
 
         private string SolvePart2()
@@ -105,7 +106,7 @@ namespace AdventOfCode.Code
             return endingLocation.EndingLocation;
         }
 
-        private string ComputeShortestPath()
+        private string ComputeShortestPath(string origin, string destination)
         {
             int nLocations = LocationIDs.Values.Max();
             int[,] distanceMatrix = new int[nLocations + 1, nLocations + 1];
@@ -113,7 +114,11 @@ namespace AdventOfCode.Code
             {
                 for (int j = 0; j < nLocations + 1; j++)
                 {
-                    distanceMatrix[i, j] = int.MaxValue;
+                    if(i != j)
+                    {
+                        // We simulate infinity in this step with an arbitrarily large number but to which we can still add other values
+                        distanceMatrix[i, j] = int.MaxValue / 2;
+                    }
                 }
             }
 
@@ -125,8 +130,8 @@ namespace AdventOfCode.Code
                 distanceMatrix[startingLocationIndex, endingLocationIndex] = distance.Cost;
             }
 
-
-            return "";
+            int shortestPathLength = new HeldKarpAlgorithm(distanceMatrix, LocationIDs[origin]).GetShortestPathLenght();
+            return shortestPathLength.ToString();
         }
     }
 }

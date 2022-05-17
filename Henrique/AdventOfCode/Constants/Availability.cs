@@ -1,8 +1,8 @@
 ﻿namespace AdventOfCode.Constants
 {
 
-    public static class Availability
+    internal static class Availability
     {
-        public static IEnumerable<int> AvailableYears => new[] { 2015 };
+        internal static IEnumerable<int> AvailableYears => new[] { 2015 };
     }
 }

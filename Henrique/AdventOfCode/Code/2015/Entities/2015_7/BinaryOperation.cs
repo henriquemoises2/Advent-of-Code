@@ -7,14 +7,14 @@
 
         private BinaryOperationType _operationType;
 
-        public BinaryOperation(ISource value1, ISource value2, BinaryOperationType operationType)
+        internal BinaryOperation(ISource value1, ISource value2, BinaryOperationType operationType)
         {
             _value1 = value1;
             _value2 = value2;
             _operationType = operationType;
         }
 
-        public ushort Evaluate(IDictionary<string, ISource> circuit)
+        ushort ISource.Evaluate(IDictionary<string, ISource> circuit)
         {
             switch (_operationType)
             {
