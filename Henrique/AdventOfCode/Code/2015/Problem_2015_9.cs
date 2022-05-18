@@ -110,14 +110,23 @@ namespace AdventOfCode.Code
         {
             int nLocations = LocationIDs.Values.Max();
             int[,] distanceMatrix = new int[nLocations + 1, nLocations + 1];
+            int startingLocationMatrixIndex = LocationIDs[origin];
             for (int i = 0; i < nLocations + 1; i++)
             {
                 for (int j = 0; j < nLocations + 1; j++)
                 {
-                    if(i != j)
+                    if (i != j)
                     {
-                        // We simulate infinity in this step with an arbitrarily large number but to which we can still add other values
-                        distanceMatrix[i, j] = int.MaxValue / 2;
+                        if (j == startingLocationMatrixIndex)
+                        {
+                            // We simulate no cost when returning to starting node
+                            distanceMatrix[i, j] = 0;
+                        }
+                        else
+                        {
+                            // We simulate infinity in this step with an arbitrarily large number
+                            distanceMatrix[i, j] = int.MaxValue;
+                        }
                     }
                 }
             }
@@ -130,7 +139,7 @@ namespace AdventOfCode.Code
                 distanceMatrix[startingLocationIndex, endingLocationIndex] = distance.Cost;
             }
 
-            int shortestPathLength = new HeldKarpAlgorithm(distanceMatrix, LocationIDs[origin]).GetShortestPathLenght();
+            int shortestPathLength = new HeldKarpAlgorithm(distanceMatrix, LocationIDs[origin] + 1).GetShortestPathLenght();
             return shortestPathLength.ToString();
         }
     }
