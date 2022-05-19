@@ -67,7 +67,6 @@ namespace AdventOfCode.Code
             string destination = SelectDestination();
 
             string result = ComputeShortestPath(origin, destination);
-
             return result;
         }
 

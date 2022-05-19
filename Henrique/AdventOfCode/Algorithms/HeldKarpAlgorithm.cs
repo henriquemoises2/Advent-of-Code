@@ -74,8 +74,10 @@
                 {
                     result = _distanceMatrix[set[0] - 1, x - 1] + lookupValue;
                 }
-
-                _costLookup.Add($"g({x},{{{set[0]}}})", result);
+                if(!_costLookup.ContainsKey($"g({x},{{{set[0]}}})"))
+                { 
+                    _costLookup.Add($"g({x},{{{set[0]}}})", result);
+                }
                 minResult = result;
             }
             else
@@ -99,7 +101,11 @@
                         minResult = result;
                     }
                 }
-                _costLookup.Add($"g({x},{{{string.Join(",", set)}}})", result);
+                if (!_costLookup.ContainsKey($"g({x},{{{string.Join(",", set)}}})"))
+                {
+                    _costLookup.Add($"g({x},{{{string.Join(",", set)}}})", result);
+                }
+                
             }
             return minResult;
         }
@@ -111,60 +117,47 @@
         /// <param name="subsetSize"></param>
         /// <param name="valuesList"></param>
         /// <returns>A list with all subsets of size subsetSize of the valuesList set.</returns>
-        private IEnumerable<IEnumerable<int>> GenerateSubsets(int subsetSize, List<int> valuesList)
+        internal static IEnumerable<IEnumerable<int>> GenerateSubsets(int subsetSize, List<int> valuesList)
         {
+            List<List<int>> results = new List<List<int>>();
+            List<Tuple<List<int>,List<int>>> tempResults = new List<Tuple<List<int>, List<int>>>();
 
-            List<IEnumerable<int>> results = new List<IEnumerable<int>>();
-            if (subsetSize > valuesList.Count)
+            for(int i = 0; i < valuesList.Count; i++)
             {
-                return results;
+                tempResults.Add(Tuple.Create(new List<int> { valuesList[i] } , valuesList.Skip(i + 1).ToList()));
             }
 
-            List<int> set = new List<int>();
-            int idx = 0;
-            int removed = 0;
-
-            List<int> auxValuesList = new List<int>(valuesList);
-
-            // Special case to when subset length is 1
-            if (subsetSize == 1)
+            int iteration = 1;
+            while(iteration < subsetSize)
             {
-                foreach (var elem in valuesList)
+                List<Tuple<List<int>, List<int>>> iterationResults = new List<Tuple<List<int>, List<int>>>();
+                foreach (var elem in tempResults)
                 {
-                    results.Add(new List<int> { elem });
-                }
-                return results;
-            }
-
-            while (auxValuesList.Count >= subsetSize)
-            {
-                if (idx + subsetSize > auxValuesList.Count)
-                {
-                    auxValuesList.RemoveAt(0);
-                    if (auxValuesList.Count < subsetSize)
+                    if (elem.Item2.Any())
                     {
-                        break;
+                        for (int i = 0; i < elem.Item2.Count(); i++)
+                        {
+                            List<int> newList = new List<int>(elem.Item1);
+                            List<int> newRemainderList = new List<int>(elem.Item2);
+
+                            newList.Add(elem.Item2[i]);
+                            newRemainderList.RemoveRange(0,i + 1);
+
+                            var newTuple = Tuple.Create(newList, newRemainderList);
+
+                            iterationResults.Add(newTuple);
+                        }
                     }
-                    removed++;
-                    idx = removed;
                 }
-                set = new List<int>();
-                int currentNode = auxValuesList[0];
-                set.Add(currentNode);
-
-                int internalIterator = 1;
-
-                while (internalIterator < subsetSize && internalIterator < auxValuesList.Count)
-                {
-                    set.Add(valuesList.Skip(idx).ToList()[internalIterator]);
-                    internalIterator++;
-                }
-                idx++;
-
-                results.Add(set);
+                iteration++;
+                tempResults = iterationResults;
             }
-            return results.Distinct();
+
+            results = tempResults.Select(r => r.Item1).ToList();           
+            return results;
         }
+
+        
 
 
     }
