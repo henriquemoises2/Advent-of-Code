@@ -10,6 +10,7 @@ namespace AdventOfCode.Code
         private const string PatternDistance = @"^(\w+) to (\w+) = (\d+)$";
         private List<Distance> Distances;
         private Dictionary<string, int> LocationIDs { get; set; }
+        private int[,] _distanceMatrix;
 
         internal Problem_2015_9() : base()
         {
@@ -18,15 +19,6 @@ namespace AdventOfCode.Code
         }
 
         internal override string Solve()
-        {
-            string part1 = SolvePart1();
-            string part2 = SolvePart2();
-
-            return $"Part 1 solution: " + part1 + "\n"
-                + "Part 2 solution: " + part2;
-        }
-
-        private string SolvePart1()
         {
             Regex pattern = new Regex(PatternDistance, RegexOptions.Compiled);
             string startingLocation = string.Empty;
@@ -47,7 +39,7 @@ namespace AdventOfCode.Code
                     // Already validated in regex that is a number
                     cost = int.Parse(match.Groups[3].Value);
 
-                    // Assign unique ID to each location
+                    // Assign unique int to each location
                     if (!LocationIDs.ContainsKey(startingLocation))
                     {
                         LocationIDs.Add(startingLocation, locationIdsIndex);
@@ -63,83 +55,55 @@ namespace AdventOfCode.Code
 
                 }
             }
-            string origin = SelectOrigin();
-            string destination = SelectDestination();
+            _distanceMatrix = BuildDistanceMatrix();
 
-            string result = ComputeShortestPath(origin, destination);
-            return result;
+            string part1 = SolvePart1();
+            string part2 = SolvePart2();
+
+            return $"Part 1 solution: " + part1 + "\n"
+                + "Part 2 solution: " + part2;
+        }
+
+        private string SolvePart1()
+        {            
+            return ComputeShortestPath();
         }
 
         private string SolvePart2()
         {
-            return "";
+            return ComputeLongestPath();
         }
 
-        private string SelectOrigin()
+        private string ComputeShortestPath()
+        {       
+            // We send the distance matrix, no starting node (we could select any node here but the results will vary) and the returnToOrigin flag set as false
+            // to instruct the algorithm to ignore the path from the ending node back to the starting node, as default in the Held-Karp algorithm
+            int shortestPathLength = new HeldKarpAlgorithm(_distanceMatrix, null, false).GetShortestPathCost();
+            return shortestPathLength.ToString();
+        }
+
+        private string ComputeLongestPath()
         {
-            if (Distances == null || !Distances.Any())
-            {
-                return String.Empty;
-            }
-            // Look throught the Distances set to see which location never appears as an ending location.
-            Distance? startingLocation = Distances.Where(d => !Distances.Select(ad => ad.EndingLocation).Contains(d.StartingLocation)).FirstOrDefault();
-            if (startingLocation == null)
-            {
-                return Distances.First().StartingLocation;
-            }
-            return startingLocation.StartingLocation;
+            int intLongestPath = new HeldKarpAlgorithm(_distanceMatrix, null, false).GetLongestPathCost();
+            return intLongestPath.ToString();
         }
 
-        private string SelectDestination()
-        {
-            if (Distances == null || !Distances.Any())
-            {
-                return String.Empty;
-            }
-            // Look throught the Distances set to see which location never appears as a starting location.
-            Distance? endingLocation = Distances.Where(d => !Distances.Select(ad => ad.StartingLocation).Contains(d.EndingLocation)).FirstOrDefault();
-            if (endingLocation == null)
-            {
-                return Distances.First().EndingLocation;
-            }
-            return endingLocation.EndingLocation;
-        }
-
-        private string ComputeShortestPath(string origin, string destination)
+        private int[,] BuildDistanceMatrix()
         {
             int nLocations = LocationIDs.Values.Max();
             int[,] distanceMatrix = new int[nLocations + 1, nLocations + 1];
-            int startingLocationMatrixIndex = LocationIDs[origin];
-            for (int i = 0; i < nLocations + 1; i++)
-            {
-                for (int j = 0; j < nLocations + 1; j++)
-                {
-                    if (i != j)
-                    {
-                        if (j == startingLocationMatrixIndex)
-                        {
-                            // We simulate no cost when returning to starting node
-                            distanceMatrix[i, j] = 0;
-                        }
-                        else
-                        {
-                            // We simulate infinity in this step with an arbitrarily large number
-                            distanceMatrix[i, j] = int.MaxValue;
-                        }
-                    }
-                }
-            }
 
+            // For the Held-Karp algorithm, we have to build a distance matrix with the distances between each location
             foreach (Distance distance in Distances)
             {
                 int startingLocationIndex = LocationIDs[distance.StartingLocation];
                 int endingLocationIndex = LocationIDs[distance.EndingLocation];
 
+                // The direction is irrelevant, so it is the same cost going from A->B or B->A
                 distanceMatrix[startingLocationIndex, endingLocationIndex] = distance.Cost;
+                distanceMatrix[endingLocationIndex, startingLocationIndex] = distance.Cost;
             }
-
-            int shortestPathLength = new HeldKarpAlgorithm(distanceMatrix, LocationIDs[origin] + 1).GetShortestPathLenght();
-            return shortestPathLength.ToString();
+            return distanceMatrix;
         }
     }
 }
