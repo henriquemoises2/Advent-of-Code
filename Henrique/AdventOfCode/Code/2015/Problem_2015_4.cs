@@ -1,8 +1,8 @@
 ﻿namespace AdventOfCode.Code
 {
-    internal class Problem_2015_04 : Problem
+    internal class Problem_2015_4 : Problem
     {
-        internal Problem_2015_04() : base()
+        internal Problem_2015_4() : base()
         {
         }
 

@@ -2,7 +2,7 @@
 
 namespace AdventOfCode.Code
 {
-    internal class Problem_2015_05 : Problem
+    internal class Problem_2015_5 : Problem
     {
         private const string RULE_1 = "^(.*a.*|.*e.*|.*i.*|.*o.*|.*u.*){3,}$";
         private const string RULE_2 = "^.*(?<letter>[a-z])\\k<letter>.*$";
@@ -11,7 +11,7 @@ namespace AdventOfCode.Code
         private const string RULE_5 = "^.*(?<letter>[a-z])[a-z]\\k<letter>.*$";
 
 
-        internal Problem_2015_05() : base()
+        internal Problem_2015_5() : base()
         {
         }
 

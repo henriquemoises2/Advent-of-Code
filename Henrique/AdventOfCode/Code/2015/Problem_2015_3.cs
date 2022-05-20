@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode.Code
 {
-    internal class Problem_2015_03 : Problem
+    internal class Problem_2015_3 : Problem
     {
         private List<Tuple<int, int>> visitedHouses;
         private Tuple<int, int> SantaLastVisitedHouse;
@@ -13,7 +13,7 @@
             RoboSanta
         }
 
-        internal Problem_2015_03() : base()
+        internal Problem_2015_3() : base()
         {
             visitedHouses = new List<Tuple<int, int>>();
             SantaLastVisitedHouse = Tuple.Create(0,0);

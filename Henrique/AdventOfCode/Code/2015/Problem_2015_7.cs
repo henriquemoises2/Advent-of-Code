@@ -4,7 +4,7 @@ using AdventOfCode._2015_7;
 
 namespace AdventOfCode.Code
 {
-    internal class Problem_2015_07 : Problem
+    internal class Problem_2015_7 : Problem
     {
 
         private const string PatternValue = "^(\\d+|[a-z]+) -> ([a-z]+)$";
@@ -14,7 +14,7 @@ namespace AdventOfCode.Code
         private const string CableToEvaluate = "a";
         private const string CableToOverride = "b";
 
-        internal Problem_2015_07() : base()
+        internal Problem_2015_7() : base()
         {
             
         }

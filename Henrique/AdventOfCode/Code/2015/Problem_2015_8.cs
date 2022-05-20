@@ -4,12 +4,12 @@ using AdventOfCode._2015_7;
 
 namespace AdventOfCode.Code
 {
-    internal class Problem_2015_08 : Problem
+    internal class Problem_2015_8 : Problem
     {
 
         private const string PatternNonLetterCharacters = @"(\\\\)|(\\"")|(\\x[0-f][0-f])|([a-z])";
 
-        internal Problem_2015_08() : base()
+        internal Problem_2015_8() : base()
         {
 
         }
