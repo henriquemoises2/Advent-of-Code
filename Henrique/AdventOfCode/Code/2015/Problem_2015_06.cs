@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace AdventOfCode.Code
 {
-    internal class Problem_2015_6 : Problem
+    internal class Problem_2015_06 : Problem
     {
         const string Pattern = "^(.*) (\\d+),(\\d+) through (\\d+),(\\d+)$";
         const int GridSize = 1000;
@@ -17,7 +17,7 @@ namespace AdventOfCode.Code
             Toggle = 3
         }
 
-        internal Problem_2015_6() : base()
+        internal Problem_2015_06() : base()
         {
             LightsGrid = new int[GridSize, GridSize];
             BrightnessGrid = new int[GridSize, GridSize];

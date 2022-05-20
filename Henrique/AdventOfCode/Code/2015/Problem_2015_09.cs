@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
 {
-    internal class Problem_2015_9 : Problem
+    internal class Problem_2015_09 : Problem
     {
 
         private const string PatternDistance = @"^(\w+) to (\w+) = (\d+)$";
@@ -12,7 +12,7 @@ namespace AdventOfCode.Code
         private Dictionary<string, int> LocationIDs { get; set; }
         private int[,] _distanceMatrix;
 
-        internal Problem_2015_9() : base()
+        internal Problem_2015_09() : base()
         {
             Distances = new List<Distance>();
             LocationIDs = new Dictionary<string, int>();
