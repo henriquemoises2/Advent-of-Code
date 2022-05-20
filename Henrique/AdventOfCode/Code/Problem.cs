@@ -1,4 +1,6 @@
-﻿namespace AdventOfCode.Code
+﻿using System.Diagnostics;
+
+namespace AdventOfCode.Code
 {
     /// <summary>
     /// Problem must have the following:
@@ -19,6 +21,7 @@
                 return string.Empty;
             } 
         }
+        internal readonly Stopwatch StopWatch = new Stopwatch();
 
         internal Problem()
         {
@@ -37,7 +40,7 @@
         /// <returns>The problem description</returns>
         internal string GetProblemDescription()
         {
-            return File.ReadAllText($"Problems/{Year}/Day{DayNumber}.txt");
+            return File.ReadAllText($"Problems/{Year}/Day{DayNumber.ToString("00")}.txt");
         }
 
         /// <summary>
@@ -46,7 +49,7 @@
         /// <returns>Returns the input as a single string</returns>
         internal string GetProblemInputString()
         {
-            return File.ReadAllText($"Problems/{Year}/Day{DayNumber}_Input.txt");
+            return File.ReadAllText($"Problems/{Year}/Day{DayNumber.ToString("00")}_Input.txt");
         }
 
         /// <summary>
@@ -55,7 +58,15 @@
         /// <returns>Returns the input as a collection of lines as strings</returns>
         internal IEnumerable<string> GetProblemInputAllLines()
         {
-            return File.ReadAllLines($"Problems/{Year}/Day{DayNumber}_Input.txt");
+            return File.ReadAllLines($"Problems/{Year}/Day{DayNumber.ToString("00")}_Input.txt");
+        }
+
+        internal string SolveWithStopWatch()
+        {
+            StopWatch.Start();
+            string result = Solve();
+            StopWatch.Stop();
+            return result;
         }
 
         internal abstract string Solve();
