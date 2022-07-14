@@ -15,6 +15,10 @@
                             return new Problem_2015_2();
                         case 3:
                             return new Problem_2015_3();
+                        case 4:
+                            return new Problem_2015_4();
+                        case 5:
+                            return new Problem_2015_5();
                         default: return null;
                     }
                 default:
