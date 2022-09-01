@@ -21,6 +21,8 @@
                             return new Problem_2015_5();
                         case 6:
                             return new Problem_2015_6();
+                        case 7:
+                            return new Problem_2015_7();
                         default: return null;
                     }
                 default:
