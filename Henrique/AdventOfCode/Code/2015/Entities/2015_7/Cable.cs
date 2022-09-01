@@ -9,7 +9,7 @@
             _cableName = cableName;
         }
 
-        public ushort Evaluate(IDictionary<string, ISource> circuit)
+        ushort ISource.Evaluate(IDictionary<string, ISource> circuit)
         {
             ushort result = circuit[_cableName].Evaluate(circuit);
             circuit[_cableName] = new Value(result);

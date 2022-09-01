@@ -11,7 +11,7 @@
             _operationType = operationType;
         }
 
-        public ushort Evaluate(IDictionary<string, ISource> circuit)
+        ushort ISource.Evaluate(IDictionary<string, ISource> circuit)
         {
             switch (_operationType)
             {

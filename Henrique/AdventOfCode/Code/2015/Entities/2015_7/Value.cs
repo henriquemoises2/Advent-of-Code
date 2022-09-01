@@ -9,7 +9,7 @@
             _signal = value;
         }
 
-        public ushort Evaluate(IDictionary<string, ISource> circuit)
+        ushort ISource.Evaluate(IDictionary<string, ISource> circuit)
         {
             return _signal;
         }

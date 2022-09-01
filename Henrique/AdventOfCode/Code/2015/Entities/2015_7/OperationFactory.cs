@@ -10,7 +10,7 @@ namespace AdventOfCode._2015_7
             _circuit = circuit;
         }
 
-        public IDictionary<string, ISource> GetCircuit()
+        internal IDictionary<string, ISource> GetCircuit()
         {
             return _circuit;
         } 

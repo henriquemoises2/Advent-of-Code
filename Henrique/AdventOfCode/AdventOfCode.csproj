@@ -8,71 +8,87 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Problems\2015\Day1.txt" />
-    <None Remove="Problems\2015\Day1_Input.txt" />
-    <None Remove="Problems\2015\Day2.txt" />
-    <None Remove="Problems\2015\Day2_Input.txt" />
-    <None Remove="Problems\2015\Day3.txt" />
-    <None Remove="Problems\2015\Day3_Input.txt" />
-    <None Remove="Problems\2015\Day4.txt" />
-    <None Remove="Problems\2015\Day4_Input.txt" />
-    <None Remove="Problems\2015\Day5.txt" />
-    <None Remove="Problems\2015\Day5_Input.txt" />
-    <None Remove="Problems\2015\Day6.txt" />
-    <None Remove="Problems\2015\Day6_Input.txt" />
-    <None Remove="Problems\2015\Day7.txt" />
-    <None Remove="Problems\2015\Day7_Input.txt" />
-    <None Remove="Problems\2015\Day8.txt" />
-    <None Remove="Problems\2015\Day8_Input.txt" />
+    <None Remove="Problems\2015\Day01.txt" />
+    <None Remove="Problems\2015\Day01_Input.txt" />
+    <None Remove="Problems\2015\Day02.txt" />
+    <None Remove="Problems\2015\Day02_Input.txt" />
+    <None Remove="Problems\2015\Day03.txt" />
+    <None Remove="Problems\2015\Day03_Input.txt" />
+    <None Remove="Problems\2015\Day04.txt" />
+    <None Remove="Problems\2015\Day04_Input.txt" />
+    <None Remove="Problems\2015\Day05.txt" />
+    <None Remove="Problems\2015\Day05_Input.txt" />
+    <None Remove="Problems\2015\Day06.txt" />
+    <None Remove="Problems\2015\Day06_Input.txt" />
+    <None Remove="Problems\2015\Day07.txt" />
+    <None Remove="Problems\2015\Day07_Input.txt" />
+    <None Remove="Problems\2015\Day08.txt" />
+    <None Remove="Problems\2015\Day08_Input.txt" />
+    <None Remove="Problems\2015\Day09.txt" />
+    <None Remove="Problems\2015\Day09_Input.txt" />
+    <None Remove="Problems\2015\Day10.txt" />
+    <None Remove="Problems\2015\Day10_Input.txt" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Problems\2015\Day1.txt">
+    <Content Include="Problems\2015\Day01.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Problems\2015\Day1_Input.txt">
+    <Content Include="Problems\2015\Day01_Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Problems\2015\Day7_Input.txt">
+    <Content Include="Problems\2015\Day07_Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Problems\2015\Day7.txt">
+    <Content Include="Problems\2015\Day07.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Problems\2015\Day6.txt">
+    <Content Include="Problems\2015\Day06.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Problems\2015\Day5.txt">
+    <Content Include="Problems\2015\Day05.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Problems\2015\Day4.txt">
+    <Content Include="Problems\2015\Day04.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Problems\2015\Day3.txt">
+    <Content Include="Problems\2015\Day03.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Problems\2015\Day2.txt">
+    <Content Include="Problems\2015\Day02.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Problems\2015\Day8_Input.txt">
+    <Content Include="Problems\2015\Day10.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Problems\2015\Day8.txt">
+    <Content Include="Problems\2015\Day09.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Problems\2015\Day6_Input.txt">
+    <Content Include="Problems\2015\Day10_Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Problems\2015\Day5_Input.txt">
+    <Content Include="Problems\2015\Day09_Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Problems\2015\Day4_Input.txt">
+    <Content Include="Problems\2015\Day08_Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Problems\2015\Day3_Input.txt">
+    <Content Include="Problems\2015\Day08.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Problems\2015\Day2_Input.txt">
+    <Content Include="Problems\2015\Day06_Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Problems\2015\Day05_Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Problems\2015\Day04_Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Problems\2015\Day03_Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Problems\2015\Day02_Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
