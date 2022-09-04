@@ -61,12 +61,7 @@ namespace AdventOfCode.Code
         {
             for(int i = 0; i < RaceTime; i++)
             {
-
-                foreach(var raindeer in raindeerList)
-                {
-                    raindeer.ActForSingle();
-                }
-                //Parallel.ForEach(raindeerList, raindeer => { raindeer.ActForSingle(); });
+                Parallel.ForEach(raindeerList, raindeer => { raindeer.ActForSingle(); });
 
                 var maxDistanceTraveled = raindeerList.Max(raindeer => raindeer.TraveledDistance);
 
