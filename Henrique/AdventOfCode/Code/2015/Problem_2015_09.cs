@@ -16,6 +16,7 @@ namespace AdventOfCode.Code
         {
             Distances = new List<Distance>();
             LocationIDs = new Dictionary<string, int>();
+            _distanceMatrix = new int[0, 0];
         }
 
         internal override string Solve()
