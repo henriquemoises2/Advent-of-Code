@@ -1,4 +1,4 @@
-﻿using AdventOfCode.Code._2015_13;
+﻿using AdventOfCode._2015_13;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code

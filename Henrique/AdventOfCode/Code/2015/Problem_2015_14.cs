@@ -1,5 +1,4 @@
-﻿using AdventOfCode.Code._2015.Entities._2015_14;
-using AdventOfCode.Code._2015_14;
+﻿using AdventOfCode._2015_14;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;

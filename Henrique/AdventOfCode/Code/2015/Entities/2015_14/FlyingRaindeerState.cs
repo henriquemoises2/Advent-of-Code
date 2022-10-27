@@ -1,10 +1,8 @@
-﻿using AdventOfCode.Code._2015_14;
-
-namespace AdventOfCode.Code._2015.Entities._2015_14
+﻿namespace AdventOfCode._2015_14
 {
     internal class FlyingRaindeerState : RaindeerState
     {
-        public FlyingRaindeerState(Raindeer raindeer) : base(raindeer)
+        internal FlyingRaindeerState(Raindeer raindeer) : base(raindeer)
         {
             SecondsInState = 0;
         }

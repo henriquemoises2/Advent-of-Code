@@ -1,5 +1,5 @@
-﻿using AdventOfCode.Algorithms;
-using AdventOfCode.Code._2015_9;
+﻿using AdventOfCode._2015_9;
+using AdventOfCode.Algorithms;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code

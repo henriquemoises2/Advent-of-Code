@@ -1,4 +1,4 @@
-﻿namespace AdventOfCode.Code._2015_9
+﻿namespace AdventOfCode._2015_9
 {
     internal class Distance
     {
