@@ -22,7 +22,14 @@
             Calories = calories;
             ID = Guid.NewGuid();
         }
-        
+
+        internal Ingredient Clone()
+        {
+            Ingredient clone = new Ingredient(Name, Capacity, Durability, Flavor, Texture, Calories);
+            clone.Quantity = Quantity;
+            return clone;
+        }
+
         internal int GetContributingFactor()
         {
             return Capacity + Durability + Flavor + Texture + Calories;
