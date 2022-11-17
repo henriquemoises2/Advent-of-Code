@@ -51,14 +51,35 @@ namespace AdventOfCode.Code
 
             TotalQuantityPerIngredient = TotalIngredientsQuantity - ingredientsList.Count() + 1;
 
-            string part1 = SolvePart1(ingredientsList);
-            string part2 = SolvePart2(ingredientsList);
+            IngredientsQuantityInitializer ingredientsQuantityInitializer = new IngredientsQuantityInitializer(new MinimumQuantityInitializerStrategy(), ingredientsList, TotalIngredientsQuantity);
+            IEnumerable<Ingredient> weightedIngredientsList = ingredientsQuantityInitializer.Initialize();
+            IEnumerable<Cookie> possibleCookies = GenerateAllPossibleCookies(weightedIngredientsList, new List<Cookie>());
+
+            string part1 = SolvePart1(possibleCookies);
+            string part2 = SolvePart2(possibleCookies);
 
             return $"Part 1 solution: " + part1 + "\n"
                 + "Part 2 solution: " + part2;
         }
 
-        private string SolvePart1(List<Ingredient> ingredientsList)
+        private string SolvePart1(IEnumerable<Cookie> possibleCookies)
+        {
+            return possibleCookies.OrderByDescending(cookie => cookie.TotalValue).First().TotalValue.ToString();
+        }
+
+        private string SolvePart2(IEnumerable<Cookie> possibleCookies)
+        {
+            possibleCookies = possibleCookies.Where(cookie => cookie.Calories == WantedCalories);
+            return possibleCookies.OrderByDescending(cookie => cookie.TotalValue).First().TotalValue.ToString();
+        }
+
+        /// <summary>
+        /// Not working properly in some situations. May be related to the fact that it is hitting a local maximum.
+        /// </summary>
+        /// <param name="ingredientsList"></param>
+        /// <returns></returns>
+        [Obsolete("SolveAlternativePart1 is deprecated, please use SolvePart1 instead.")]
+        private string SolveAlternativePart1(List<Ingredient> ingredientsList)
         {
             IngredientsQuantityInitializer ingredientsQuantityInitializer = new IngredientsQuantityInitializer(new RandomQuantityInitializerStrategy(), ingredientsList, TotalIngredientsQuantity);
 
@@ -70,13 +91,6 @@ namespace AdventOfCode.Code
             while (ComputeCookieValue(weightedIngredientsList) == 0);
 
             return ComputeHighestCookieTotalValue(weightedIngredientsList.ToList()).ToString();
-        }
-
-        private string SolvePart2(List<Ingredient> ingredientsList)
-        {
-            IngredientsQuantityInitializer ingredientsQuantityInitializer = new IngredientsQuantityInitializer(new MinimumQuantityInitializerStrategy(), ingredientsList, TotalIngredientsQuantity);
-            ingredientsList = (List<Ingredient>)ingredientsQuantityInitializer.Initialize();
-            return ComputeCookieWithCaloriesValue(ingredientsList).ToString();
         }
 
         private long ComputeHighestCookieTotalValue(List<Ingredient> ingredientsList)
@@ -102,28 +116,20 @@ namespace AdventOfCode.Code
             return oldHighestCookieValue;
         }
 
-        private long ComputeCookieWithCaloriesValue(IEnumerable<Ingredient> ingredientsList)
-        {
-            IEnumerable<Cookie> possibleCookies = GenerateAllPossibleCookies(ingredientsList, new List<Cookie>());
-            possibleCookies = possibleCookies.Where(cookie => cookie.Calories == WantedCalories);
-
-            return possibleCookies.OrderByDescending(cookie => cookie.TotalValue).First().TotalValue;
-        }
-
         private List<Cookie> GenerateAllPossibleCookies(IEnumerable<Ingredient> ingredientsList, List<Cookie> possibleCookies)
         {
             Ingredient? ingredientToIncrease;
+
             while ((ingredientToIncrease = UpdateIngredientsQuantity(ingredientsList)) != null)
             {
+                ingredientToIncrease.Quantity++;
                 int totalQuantity = ingredientsList.Sum(ing => ing.Quantity);
-                if (totalQuantity == TotalIngredientsQuantity)
+                if (TotalIngredientsQuantity == totalQuantity)
                 {
                     Cookie cookie = new Cookie(new List<Ingredient>(((List<Ingredient>)ingredientsList).ConvertAll(ing => ing.Clone())));
                     possibleCookies.Add(cookie);
                 }
-                ingredientToIncrease.Quantity++;
             }
-
             return possibleCookies;
         }
 
@@ -172,7 +178,6 @@ namespace AdventOfCode.Code
             return null;
         }
 
-
         private long SimulateCookieValue(IEnumerable<Ingredient> ingredientsList, Ingredient ingredientToIncrease, Ingredient ingredientToDecrease)
         {
             ingredientToIncrease.Quantity++;
@@ -220,7 +225,8 @@ namespace AdventOfCode.Code
         {
             for (int i = ingredientsList.Count() - 1; i > 0; i--)
             {
-                if (ingredientsList.ElementAt(i).Quantity == TotalQuantityPerIngredient)
+                if (ingredientsList.ElementAt(i).Quantity == TotalQuantityPerIngredient ||
+                    ingredientsList.Sum(ing => ing.Quantity) >= TotalIngredientsQuantity)
                 {
                     if (i == 0)
                     {
@@ -244,6 +250,16 @@ namespace AdventOfCode.Code
 
             }
             return null;
+        }
+
+        private void PrintIngredients(IEnumerable<Ingredient> ingredientsList)
+        {
+            Console.WriteLine("------ Ingredients -------");
+            foreach (var ingredient in ingredientsList)
+            {
+                Console.Write($"{ingredient.Name} {ingredient.Quantity} | ");
+            }
+            Console.WriteLine("--------------------------");
         }
     }
 }
