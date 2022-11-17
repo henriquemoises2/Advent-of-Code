@@ -113,7 +113,7 @@ namespace AdventOfCode.Code
         private int ComputeTotalDisposition(Dictionary<int, string> original)
         {
             List<int> results = new List<int>();
-            for(int startingPerson = 0; startingPerson < original.Count; startingPerson++)
+            for (int startingPerson = 0; startingPerson < original.Count; startingPerson++)
             {
                 Dictionary<int, string> people = new Dictionary<int, string>(original);
                 int totalDisposition = 0;

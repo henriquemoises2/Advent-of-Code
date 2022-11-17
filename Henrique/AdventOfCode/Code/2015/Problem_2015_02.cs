@@ -13,8 +13,8 @@
             foreach (string line in GetProblemInputAllLines())
             {
                 string[] dimensions = line.Split("x");
-                if(dimensions.Length != 3 
-                    || !int.TryParse(dimensions[0], out int length) || length < 1 
+                if (dimensions.Length != 3
+                    || !int.TryParse(dimensions[0], out int length) || length < 1
                     || !int.TryParse(dimensions[1], out int width) || width < 1
                     || !int.TryParse(dimensions[2], out int height) || height < 1
                 )
@@ -45,7 +45,7 @@
             int margin = Math.Min(area1, Math.Min(area2, area3));
 
             // Calculate area with margin
-            int area = (2 * area1 ) + (2 * area2) + (2 * area3) + margin;
+            int area = (2 * area1) + (2 * area2) + (2 * area3) + margin;
             return area;
         }
 
@@ -75,14 +75,14 @@
         /// <param name="b"></param>
         /// <param name="c"></param>
         /// <returns>Returns the 2 min values</returns>
-        private Tuple<int,int> TwoMin(int a, int b, int c)
+        private Tuple<int, int> TwoMin(int a, int b, int c)
         {
             int maxValue = Math.Max(a, Math.Max(b, c));
-            if(a == maxValue)
+            if (a == maxValue)
             {
-                return Tuple.Create(b,c);
-            } 
-            else if(b == maxValue)
+                return Tuple.Create(b, c);
+            }
+            else if (b == maxValue)
             {
                 return Tuple.Create(a, c);
             }

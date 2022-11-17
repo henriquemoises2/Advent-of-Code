@@ -16,7 +16,7 @@
         internal Problem_2015_03() : base()
         {
             visitedHouses = new List<Tuple<int, int>>();
-            SantaLastVisitedHouse = Tuple.Create(0,0);
+            SantaLastVisitedHouse = Tuple.Create(0, 0);
             RoboSantaLastVisitedHouse = Tuple.Create(0, 0);
         }
 
@@ -80,7 +80,7 @@
             for (int i = 0; i < InputFirstLine.Length; i++)
             {
                 // Alternate movement between Santa and RoboSanta
-                if(i % 2 == 0)
+                if (i % 2 == 0)
                 {
                     moveTurn = MoveTurn.Santa;
                 }
@@ -141,7 +141,7 @@
 
         private void InsertHouse(Tuple<int, int> newVisitedHouse, MoveTurn moveTurn)
         {
-            
+
             if (!visitedHouses.Contains(newVisitedHouse))
             {
                 visitedHouses.Add(newVisitedHouse);
@@ -150,7 +150,7 @@
             if (moveTurn == MoveTurn.Santa)
             {
                 SantaLastVisitedHouse = newVisitedHouse;
-            } 
+            }
             else
             {
                 RoboSantaLastVisitedHouse = newVisitedHouse;

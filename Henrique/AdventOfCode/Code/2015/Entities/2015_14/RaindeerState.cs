@@ -7,7 +7,7 @@
         internal abstract void ActForN(int seconds);
         internal abstract void ActForSingle();
 
-        internal RaindeerState(Raindeer raindeer) 
+        internal RaindeerState(Raindeer raindeer)
         {
             Raindeer = raindeer;
         }

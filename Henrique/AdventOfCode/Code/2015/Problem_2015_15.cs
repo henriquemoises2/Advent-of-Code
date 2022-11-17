@@ -2,7 +2,6 @@
 using AdventOfCode.Code._2015.Entities._2015_15;
 using System.Text.RegularExpressions;
 using Cookie = AdventOfCode.Code._2015.Entities._2015_15.Cookie;
-using System.Linq;
 
 namespace AdventOfCode.Code
 {
@@ -12,6 +11,7 @@ namespace AdventOfCode.Code
         private const string IngredientPattern = @"^(?<name>\w+): capacity (?<capacity>-*\d+), durability (?<durability>-*\d+), flavor (?<flavor>-*\d+), texture (?<texture>-*\d+), calories (?<calories>-*\d+)";
         private const int TotalIngredientsQuantity = 100;
         private const int WantedCalories = 500;
+        private int TotalQuantityPerIngredient;
 
 
         internal Problem_2015_15() : base()
@@ -48,6 +48,9 @@ namespace AdventOfCode.Code
                     ingredientsList.Add(new Ingredient(ingredientName, capacityValue, durabilityValue, flavorValue, textureValue, caloriesValue));
                 }
             }
+
+            TotalQuantityPerIngredient = TotalIngredientsQuantity - ingredientsList.Count() + 1;
+
             string part1 = SolvePart1(ingredientsList);
             string part2 = SolvePart2(ingredientsList);
 
@@ -118,7 +121,7 @@ namespace AdventOfCode.Code
                     Cookie cookie = new Cookie(new List<Ingredient>(((List<Ingredient>)ingredientsList).ConvertAll(ing => ing.Clone())));
                     possibleCookies.Add(cookie);
                 }
-                ingredientToIncrease.Quantity++;  
+                ingredientToIncrease.Quantity++;
             }
 
             return possibleCookies;
@@ -213,35 +216,17 @@ namespace AdventOfCode.Code
             return cookieValue;
         }
 
-        private int ComputeCookieCaloriesValue(IEnumerable<Ingredient> ingredientsList)
-        {
-            int totalCookieCalories = 0;
-
-            foreach (Ingredient ingredient in ingredientsList)
-            {
-                int ingredientQuantity = ingredient.Quantity;
-                int ingredientCookieCalories = ingredient.Calories * ingredientQuantity;
-
-                totalCookieCalories += ingredientCookieCalories;
-            }
-
-            if (totalCookieCalories <= 0)
-                return 0;
-
-            return totalCookieCalories;
-        }
-
         private Ingredient? UpdateIngredientsQuantity(IEnumerable<Ingredient> ingredientsList)
         {
             for (int i = ingredientsList.Count() - 1; i > 0; i--)
             {
-                if (ingredientsList.ElementAt(i).Quantity == TotalIngredientsQuantity)
+                if (ingredientsList.ElementAt(i).Quantity == TotalQuantityPerIngredient)
                 {
                     if (i == 0)
                     {
                         return null;
                     }
-                    if (ingredientsList.ElementAt(i - 1).Quantity == TotalIngredientsQuantity)
+                    if (ingredientsList.ElementAt(i - 1).Quantity == TotalQuantityPerIngredient)
                     {
                         ingredientsList.ElementAt(i).Quantity = 1;
                         continue;
@@ -252,24 +237,13 @@ namespace AdventOfCode.Code
                         return ingredientsList.ElementAt(i - 1);
                     }
                 }
-                else { 
-                    return ingredientsList.ElementAt(i); 
+                else
+                {
+                    return ingredientsList.ElementAt(i);
                 }
 
             }
             return null;
         }
-
-        private void UpdatePriorIngredients(IEnumerable<Ingredient> ingredientsList, int index)
-        {
-            for (int i = 0; i < ingredientsList.Count(); i++)
-            {
-                if (ingredientsList.ElementAt(i).Quantity == TotalIngredientsQuantity)
-                {
-                    ingredientsList.ElementAt(i).Quantity = 1;
-                }
-            }
-        }
-
     }
 }

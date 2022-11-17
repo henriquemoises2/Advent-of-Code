@@ -11,15 +11,16 @@ namespace AdventOfCode.Code
         internal int Year { get; }
         internal int DayNumber { get; }
         internal IEnumerable<string> InputLines { get; }
-        internal string InputFirstLine {
-            get 
+        internal string InputFirstLine
+        {
+            get
             {
-                if(InputLines != null && InputLines.Any())
+                if (InputLines != null && InputLines.Any())
                 {
                     return InputLines.First();
                 }
                 return string.Empty;
-            } 
+            }
         }
         internal readonly Stopwatch StopWatch = new Stopwatch();
 

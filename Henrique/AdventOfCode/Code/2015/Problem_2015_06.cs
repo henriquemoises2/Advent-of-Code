@@ -63,7 +63,7 @@ namespace AdventOfCode.Code
                     throw new Exception("Invalid line in input file.");
                 }
             }
-            
+
             return CountTotalTurnedOnLights().ToString();
         }
 
@@ -98,7 +98,7 @@ namespace AdventOfCode.Code
                     else
                     {
                         //UpdateLightsCounter(LightsGrid[x, y], !LightsGrid[x, y]);
-                        if(LightsGrid[x, y] == 1)
+                        if (LightsGrid[x, y] == 1)
                         {
                             LightsGrid[x, y] = 0;
                         }
