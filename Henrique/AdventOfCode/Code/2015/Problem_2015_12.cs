@@ -1,12 +1,9 @@
-﻿using System.Linq;
-using System.Text;
-using System.Text.Json;
+﻿using System.Text.Json;
 
 namespace AdventOfCode.Code
 {
     internal class Problem_2015_12 : Problem
     {
-
         internal Problem_2015_12() : base()
         {
         }

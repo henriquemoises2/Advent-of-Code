@@ -1,9 +1,4 @@
-﻿using AdventOfCode._2015_7;
-using AdventOfCode.Code._2015_13;
-using System;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
+﻿using AdventOfCode.Code._2015_13;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
@@ -12,9 +7,7 @@ namespace AdventOfCode.Code
     {
 
         private const string DispositionPattern = @"^(?<person1>[A-Za-z]+) would (?<signal>[A-Za-z]+) (?<value>\d+) happiness units by sitting next to (?<person2>[A-Za-z]+).";
-        private List<DispositionChange> Dispositions = new List<DispositionChange>();
         private int[,] DispositionMatrix = new int[0, 0];
-
 
         internal Problem_2015_13() : base()
         {
@@ -33,7 +26,7 @@ namespace AdventOfCode.Code
             BuildDispositionMatrix(dispositionList, people);
             string part1 = SolvePart1(people);
 
-            // update all necessary structures with myself preset
+            // Update all necessary structures with myself present
             IncludeMyself(dispositionList, people);
             string part2 = SolvePart2(people);
 
