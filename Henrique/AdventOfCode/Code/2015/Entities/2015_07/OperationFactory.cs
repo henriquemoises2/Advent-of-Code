@@ -12,12 +12,12 @@
         internal IDictionary<string, ISource> GetCircuit()
         {
             return _circuit;
-        } 
+        }
 
         internal void AddSignal(ushort signal, string destinationCableName)
         {
             Value signalValue = new Value(signal);
-            if(!_circuit.TryAdd(destinationCableName, signalValue))
+            if (!_circuit.TryAdd(destinationCableName, signalValue))
             {
                 throw new Exception("Cable already has a different source.");
             }
@@ -32,11 +32,11 @@
             }
         }
 
-        internal void AddUnaryOperation(ushort signal, string operation ,string destinationCableName)
+        internal void AddUnaryOperation(ushort signal, string operation, string destinationCableName)
         {
             Value signalValue = new Value(signal);
 
-            if(!Enum.TryParse(operation, ignoreCase:true, out UnaryOperationType operationType))
+            if (!Enum.TryParse(operation, ignoreCase: true, out UnaryOperationType operationType))
             {
                 throw new Exception("Invalid operation.");
             }
@@ -94,7 +94,7 @@
             }
         }
 
-        internal void AddBinaryOperation(ushort signal, string originCableName,  string operation, string destinationCableName)
+        internal void AddBinaryOperation(ushort signal, string originCableName, string operation, string destinationCableName)
         {
 
             Value signalValue = new Value(signal);

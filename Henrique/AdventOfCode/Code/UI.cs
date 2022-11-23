@@ -16,7 +16,7 @@ namespace AdventOfCode.Code
                 if (_selectedYear == -1)
                 {
                     _selectedYear = SelectYear();
-                    if(_selectedYear == -1)
+                    if (_selectedYear == -1)
                     {
                         continue;
                     }

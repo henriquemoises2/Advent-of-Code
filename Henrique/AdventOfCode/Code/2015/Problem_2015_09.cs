@@ -1,5 +1,5 @@
-﻿using AdventOfCode.Algorithms;
-using AdventOfCode.Code._2015_9;
+﻿using AdventOfCode._2015_9;
+using AdventOfCode.Algorithms;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
@@ -66,7 +66,7 @@ namespace AdventOfCode.Code
         }
 
         private string SolvePart1()
-        {            
+        {
             return ComputeShortestPath();
         }
 
@@ -76,7 +76,7 @@ namespace AdventOfCode.Code
         }
 
         private string ComputeShortestPath()
-        {       
+        {
             // We send the distance matrix, no starting node (we could select any node here but the results will vary) and the returnToOrigin flag set as false
             // to instruct the algorithm to ignore the path from the ending node back to the starting node, as default in the Held-Karp algorithm
             int shortestPathLength = new HeldKarpAlgorithm(_distanceMatrix, null, false).GetShortestPathCost();

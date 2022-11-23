@@ -1,5 +1,5 @@
-﻿using System.Text.RegularExpressions;
-using AdventOfCode._2015_7;
+﻿using AdventOfCode._2015_7;
+using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
 {
@@ -15,7 +15,7 @@ namespace AdventOfCode.Code
 
         internal Problem_2015_07() : base()
         {
-            
+
         }
 
         internal override string Solve()

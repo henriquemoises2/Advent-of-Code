@@ -1,8 +1,5 @@
-﻿using AdventOfCode.Code._2015.Entities._2015_14;
-using AdventOfCode.Code._2015_14;
-using System.Collections.Generic;
+﻿using AdventOfCode._2015_14;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace AdventOfCode.Code
 {
@@ -59,7 +56,7 @@ namespace AdventOfCode.Code
 
         private string SolvePart2(IEnumerable<Raindeer> raindeerList)
         {
-            for(int i = 0; i < RaceTime; i++)
+            for (int i = 0; i < RaceTime; i++)
             {
                 Parallel.ForEach(raindeerList, raindeer => { raindeer.ActForSingle(); });
 
@@ -67,18 +64,18 @@ namespace AdventOfCode.Code
 
                 // Get all raindeers in the lead for that specific second
                 var roundWinners = raindeerList.Where(raindeer => raindeer.TraveledDistance == maxDistanceTraveled);
-                foreach(var raindeer in roundWinners)
+                foreach (var raindeer in roundWinners)
                 {
                     raindeer.AccumulatedPoints++;
                 }
             }
-            
+
             return raindeerList.Max(raindeer => raindeer.AccumulatedPoints).ToString();
         }
 
         private void ResetRaindeerList(IEnumerable<Raindeer> raindeerList)
         {
-            foreach(Raindeer raindeer in raindeerList)
+            foreach (Raindeer raindeer in raindeerList)
             {
                 raindeer.TraveledDistance = 0;
                 raindeer.AccumulatedPoints = 0;

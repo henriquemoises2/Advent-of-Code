@@ -4,13 +4,13 @@ namespace AdventOfCode.Code
 {
     internal class Problem_2015_10 : Problem
     {
-
+        private const int SequenceIterations = 40;
         internal Problem_2015_10() : base()
         {
         }
 
         internal override string Solve()
-        {            
+        {
             string part1 = SolvePart1();
             string part2 = SolvePart2(part1);
 
@@ -23,7 +23,7 @@ namespace AdventOfCode.Code
             string sequence = InputFirstLine;
 
             // Generate the sequence 40 times
-            for(int i = 0; i < 40; i++)
+            for (int i = 0; i < SequenceIterations; i++)
             {
                 sequence = LookAndSay(sequence);
             }
@@ -32,7 +32,7 @@ namespace AdventOfCode.Code
         }
 
         private string SolvePart2(string sequence)
-        { 
+        {
             // Generate the sequence 10 more times for a total of 50 times
             for (int i = 0; i < 10; i++)
             {

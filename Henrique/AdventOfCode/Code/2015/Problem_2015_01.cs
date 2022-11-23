@@ -11,7 +11,7 @@
             string part1 = SolvePart1();
             string part2 = SolvePart2();
 
-            return $"Part 1 solution: " + part1 + "\n" 
+            return $"Part 1 solution: " + part1 + "\n"
                 + "Part 2 solution: " + part2;
 
         }
@@ -29,7 +29,7 @@
         private string SolvePart2()
         {
             int level = 0;
-            for(int i = 0; i < InputFirstLine.Length; i++)
+            for (int i = 0; i < InputFirstLine.Length; i++)
             {
                 if (InputFirstLine[i] == '(')
                 {
@@ -39,7 +39,7 @@
                 {
                     level--;
                 }
-                if(level < 0)
+                if (level < 0)
                 {
                     return (i + 1).ToString();
                 }

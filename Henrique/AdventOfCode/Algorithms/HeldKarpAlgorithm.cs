@@ -102,7 +102,7 @@
                     _costLookup.Add($"g({x},{{{string.Join(",", set)}}})", minResult);
                 }
 
-            }            
+            }
             return minResult;
         }
 

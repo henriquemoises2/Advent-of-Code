@@ -1,4 +1,4 @@
-﻿namespace AdventOfCode.Code._2015_13
+﻿namespace AdventOfCode._2015_13
 {
     internal class DispositionChange
     {
@@ -7,7 +7,7 @@
         internal int Signal { get; set; }
         internal int Value { get; set; }
 
-        public DispositionChange(string person1, string person2, int signal, int value)
+        internal DispositionChange(string person1, string person2, int signal, int value)
         {
             Person1 = person1;
             Person2 = person2;
