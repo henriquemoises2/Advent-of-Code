@@ -39,6 +39,8 @@
                             return new Problem_2015_14();
                         case 15:
                             return new Problem_2015_15();
+                        case 16:
+                            return new Problem_2015_16();
                         case 17:
                             return new Problem_2015_17();
                         default: return null;
