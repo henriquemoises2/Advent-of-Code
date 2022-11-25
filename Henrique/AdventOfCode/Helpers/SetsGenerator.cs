@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace AdventOfCode.Helpers
+﻿namespace AdventOfCode.Helpers
 {
     internal static class SetsGenerator
     {
@@ -54,13 +52,13 @@ namespace AdventOfCode.Helpers
         internal static IEnumerable<IEnumerable<int>> GenerateAllSets(int maxSubsetSize, List<int> valuesList, int limit = 0)
         {
             List<IEnumerable<int>> sets = new List<IEnumerable<int>>();
-            for(int i = 1; i <= maxSubsetSize; i++)
+            for (int i = 1; i <= maxSubsetSize; i++)
             {
                 if (limit > 0 && valuesList.OrderBy(val => val).Take(i).Sum() > limit)
                 {
                     return sets;
                 }
-                else if(limit > 0 && valuesList.OrderByDescending(val => val).Take(i).Sum() < limit)
+                else if (limit > 0 && valuesList.OrderByDescending(val => val).Take(i).Sum() < limit)
                 {
                     continue;
                 }

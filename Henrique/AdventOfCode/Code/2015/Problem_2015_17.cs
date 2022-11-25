@@ -42,7 +42,7 @@ namespace AdventOfCode.Code
             // Check which container sets can be completely filled with TotalEggnogLitres
             IEnumerable<IEnumerable<int>> realContainerPossibilities = allContainerPossibilities.Where(set => set.Sum() == TotalEggnogLitres);
             // Group all possibilities by the set size, i.e. how many containers are used to fill TotalEggnogLitres 
-            IEnumerable<IGrouping<int,IEnumerable<int>>> groupedContainerPossibilities = realContainerPossibilities.GroupBy(set => set.Count());
+            IEnumerable<IGrouping<int, IEnumerable<int>>> groupedContainerPossibilities = realContainerPossibilities.GroupBy(set => set.Count());
             // Select first group element, i.e. the grouping containing the set size and the associated sets. Then count all sets.
             return groupedContainerPossibilities.First().Count().ToString();
         }
