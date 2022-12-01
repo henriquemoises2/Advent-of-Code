@@ -13,7 +13,6 @@
 
             return $"Part 1 solution: " + part1 + "\n"
                 + "Part 2 solution: " + part2;
-
         }
 
         private string SolvePart1()
