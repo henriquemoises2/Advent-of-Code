@@ -47,6 +47,14 @@
                             return new Problem_2015_18();
                         default: return null;
                     }
+                case 2022:
+                    switch (dayNumber)
+                    {
+                        case 1:
+                            return new Problem_2022_01();
+                        default: return null;
+
+                    }
                 default:
                     return null;
             }
