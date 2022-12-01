@@ -140,6 +140,12 @@
     <None Update="Problems\2015\Day16_Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Problems\2015\Day18_Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Problems\2015\Day18.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Problems\2015\Day17.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
