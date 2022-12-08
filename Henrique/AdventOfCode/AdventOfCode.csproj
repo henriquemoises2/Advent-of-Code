@@ -152,6 +152,12 @@
     <None Update="Problems\2015\Day17_Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Problems\2015\Day19.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Problems\2015\Day19_Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Problems\2022\Day01.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

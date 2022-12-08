@@ -54,7 +54,7 @@
             return newLightsGrid.Cast<char>().Count(light => light == LightOn).ToString();
         }
 
-        char[,] AnimateLightsForNSteps(int totalSteps, char[,] lightsGrid, bool hasfixedcorners)
+        private char[,] AnimateLightsForNSteps(int totalSteps, char[,] lightsGrid, bool hasfixedcorners)
         {
             for (int step = 0; step < totalSteps; step++)
             {
@@ -75,7 +75,7 @@
             return lightsGrid;
         }
 
-        char CheckNextLightState(int i, int j, char[,] lightsGrid)
+        private char CheckNextLightState(int i, int j, char[,] lightsGrid)
         {
             int numberOfSurroundingLightsOn = 0;
             char[] surroundingLights =
@@ -107,7 +107,7 @@
             return LightOff;
         }
 
-        char GetLightState(int i, int j, char[,] lightsGrid)
+        private char GetLightState(int i, int j, char[,] lightsGrid)
         {
             if (i < 0 || i >= GridSize || j < 0 || j >= GridSize)
             {
