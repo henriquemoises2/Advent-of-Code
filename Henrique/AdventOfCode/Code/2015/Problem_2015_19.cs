@@ -1,6 +1,4 @@
-﻿using AdventOfCode._2015_15;
-using AdventOfCode.Code._2015.Entities._2015_19;
-using System.Linq;
+﻿using AdventOfCode.Code._2015.Entities._2015_19;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
@@ -49,101 +47,107 @@ namespace AdventOfCode.Code
 
         private string SolvePart1(string initialMedicineMolecule, List<Transformation> moleculeTransformations)
         {
-            HashSet<string> distinctGeneratedMedicineMolecules = new HashSet<string>();
-            distinctGeneratedMedicineMolecules = ExecuteGenerationStep(initialMedicineMolecule, null, moleculeTransformations);
+            HashSet<string> distinctGeneratedMedicineMolecules = ExecuteGenerationStep(initialMedicineMolecule, moleculeTransformations);
             return distinctGeneratedMedicineMolecules.Count.ToString();
         }
 
         private string SolvePart2(string wantedMedicineMolecule, List<Transformation> moleculeTransformations)
         {
-            HashSet<string> distinctGeneratedMedicineMolecules = new HashSet<string>();
-            List<string> wantedMedicineMolecules = ExtractMoleculesFromString(wantedMedicineMolecule).ToList();
-            distinctGeneratedMedicineMolecules.Add(SingleElectron);
+            HashSet<string> generatedMedicineMolecules = new HashSet<string>();
+            HashSet<string> uniqueMedicineMolecules = new HashSet<string>();
+            generatedMedicineMolecules.Add(wantedMedicineMolecule);
             int stepNumber = 1;
 
             while (stepNumber < MaxNumberSteps)
             {
                 HashSet<string> newDistinctGeneratedMedicineMolecules = new HashSet<string>();
-                foreach (string generatedMolecule in distinctGeneratedMedicineMolecules)
+                foreach (string generatedMolecule in generatedMedicineMolecules)
                 {
-                    var generatedMolecules = ExecuteGenerationStep(generatedMolecule, wantedMedicineMolecules, moleculeTransformations, true);
-                    newDistinctGeneratedMedicineMolecules.UnionWith(generatedMolecules);
-
-                    if (generatedMolecules.Any(molecule => molecule == wantedMedicineMolecule))
-                    {
-                        return stepNumber.ToString();
-                    }
+                    newDistinctGeneratedMedicineMolecules = ExecuteReverseGenerationStep(generatedMolecule, moleculeTransformations);
                 }
-
-                var bestCandidates = SelectBestCandidates(wantedMedicineMolecules, newDistinctGeneratedMedicineMolecules);
-                distinctGeneratedMedicineMolecules = bestCandidates;
+                newDistinctGeneratedMedicineMolecules = SelectBestCandidates(newDistinctGeneratedMedicineMolecules, 1);
+                if (newDistinctGeneratedMedicineMolecules.Any(molecule => molecule == SingleElectron))
+                {
+                    return stepNumber.ToString();
+                }
+                generatedMedicineMolecules = newDistinctGeneratedMedicineMolecules;
 
                 stepNumber++;
             }
             throw new Exception("No solution found.");
         }
 
-        private HashSet<string> ExecuteGenerationStep(string initialMedicineMolecule, List<string>? wantedMedicineMolecules, List<Transformation> moleculeTransformations, bool justNextMolecule = false)
+        private HashSet<string> ExecuteGenerationStep(string initialMedicineMolecule, List<Transformation> moleculeTransformations)
         {
-            List<string> initialMedicineMolecules = ExtractMoleculesFromString(initialMedicineMolecule).ToList();
+            List<Molecule> initialMedicineMolecules = ExtractMoleculesFromString(initialMedicineMolecule).ToList();
             HashSet<string> distinctGeneratedMedicineMolecules = new HashSet<string>();
 
-            for (int i = 0, iterations = 0; i < initialMedicineMolecules.Count; i++, iterations++)
+            // Filter transformations, i.e. eliminate transformations whose Initial component does not exist in the initial molecule
+            moleculeTransformations = moleculeTransformations.Where(trans => initialMedicineMolecules.Select(molecule => molecule.Value).Contains(trans.InitialMolecule)).ToList();
+
+            foreach (Transformation transformation in moleculeTransformations)
             {
-                string molecule = initialMedicineMolecules[i];
-
-                if (wantedMedicineMolecules != null)
+                foreach (Molecule molecule in initialMedicineMolecules.Where(molecule => molecule.Value == transformation.InitialMolecule))
                 {
-                    if (initialMedicineMolecules[i] == wantedMedicineMolecules[i])
-                    {
-                        continue;
-                    }
-
-                    i = Math.Max(0, i - 1);
-                }
-
-                foreach (Transformation transformation in moleculeTransformations.Where(trans => trans.InitialMolecule == molecule))
-                {
-                    initialMedicineMolecules[i] = transformation.FinalMolecule;
-
-                    string newMoleculeAsString = string.Join("", initialMedicineMolecules);
-                    // Guarantees that no repeated values are added
-                    distinctGeneratedMedicineMolecules.Add(newMoleculeAsString);
-
-                    initialMedicineMolecules[i] = molecule;
-                }
-                if(iterations == 2)
-                {
-                    break;
+                    initialMedicineMolecules.ElementAt(molecule.Position).Value = transformation.FinalMolecule;
+                    distinctGeneratedMedicineMolecules.Add(ExtractStringFromMolecules(initialMedicineMolecules));
+                    initialMedicineMolecules.ElementAt(molecule.Position).Value = transformation.InitialMolecule;
                 }
             }
+
             return distinctGeneratedMedicineMolecules;
         }
 
-
-        private HashSet<string> SelectBestCandidates(IEnumerable<string> wantedMedicineMolecule, HashSet<string> medicineMolecules)
+        private HashSet<string> ExecuteReverseGenerationStep(string molecule, List<Transformation> moleculeTransformations)
         {
-            List<Tuple<int, string>> candidates = new List<Tuple<int, string>>();
-            foreach (string medicineMolecule in medicineMolecules)
+            List<Molecule> initialMedicineMolecules = ExtractMoleculesFromString(molecule).ToList();
+            HashSet<string> distinctGeneratedMedicineMolecules = new HashSet<string>();
+
+            // Filter transformations, i.e. eliminate transformations whose final component does not exist in the initial molecule
+            moleculeTransformations = moleculeTransformations.Where(trans => molecule.Contains(trans.FinalMolecule)).ToList();
+
+            foreach (Transformation transformation in moleculeTransformations)
             {
-                List<string> initialMedicineMolecules = ExtractMoleculesFromString(medicineMolecule).ToList();
-                int numberSimilarMolecules = 0;
-                for (int i = 0; i < initialMedicineMolecules.Count; i++)
+                Regex regex = new Regex(transformation.FinalMolecule);
+                MatchCollection matches = regex.Matches(molecule);
+                foreach (Match match in matches)
                 {
-                    if (wantedMedicineMolecule.ElementAt(numberSimilarMolecules) == initialMedicineMolecules[numberSimilarMolecules])
-                    {
-                        numberSimilarMolecules++;
-                    }
+                    string newMolecule = MoleculeReplace(molecule, match.Groups[0].Index, transformation.FinalMolecule, transformation.InitialMolecule);
+                    distinctGeneratedMedicineMolecules.Add(newMolecule);
                 }
-                candidates.Add(new Tuple<int, string>(numberSimilarMolecules, medicineMolecule));
             }
-            return candidates.Where(cand => cand.Item1 == candidates.Max(cand => cand.Item1)).Select(cand => cand.Item2).ToHashSet();
+
+            return distinctGeneratedMedicineMolecules;
         }
 
-        private IEnumerable<string> ExtractMoleculesFromString(string medicineMolecule)
+        private HashSet<string> SelectBestCandidates(HashSet<string> generatedMolecules, int topElements)
+        {
+            var sortedCandidates = generatedMolecules.OrderBy(molecule => molecule.Length).Take(topElements);
+            return sortedCandidates.ToHashSet();
+        }
+
+        private IEnumerable<Molecule> ExtractMoleculesFromString(string medicineMolecule)
         {
             Regex pattern = new Regex(MoleculePattern, RegexOptions.Compiled);
-            return pattern.Match(medicineMolecule).Groups[1].Captures.Select(capt => capt.Value);
+            List<string> capturedMolecules = pattern.Match(medicineMolecule).Groups[1].Captures.Select(capt => capt.Value).ToList();
+
+            List<Molecule> extractedMolecules = new List<Molecule>();
+            for (int i = 0; i < capturedMolecules.Count(); i++)
+            {
+                extractedMolecules.Add(new Molecule(i, capturedMolecules.ElementAt(i)));
+            }
+
+            return extractedMolecules;
+        }
+
+        private string ExtractStringFromMolecules(IEnumerable<Molecule> molecules)
+        {
+            return string.Join("", molecules.Select(molecule => molecule.Value));
+        }
+
+        private string MoleculeReplace(string molecule, int index, string replacementInitial, string replacementFinal)
+        {
+            return molecule.Remove(index, replacementInitial.Length).Insert(index, replacementFinal);
         }
 
     }
