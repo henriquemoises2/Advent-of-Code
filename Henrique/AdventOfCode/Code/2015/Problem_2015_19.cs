@@ -1,4 +1,5 @@
 ﻿using AdventOfCode.Code._2015.Entities._2015_19;
+using AdventOfCode.Helpers;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
@@ -147,7 +148,7 @@ namespace AdventOfCode.Code
 
         private string MoleculeReplace(string molecule, int index, string replacementInitial, string replacementFinal)
         {
-            return molecule.Remove(index, replacementInitial.Length).Insert(index, replacementFinal);
+            return StringOperations.ReplaceAtIndex(molecule, index, replacementInitial, replacementFinal);
         }
 
     }
