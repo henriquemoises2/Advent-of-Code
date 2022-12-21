@@ -37,14 +37,14 @@ namespace AdventOfCode.Code
         {
             Dictionary<int, int> numberHousesVisitedByEachElf = new Dictionary<int, int>();
             List<int> combinedSolutions = new List<int>();
-
+            
             for (int i = 1; i < MaxHousesNumber; i++)
             {
                 IEnumerable<int> divisors = MathOperations.GetDivisors(i);
+
                 long totalGiftsFirstRun = MathOperations.SumOfMultiplications(divisors, 10);
 
                 List<int> filteredDivisors = divisors.ToList();
-
                 foreach (int divisor in divisors)
                 {
                     if (!numberHousesVisitedByEachElf.TryAdd(divisor, 1))
@@ -64,7 +64,6 @@ namespace AdventOfCode.Code
 
                 if (totalGiftsFirstRun >= minimumGifts)
                 {
-
                     if (combinedSolutions.Count < 2)
                     {
                         combinedSolutions.Add(i);
@@ -84,6 +83,8 @@ namespace AdventOfCode.Code
                     return combinedSolutions;
                 }
             }
+
+           
             throw new Exception("No solution found.");
         }
 
