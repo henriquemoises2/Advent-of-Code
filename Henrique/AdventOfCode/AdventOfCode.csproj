@@ -134,6 +134,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Linq" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Problems\2015\Day16.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -150,6 +154,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Problems\2015\Day17_Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Problems\2015\Day21_Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Problems\2015\Day21.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Problems\2015\Day20_Input.txt">
