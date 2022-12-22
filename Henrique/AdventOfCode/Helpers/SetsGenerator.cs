@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode.Helpers
 {
-    internal static class SetsGenerator
+    internal static partial class SetsGenerator<T>
     {
 
         /// <summary>
@@ -9,28 +9,33 @@
         /// <param name="subsetSize"></param>
         /// <param name="valuesList"></param>
         /// <returns>A list with all subsets of size subsetSize of the valuesList set.</returns>
-        internal static IEnumerable<IEnumerable<int>> GenerateSets(int subsetSize, List<int> valuesList)
+        internal static IEnumerable<IEnumerable<T>> GenerateSets(int subsetSize, List<T> valuesList)
         {
-            List<List<int>> results = new List<List<int>>();
-            List<Tuple<List<int>, List<int>>> tempResults = new List<Tuple<List<int>, List<int>>>();
+            List<List<T>> results = new List<List<T>>();
+            List<Tuple<List<T>, List<T>>> tempResults = new List<Tuple<List<T>, List<T>>>();
+
+            if(subsetSize == 0)
+            {
+                return results;
+            }
 
             for (int i = 0; i < valuesList.Count; i++)
             {
-                tempResults.Add(Tuple.Create(new List<int> { valuesList[i] }, valuesList.Skip(i + 1).ToList()));
+                tempResults.Add(Tuple.Create(new List<T> { valuesList[i] }, valuesList.Skip(i + 1).ToList()));
             }
 
             int iteration = 1;
             while (iteration < subsetSize)
             {
-                List<Tuple<List<int>, List<int>>> iterationResults = new List<Tuple<List<int>, List<int>>>();
+                List<Tuple<List<T>, List<T>>> iterationResults = new List<Tuple<List<T>, List<T>>>();
                 foreach (var elem in tempResults)
                 {
                     if (elem.Item2.Any())
                     {
                         for (int i = 0; i < elem.Item2.Count(); i++)
                         {
-                            List<int> newList = new List<int>(elem.Item1);
-                            List<int> newRemainderList = new List<int>(elem.Item2);
+                            List<T> newList = new List<T>(elem.Item1);
+                            List<T> newRemainderList = new List<T>(elem.Item2);
 
                             newList.Add(elem.Item2[i]);
                             newRemainderList.RemoveRange(0, i + 1);
@@ -49,7 +54,20 @@
             return results;
         }
 
-        internal static IEnumerable<IEnumerable<int>> GenerateAllSets(int maxSubsetSize, List<int> valuesList, int limit = 0)
+        internal static IEnumerable<IEnumerable<T>> GenerateAllSets(int minSubsetSize, int maxSubsetSize, IEnumerable<T> valuesList)
+        {
+            List<IEnumerable<T>> sets = new List<IEnumerable<T>>();
+            for (int i = minSubsetSize; i <= maxSubsetSize; i++)
+            {
+                sets.AddRange(SetsGenerator<T>.GenerateSets(i, valuesList.ToList()));
+            }
+            return sets;
+        }
+    }
+
+    internal static partial class SetsGenerator
+    {
+        internal static IEnumerable<IEnumerable<int>> GenerateAllIntSets(int maxSubsetSize, IEnumerable<int> valuesList, int limit = 0)
         {
             List<IEnumerable<int>> sets = new List<IEnumerable<int>>();
             for (int i = 1; i <= maxSubsetSize; i++)
@@ -64,7 +82,7 @@
                 }
                 else
                 {
-                    sets.AddRange(GenerateSets(i, valuesList));
+                    sets.AddRange(SetsGenerator<int>.GenerateSets(i, valuesList.ToList()));
                 }
 
             }

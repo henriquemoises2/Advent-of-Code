@@ -35,7 +35,7 @@ namespace AdventOfCode.Algorithms
                 foreach (var node in totalNodes)
                 {
                     // Generate subsets of size subsetSize where the current node does not appear
-                    IEnumerable<IEnumerable<int>> subsets = SetsGenerator.GenerateSets(subsetSize, totalNodes.Where(n => n != node).ToList());
+                    IEnumerable<IEnumerable<int>> subsets = SetsGenerator<int>.GenerateSets(subsetSize, totalNodes.Where(n => n != node).ToList());
                     foreach (var subset in subsets)
                     {
                         // Compute value of going to node passing through subset , i.e. g(node, {subset})
@@ -125,7 +125,7 @@ namespace AdventOfCode.Algorithms
                 foreach (var node in totalNodes)
                 {
                     // Generate subsets of size subsetSize where the current node does not appear
-                    IEnumerable<IEnumerable<int>> subsets = SetsGenerator.GenerateSets(subsetSize, totalNodes.Where(n => n != node).ToList());
+                    IEnumerable<IEnumerable<int>> subsets = SetsGenerator<int>.GenerateSets(subsetSize, totalNodes.Where(n => n != node).ToList());
                     foreach (var subset in subsets)
                     {
                         // Compute value of going to node passing through subset , i.e. g(node, {subset})
