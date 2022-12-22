@@ -3,14 +3,29 @@
     internal class PlayerCharacter : Entity
     {
         private const int InitialHitPoints = 100;
-        internal IEnumerable<Item> Inventory { get; set; } = new List<Item>();
+        internal Inventory Inventory { get; set; } = new Inventory();
 
-        public PlayerCharacter(int hitPoints = InitialHitPoints) : base(hitPoints, 0, 0)
+        internal PlayerCharacter(int hitPoints = InitialHitPoints) : base(hitPoints, 0, 0)
         {
         }
 
-        public PlayerCharacter(int hitPoints, int damage, int armor) : base(hitPoints, damage, armor)
+        internal PlayerCharacter(int hitPoints, int damage, int armor) : base(hitPoints, damage, armor)
         {
+        }
+
+        internal override int GetHitPoints()
+        {
+            return HitPoints;
+        }
+
+        internal override int GetDamage()
+        {
+            return Damage + Inventory.GetDamage();
+        }
+
+        internal override int GetArmor()
+        {
+            return Armor + Inventory.GetArmor();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode.Code._2015.Entities._2015_21
 {
-    internal class Item
+    internal class Item : IEquatable<Item>
     {
         internal ItemType Type { get; set; }
         internal string Name { get; set; }
@@ -15,6 +15,11 @@
             Price = price;
             Damage = damage;
             Armor = armor;
+        }
+
+        public bool Equals(Item? other)
+        {
+            return Name == other?.Name;
         }
     }
 }

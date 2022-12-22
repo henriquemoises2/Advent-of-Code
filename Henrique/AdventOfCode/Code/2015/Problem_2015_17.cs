@@ -21,7 +21,7 @@ namespace AdventOfCode.Code
                 throw new Exception("Invalid line in input.");
             }
 
-            var allContainerPossibilities = SetsGenerator.GenerateAllSets(InputLines.Count(), ContainerSizes, TotalEggnogLitres);
+            var allContainerPossibilities = SetsGenerator.GenerateAllIntSets(InputLines.Count(), ContainerSizes, TotalEggnogLitres);
 
             string part1 = SolvePart1(allContainerPossibilities);
             string part2 = SolvePart2(allContainerPossibilities);
