@@ -3,6 +3,7 @@
     internal class PlayerCharacter : Entity
     {
         private const int InitialHitPoints = 100;
+
         internal Inventory Inventory { get; set; } = new Inventory();
 
         internal PlayerCharacter(int hitPoints = InitialHitPoints) : base(hitPoints, 0, 0)
