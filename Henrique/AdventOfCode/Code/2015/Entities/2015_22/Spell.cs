@@ -14,9 +14,12 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
         }
 
         internal abstract void ApplyEffect(MagicPlayerCharacter pc, Boss boss);
+        internal abstract int CalculatePotentialDamage();
+
         internal bool HasImmediateEffect()
         {
             return TotalDuration == 0;
         }
+
     }
 }

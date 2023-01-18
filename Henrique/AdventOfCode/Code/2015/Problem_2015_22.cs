@@ -1,5 +1,6 @@
 ﻿using AdventOfCode.Code._2015.Entities._2015_21;
 using AdventOfCode.Code._2015.Entities._2015_22;
+using AdventOfCode.Helpers;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -17,7 +18,7 @@ namespace AdventOfCode.Code
         internal override string Solve()
         {
             Boss boss;
-            MagicPlayerCharacter pc = new MagicPlayerCharacter(50, 500);
+            MagicPlayerCharacter pc = new MagicPlayerCharacter(10, 250);
 
             Regex pattern = new Regex(BossAttributesPattern, RegexOptions.Compiled);
             try
@@ -42,7 +43,9 @@ namespace AdventOfCode.Code
 
         private string SolvePart1(MagicPlayerCharacter pc, Boss boss)
         {
-            List<Spell> spellList = GenerateValidRandomSpellList(5).ToList();
+            var validSpellLists = GenerateAllValidSpellLists(2, boss.HitPoints);            
+
+            List<Spell> spellList = null;
             Entity winner = SimulateFight(pc, boss, spellList);
             if (winner.GetType() == typeof(MagicPlayerCharacter))
             {
@@ -86,7 +89,7 @@ namespace AdventOfCode.Code
                     }
                     else
                     {
-                        castedSpell = GenerateNextValidRandomSpell(pc, orderedSpellList);
+                        castedSpell = SelectNextCastedSpell(orderedSpellList, pcTurnNumber);
                     }
                     castedSpell.Cast(pc);
                     if (castedSpell.HasImmediateEffect())
@@ -147,70 +150,54 @@ namespace AdventOfCode.Code
             }
         }
 
-        private IEnumerable<Spell> GenerateValidRandomSpellList(int size)
+        private IEnumerable<IEnumerable<Spell>> GenerateAllValidSpellLists(int size, int bossHP)
         {
-            List<Spell> spellList = new List<Spell>();
-            while (size > 0)
+            List<AvailableSpell> availableOptions = new List<AvailableSpell>()
             {
-                Spell? spell = GenerateRandomSpell();
-                spellList.Add(spell);
-                size--;
-            }
-            return spellList;
-        }
-
-        private Spell GenerateRandomSpell()
-        {
-            List<AvailableSpells> availableOptions = new List<AvailableSpells>()
-            {
-                AvailableSpells.Recharge,
-                AvailableSpells.Shield,
-                AvailableSpells.Drain,
-                AvailableSpells.Poison,
-                AvailableSpells.MagicMissile
+                AvailableSpell.MagicMissile,
+                AvailableSpell.Drain,
+                AvailableSpell.Shield,
+                AvailableSpell.Poison,
+                AvailableSpell.Recharge
             };
+            IEnumerable<List<AvailableSpell>> allGeneratedSpellTypeLists = SetsGenerator<AvailableSpell>.GeneratePermutedSets(2, availableOptions);
+            IEnumerable<List<Spell>> allGeneratedSpellLists = allGeneratedSpellTypeLists.Select(spellList => spellList.Select(spellType => SpellFactory.GetSpell(spellType)).ToList());
 
-            Random random = new Random();
-            AvailableSpells spellType = availableOptions.ElementAt(random.Next(0, availableOptions.Count));
-            Spell? spell = SpellFactory.GetSpell(spellType);
-            return spell;
+            var filteredSpellLists = FilterValidSpellLists(allGeneratedSpellLists, bossHP);
+            return filteredSpellLists;
         }
 
-        private Spell? GenerateNextValidRandomSpell(MagicPlayerCharacter pc, IEnumerable<Spell> currentSpellList)
+        private IEnumerable<List<Spell>> FilterValidSpellLists(IEnumerable<List<Spell>> spellLists, int bossHP)
         {
-            List<AvailableSpells> availableOptions = new List<AvailableSpells>()
+            List<List<Spell>> filteredSpellsList = new List<List<Spell>>();
+            foreach(var spellList in spellLists)
             {
-                AvailableSpells.Recharge,
-                AvailableSpells.Shield,
-                AvailableSpells.Drain,
-                AvailableSpells.Poison,
-                AvailableSpells.MagicMissile
-            };
-
-            Random random = new Random();
-            
-            while(availableOptions.Any())
-            {
-                AvailableSpells spellType = availableOptions.ElementAt(random.Next(0, availableOptions.Count));
-
-                if (!IsValidSpell(pc, currentSpellList))
+                int totaldamage = spellList.Sum(spell => spell.CalculatePotentialDamage());
+                if(totaldamage >= bossHP)
                 {
-                    availableOptions.Remove(spellType);
-                }
-                else
-                {
-                    Spell? spell = SpellFactory.GetSpell(spellType);
-                    return spell;
-                }
+                    bool isSpellOrderValid = true;
+
+                    for(int i = 0; i < spellList.Count; i++)
+                    {
+                        if (!spellList[i].HasImmediateEffect() && (spellList.GetRange(Math.Max(0,i - spellList[i].TotalDuration), spellList[i].TotalDuration).Select(spell => spell.GetType()).Contains(spellList[i].GetType())))
+                        {
+                            isSpellOrderValid = false;
+                            break;
+                        }
+                    }
+
+
+                    foreach (var spell in spellList)
+                    {
+                        
+                    }
+                    if(isSpellOrderValid)
+                    {
+                        filteredSpellsList.Add(spellList);
+                    }
+                }                
             }
-
-            return null;
-            
-        }
-
-        private bool IsValidSpell(MagicPlayerCharacter pc, IEnumerable<Spell> currentSpellList)
-        {
-            return true;
+            return filteredSpellsList;
         }
     }
 }

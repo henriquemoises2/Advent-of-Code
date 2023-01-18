@@ -4,7 +4,8 @@
     {
 
         /// <summary>
-        /// Generate all the subsets of size subsetSize from the valuesList list.
+        /// Generate all the subsets of size subsetSize from the valuesList list. For example, for the set 1,2,3,4 the generated subsets
+        /// with the subsetSize of 2 are [1,2][1,3][1,4][2,3][2,4][3,4].
         /// </summary>
         /// <param name="subsetSize"></param>
         /// <param name="valuesList"></param>
@@ -14,7 +15,7 @@
             List<List<T>> results = new List<List<T>>();
             List<Tuple<List<T>, List<T>>> tempResults = new List<Tuple<List<T>, List<T>>>();
 
-            if(subsetSize == 0)
+            if (subsetSize == 0)
             {
                 return results;
             }
@@ -63,6 +64,41 @@
             }
             return sets;
         }
+
+        internal static IEnumerable<List<T>> GeneratePermutedSets(int permutationSize, List<T> valuesList)
+        {
+            List<List<T>> results = new List<List<T>>();
+            if (permutationSize == 0)
+            {
+                return results;
+            }
+
+            foreach (T value in valuesList)
+            {
+                results.Add(new List<T>() { value });
+            }
+            permutationSize--;
+
+            List<List<T>> tempResults = new List<List<T>>(results);
+            while (permutationSize > 0)
+            {
+                results.Clear();
+                foreach (List<T> result in tempResults)
+                {
+                    foreach (T value in valuesList)
+                    {
+                        List<T> newResult = new List<T>(result);
+                        newResult.Add(value);
+                        results.Add(newResult);
+                    }
+                }
+                tempResults = new List<List<T>>(results);
+                permutationSize--;
+            }
+
+            return results;
+        }
+
     }
 
     internal static partial class SetsGenerator

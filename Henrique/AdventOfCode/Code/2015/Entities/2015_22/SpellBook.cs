@@ -1,8 +1,9 @@
 ﻿using AdventOfCode.Code._2015.Entities._2015_21;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace AdventOfCode.Code._2015.Entities._2015_22
 {
-    internal enum AvailableSpells
+    internal enum AvailableSpell
     {
         MagicMissile = 1,
         Drain = 2,
@@ -13,18 +14,18 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
 
     internal static class SpellFactory
     {
-        internal static Spell GetSpell(AvailableSpells spell)
+        internal static Spell GetSpell(AvailableSpell spell)
         {
             switch(spell) {
-                case AvailableSpells.MagicMissile:
+                case AvailableSpell.MagicMissile:
                     return new MagicMissile();
-                case AvailableSpells.Drain:
+                case AvailableSpell.Drain:
                     return new Drain();
-                case AvailableSpells.Shield:
+                case AvailableSpell.Shield:
                     return new Shield();
-                case AvailableSpells.Poison:
+                case AvailableSpell.Poison:
                     return new Poison();
-                case AvailableSpells.Recharge:
+                case AvailableSpell.Recharge:
                     return new Recharge();
                     default: throw new ArgumentOutOfRangeException(nameof(spell));
             }
@@ -33,18 +34,26 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
 
     internal class MagicMissile : Spell
     {
+        private int Damage = 4;
+
         internal MagicMissile()
         {
             ManaCost = 53;
         }
         internal override void ApplyEffect(MagicPlayerCharacter pc, Boss boss)
         {
-            boss.HitPoints -= 4;
+            boss.HitPoints -= Damage;
+        }
+
+        internal override int CalculatePotentialDamage()
+        {
+            return Damage;
         }
     }
 
     internal class Drain : Spell
     {
+        private int Damage = 2;
         internal Drain()
         {
             ManaCost = 73;
@@ -53,6 +62,11 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
         {
             pc.HitPoints += 2;
             boss.HitPoints -= 2;
+        }
+
+        internal override int CalculatePotentialDamage()
+        {
+            return Damage;
         }
     }
 
@@ -70,13 +84,19 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
             {
                 pc.Armor = 7;
                 Timer--;
-            }              
-            
+            }   
+        }
+
+        internal override int CalculatePotentialDamage()
+        {
+            return 0;
         }
     }
 
     internal class Poison : Spell
     {
+        private int Damage = 3;
+
         internal Poison()
         {
             ManaCost = 173;
@@ -87,10 +107,16 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
         {
             if (Timer > 0)
             {
-                boss.HitPoints -= 3;
+                boss.HitPoints -= Damage;
                 Timer--;
             }
         }
+
+        internal override int CalculatePotentialDamage()
+        {
+            return Damage * TotalDuration;
+        }
+
     }
 
     internal class Recharge : Spell
@@ -108,6 +134,11 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
                 pc.Mana += 101;
                 Timer--;
             }
+        }
+
+        internal override int CalculatePotentialDamage()
+        {
+            return 0;
         }
     }
 }
