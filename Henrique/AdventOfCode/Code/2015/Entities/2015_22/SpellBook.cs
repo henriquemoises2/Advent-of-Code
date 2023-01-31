@@ -49,6 +49,11 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
         {
             return Damage;
         }
+
+        internal override int CalculatePotentialManaLost()
+        {
+            return ManaCost;
+        }
     }
 
     internal class Drain : Spell
@@ -67,6 +72,11 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
         internal override int CalculatePotentialDamage()
         {
             return Damage;
+        }
+
+        internal override int CalculatePotentialManaLost()
+        {
+            return ManaCost;
         }
     }
 
@@ -90,6 +100,11 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
         internal override int CalculatePotentialDamage()
         {
             return 0;
+        }
+
+        internal override int CalculatePotentialManaLost()
+        {
+            return ManaCost;
         }
     }
 
@@ -117,10 +132,18 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
             return Damage * TotalDuration;
         }
 
+        internal override int CalculatePotentialManaLost()
+        {
+            return ManaCost;
+        }
+
     }
 
     internal class Recharge : Spell
     {
+
+        internal int ManaGain = 101;
+
         internal Recharge()
         {
             ManaCost = 229;
@@ -131,7 +154,7 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
         {
             if (Timer > 0)
             {
-                pc.Mana += 101;
+                pc.Mana += ManaGain;
                 Timer--;
             }
         }
@@ -139,6 +162,11 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
         internal override int CalculatePotentialDamage()
         {
             return 0;
+        }
+
+        internal override int CalculatePotentialManaLost()
+        {
+            return -ManaCost * TotalDuration;
         }
     }
 }
