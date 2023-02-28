@@ -16,7 +16,8 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
     {
         internal static Spell GetSpell(AvailableSpell spell)
         {
-            switch(spell) {
+            switch (spell)
+            {
                 case AvailableSpell.MagicMissile:
                     return new MagicMissile();
                 case AvailableSpell.Drain:
@@ -27,7 +28,7 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
                     return new Poison();
                 case AvailableSpell.Recharge:
                     return new Recharge();
-                    default: throw new ArgumentOutOfRangeException(nameof(spell));
+                default: throw new ArgumentOutOfRangeException(nameof(spell));
             }
         }
     }
@@ -82,6 +83,8 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
 
     internal class Shield : Spell
     {
+        internal int Armor = 7;
+
         internal Shield()
         {
             ManaCost = 113;
@@ -92,9 +95,14 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
         {
             if (Timer > 0)
             {
-                pc.Armor = 7;
+                pc.Armor = Armor;
                 Timer--;
-            }   
+            }
+        }
+
+        internal override void RemoveEffect(MagicPlayerCharacter pc, Boss boss)
+        {
+            pc.Armor = 0;
         }
 
         internal override int CalculatePotentialDamage()

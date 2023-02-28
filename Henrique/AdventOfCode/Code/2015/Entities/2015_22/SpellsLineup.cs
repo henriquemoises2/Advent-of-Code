@@ -33,5 +33,24 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
             return totalManaLost;
         }
 
+
+        internal int CalculatePotentialDamageToPlayer(int bossDamage)
+        {
+            int totalDamageToPlayer = 0;
+            for (int i = 0; i < Spells.Count; i++)
+            {
+                if (Spells[i].GetType() == typeof(Shield))
+                {
+                    totalDamageToPlayer += Math.Max(1, bossDamage - ((Shield)Spells[i]).Armor) * Math.Min(Spells.Count - i, Spells[i].TotalDuration);
+                }
+                else
+                {
+                    totalDamageToPlayer += bossDamage;
+                }
+            }
+
+            return totalDamageToPlayer;
+        }
+
     }
 }

@@ -21,7 +21,7 @@ namespace AdventOfCode.Code
         internal override string Solve()
         {
             Boss boss;
-            MagicPlayerCharacter pc = new MagicPlayerCharacter(10, 250);
+            MagicPlayerCharacter pc = new MagicPlayerCharacter(50, 500);
 
             Regex pattern = new Regex(BossAttributesPattern, RegexOptions.Compiled);
             try
@@ -48,10 +48,25 @@ namespace AdventOfCode.Code
         {
             for (int i = 1; i <= MaxSpells; i++)
             {
-                var validSpellLists = GenerateAllValidSpellLineups(i, boss.HitPoints, pc.Mana);
+                var validSpellLists = GenerateAllValidSpellLineups(i, pc.Mana, pc.HitPoints, boss.HitPoints, boss.Damage);
 
                 foreach (var spellList in validSpellLists)
                 {
+
+                    //spellList.Spells = new List<Spell>()
+                    //{
+                    //    new Shield(),
+                    //    new Recharge(),
+                    //    new Poison(),
+                    //    new MagicMissile(),
+                    //    new MagicMissile(),
+                    //    new Recharge(),
+                    //    new Shield(),
+                    //    new Poison(),
+                    //    new MagicMissile(),
+                    //    new MagicMissile(),
+                    //};
+
                     Entity winner = SimulateFight(pc, boss, spellList.Spells);
                     if (winner.GetType() == typeof(MagicPlayerCharacter))
                     {
@@ -72,7 +87,6 @@ namespace AdventOfCode.Code
             int pcInitialHitPoints = pc.GetHitPoints();
             int pcInitialArmor = pc.GetArmor();
             int pcInitialMana = pc.Mana;
-
             int bossInitialHitPoints = boss.GetHitPoints();
             bool playerCharacterTurn = true;
             int pcTurnNumber = 0;
@@ -83,9 +97,10 @@ namespace AdventOfCode.Code
             {
                 ApplyActiveEffects(pc, boss, activeSpells);
 
-                if (pc.GetHitPoints() <= 0 || boss.GetHitPoints() <= 0 || pc.Mana <= 0)
+                if (boss.GetHitPoints() <= 0)
                 {
-                    break;
+                    ResetEntitiesValues(pc, boss, pcInitialHitPoints, pcInitialArmor, pcInitialMana, bossInitialHitPoints);
+                    return pc;
                 }
 
                 if (playerCharacterTurn)
@@ -93,12 +108,20 @@ namespace AdventOfCode.Code
                     Spell? castedSpell;
                     castedSpell = SelectNextCastedSpell(orderedSpellList, pcTurnNumber);
 
-                    if(castedSpell == null)
+                    if (castedSpell == null)
                     {
-                        break;
+                        ResetEntitiesValues(pc, boss, pcInitialHitPoints, pcInitialArmor, pcInitialMana, bossInitialHitPoints);
+                        return boss;
                     }
 
                     castedSpell.Cast(pc);
+
+                    if(pc.Mana < 0)
+                    {
+                        ResetEntitiesValues(pc, boss, pcInitialHitPoints, pcInitialArmor, pcInitialMana, bossInitialHitPoints);
+                        return boss;
+                    }
+
                     if (castedSpell.HasImmediateEffect())
                     {
                         castedSpell.ApplyEffect(pc, boss);
@@ -112,22 +135,26 @@ namespace AdventOfCode.Code
                 else
                 {
                     pc.HitPoints = pc.HitPoints - Math.Max(1, boss.GetDamage() - pc.GetArmor());
+
+                    if (pc.HitPoints <= 0)
+                    {
+                        ResetEntitiesValues(pc, boss, pcInitialHitPoints, pcInitialArmor, pcInitialMana, bossInitialHitPoints);
+                        return boss;
+                    }
                 }
-                playerCharacterTurn = !playerCharacterTurn;
+                playerCharacterTurn = !playerCharacterTurn;                
             }
 
-            Entity winner = boss.HitPoints > 0 ? boss : pc;
+            ResetEntitiesValues(pc, boss, pcInitialHitPoints, pcInitialArmor, pcInitialMana, bossInitialHitPoints);
+            return boss;
+        }
 
-            if (pc.Mana <= 0)
-            {
-                winner = boss;
-            }
-
+        private void ResetEntitiesValues(MagicPlayerCharacter pc, Boss boss, int pcInitialHitPoints, int pcInitialArmor, int pcInitialMana, int bossInitialHitPoints)
+        {
             pc.HitPoints = pcInitialHitPoints;
             pc.Armor = pcInitialArmor;
             pc.Mana = pcInitialMana;
             boss.HitPoints = bossInitialHitPoints;
-            return winner;
         }
 
         private Spell? SelectNextCastedSpell(List<Spell> orderedSpellList, int turnNumber)
@@ -151,6 +178,7 @@ namespace AdventOfCode.Code
                 spell.ApplyEffect(pc, boss);
                 if (spell.Timer == 0)
                 {
+                    spell.RemoveEffect(pc, boss);
                     endedSpells.Add(spell);
                 }
             }
@@ -161,7 +189,7 @@ namespace AdventOfCode.Code
             }
         }
 
-        private IEnumerable<SpellsLineup> GenerateAllValidSpellLineups(int size, int bossHP, int pcMana)
+        private IEnumerable<SpellsLineup> GenerateAllValidSpellLineups(int size, int pcMana, int pcHitPoints, int bossHP, int bossDamage)
         {
             List<AvailableSpell> availableOptions = new List<AvailableSpell>()
             {
@@ -177,12 +205,12 @@ namespace AdventOfCode.Code
 
             var lineups = allGeneratedSpellLists.Select(filteredSpellList => new SpellsLineup(filteredSpellList));
 
-            var filteredLineups = FilterValidSpellLists(lineups, bossHP, pcMana);
+            var filteredLineups = FilterValidSpellLists(lineups, pcMana, pcHitPoints, bossHP, bossDamage);
             SortSpellsByManaCost(filteredLineups);
             return filteredLineups;
         }
 
-        private IEnumerable<SpellsLineup> FilterValidSpellLists(IEnumerable<SpellsLineup> spellLineups, int bossHP, int pcMana)
+        private IEnumerable<SpellsLineup> FilterValidSpellLists(IEnumerable<SpellsLineup> spellLineups, int pcMana, int pcHitPoints, int bossHP, int bossDamage)
         {
             List<SpellsLineup> filteredLineups = new List<SpellsLineup>();
 
@@ -191,6 +219,10 @@ namespace AdventOfCode.Code
 
             // Filter by potential mana lost
             spellLineups = spellLineups.Where(spellLineup => spellLineup.CalculatePotentialManaLost() <= pcMana);
+
+            // Filter by potential damage dealt to the player
+            spellLineups = spellLineups.Where(spellLineup => spellLineup.CalculatePotentialDamageToPlayer(bossDamage) <= pcHitPoints);
+
 
             foreach (var lineup in spellLineups)
             {
