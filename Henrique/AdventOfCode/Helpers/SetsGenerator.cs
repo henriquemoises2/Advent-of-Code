@@ -1,4 +1,6 @@
-﻿namespace AdventOfCode.Helpers
+﻿using AdventOfCode._2015_7;
+
+namespace AdventOfCode.Helpers
 {
     internal static partial class SetsGenerator<T>
     {
@@ -65,7 +67,29 @@
             return sets;
         }
 
-        internal static IEnumerable<List<T>> GeneratePermutedSets(int permutationSize, List<T> valuesList)
+        internal static IEnumerable<IEnumerable<int>> GenerateAllIntSetsWithLimit(int maxSubsetSize, IEnumerable<int> valuesList, int limit = 0)
+        {
+            List<IEnumerable<int>> sets = new List<IEnumerable<int>>();
+            for (int i = 1; i <= maxSubsetSize; i++)
+            {
+                if (limit > 0 && valuesList.OrderBy(val => val).Take(i).Sum() > limit)
+                {
+                    return sets;
+                }
+                else if (limit > 0 && valuesList.OrderByDescending(val => val).Take(i).Sum() < limit)
+                {
+                    continue;
+                }
+                else
+                {
+                    sets.AddRange(SetsGenerator<int>.GenerateSets(i, valuesList.ToList()));
+                }
+
+            }
+            return sets;
+        }
+
+        internal static IEnumerable<List<T>> GeneratePermutationsWithRepetition(int permutationSize, IEnumerable<T> valuesList)
         {
             List<List<T>> results = new List<List<T>>();
             if (permutationSize == 0)
@@ -95,34 +119,38 @@
                 tempResults = new List<List<T>>(results);
                 permutationSize--;
             }
-
             return results;
         }
 
-    }
-
-    internal static partial class SetsGenerator
-    {
-        internal static IEnumerable<IEnumerable<int>> GenerateAllIntSets(int maxSubsetSize, IEnumerable<int> valuesList, int limit = 0)
+        internal static IEnumerable<IEnumerable<T>> GenerateCombinationsWithRepetition(int combinationSize, List<T> valuesList)
         {
-            List<IEnumerable<int>> sets = new List<IEnumerable<int>>();
-            for (int i = 1; i <= maxSubsetSize; i++)
+            List<List<T>> results = new List<List<T>>();
+            if (combinationSize == 0)
             {
-                if (limit > 0 && valuesList.OrderBy(val => val).Take(i).Sum() > limit)
+                return results;
+            }
+
+            List<T> pivot = Enumerable.Repeat(valuesList[0], combinationSize).ToList();
+
+            int currentIndex = 0, pivotIndex = combinationSize;
+            while(currentIndex >= 0)
+            {
+                for(int i = 0; i < valuesList.Count; i++)
                 {
-                    return sets;
-                }
-                else if (limit > 0 && valuesList.OrderByDescending(val => val).Take(i).Sum() < limit)
-                {
-                    continue;
-                }
-                else
-                {
-                    sets.AddRange(SetsGenerator<int>.GenerateSets(i, valuesList.ToList()));
+                    List<T>? copy = new List<T>(pivot);
+                    copy[pivotIndex] = valuesList[i];
+                    results.Add(copy);
+                    copy = null;
                 }
 
+
+                
+                currentIndex--;
             }
-            return sets;
+
+
+
+            return results;
         }
     }
 }

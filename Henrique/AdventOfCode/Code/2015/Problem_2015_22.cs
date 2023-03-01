@@ -199,7 +199,7 @@ namespace AdventOfCode.Code
                 AvailableSpell.Poison,
                 AvailableSpell.Recharge
             };
-            IEnumerable<List<AvailableSpell>> allGeneratedSpellTypeLists = SetsGenerator<AvailableSpell>.GeneratePermutedSets(size, availableOptions);
+            IEnumerable<IEnumerable<AvailableSpell>> allGeneratedSpellTypeLists = SetsGenerator<AvailableSpell>.GenerateCombinationsWithRepetition(size, availableOptions);
 
             IEnumerable<List<Spell>> allGeneratedSpellLists = allGeneratedSpellTypeLists.Select(spellList => spellList.Select(spellType => SpellFactory.GetSpell(spellType)).ToList());
 
