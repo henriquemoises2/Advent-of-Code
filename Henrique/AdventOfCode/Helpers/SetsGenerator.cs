@@ -122,35 +122,42 @@ namespace AdventOfCode.Helpers
             return results;
         }
 
-        internal static IEnumerable<IEnumerable<T>> GenerateCombinationsWithRepetition(int combinationSize, List<T> valuesList)
+        internal static IEnumerable<List<T>> GenerateCombinationsWithRepetition(int combinationSize, IEnumerable<T> valuesList)
         {
+            Dictionary<string, T> codifiedValues = new Dictionary<string, T>();
+            List<T> inputValues = valuesList.ToList();
+            for (int i = 1; i <= inputValues.Count(); i++)
+            {
+                codifiedValues.Add(i.ToString(), inputValues.ElementAt(i - 1));
+            }
+
+            IEnumerable<String> combinations = CombinationsWithRepetition(combinationSize, (IEnumerable<string>)codifiedValues.Keys.Select(k => k.ToString()));
             List<List<T>> results = new List<List<T>>();
-            if (combinationSize == 0)
-            {
-                return results;
-            }
 
-            List<T> pivot = Enumerable.Repeat(valuesList[0], combinationSize).ToList();
-
-            int currentIndex = 0, pivotIndex = combinationSize;
-            while(currentIndex >= 0)
+            foreach (string combination in combinations)
             {
-                for(int i = 0; i < valuesList.Count; i++)
+                List<T> decodifiedResults = new List<T>();
+                foreach(char code in combination)
                 {
-                    List<T>? copy = new List<T>(pivot);
-                    copy[pivotIndex] = valuesList[i];
-                    results.Add(copy);
-                    copy = null;
+                    decodifiedResults.Add(codifiedValues[code.ToString()]);
                 }
-
-
-                
-                currentIndex--;
+                results.Add(decodifiedResults);
             }
-
-
-
             return results;
+
+        }
+
+
+        private static IEnumerable<String> CombinationsWithRepetition(int length, IEnumerable<string> input)
+        {
+            if (length <= 0)
+                yield return "";
+            else
+            {
+                foreach (var i in input)
+                    foreach (var c in CombinationsWithRepetition(length - 1, input))
+                        yield return i + c;
+            }
         }
     }
 }
