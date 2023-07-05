@@ -51,7 +51,7 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
             return Damage;
         }
 
-        internal override int CalculatePotentialManaLost()
+        internal override int CalculatePotentialManaSpent()
         {
             return ManaCost;
         }
@@ -75,7 +75,7 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
             return Damage;
         }
 
-        internal override int CalculatePotentialManaLost()
+        internal override int CalculatePotentialManaSpent()
         {
             return ManaCost;
         }
@@ -110,7 +110,7 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
             return 0;
         }
 
-        internal override int CalculatePotentialManaLost()
+        internal override int CalculatePotentialManaSpent()
         {
             return ManaCost;
         }
@@ -140,7 +140,7 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
             return Damage * TotalDuration;
         }
 
-        internal override int CalculatePotentialManaLost()
+        internal override int CalculatePotentialManaSpent()
         {
             return ManaCost;
         }
@@ -172,9 +172,10 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
             return 0;
         }
 
-        internal override int CalculatePotentialManaLost()
+        internal override int CalculatePotentialManaSpent()
         {
-            return -ManaCost * TotalDuration;
+            return ManaCost - (ManaGain * TotalDuration);
         }
+        
     }
 }

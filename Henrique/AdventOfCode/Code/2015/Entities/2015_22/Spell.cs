@@ -19,8 +19,9 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
 
         }
 
+
         internal abstract int CalculatePotentialDamage();
-        internal abstract int CalculatePotentialManaLost();
+        internal abstract int CalculatePotentialManaSpent();
 
         internal bool HasImmediateEffect()
         {

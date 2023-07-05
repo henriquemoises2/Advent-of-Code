@@ -15,41 +15,46 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
         {
             return Spells.Sum(spell => spell.CalculatePotentialDamage());
         }
-        internal int CalculatePotentialManaLost()
+        internal int CalculatePotentialManaSpent()
         {
-            int totalManaLost = 0;
-            for (int i = 0; i < Spells.Count; i++)
-            {
-                if (Spells[i].GetType() == typeof(Recharge))
-                {
-                    totalManaLost -= (((Recharge)Spells[i]).ManaGain * Math.Min(Spells.Count - i, Spells[i].TotalDuration)) - Spells[i].ManaCost;
-                }
-                else
-                {
-                    totalManaLost += Spells[i].ManaCost;
-                }
-            }
-
-            return totalManaLost;
+            return Spells.Sum(spell => spell.CalculatePotentialManaSpent());
         }
-
 
         internal int CalculatePotentialDamageToPlayer(int bossDamage)
         {
-            int totalDamageToPlayer = 0;
+            int shieldSpells = Spells.Count(s => s.GetType() == typeof(Shield));
+            Shield template = new Shield();
+            int potentialDamageToPlayer = bossDamage * Spells.Count;
+            int potentialDamageReduction = 0;
+            
+            if(template.Armor >= bossDamage)
+            {
+                potentialDamageReduction = ((bossDamage - 1) * template.TotalDuration) * Spells.Count(s => s.GetType() == typeof(Shield));
+            }
+            else
+            {
+                potentialDamageReduction = (template.Armor * template.TotalDuration) * Spells.Count(s => s.GetType() == typeof(Shield));
+            }            
+
+            int totalDamageToPlayer = potentialDamageToPlayer - potentialDamageReduction;
+            return totalDamageToPlayer;
+        }
+
+        internal bool IsSpellOrderValid()
+        {
             for (int i = 0; i < Spells.Count; i++)
             {
-                if (Spells[i].GetType() == typeof(Shield))
+                Spell spell = Spells[i];
+                if (!spell.HasImmediateEffect())
                 {
-                    totalDamageToPlayer += Math.Max(1, bossDamage - ((Shield)Spells[i]).Armor) * Math.Min(Spells.Count - i, Spells[i].TotalDuration);
-                }
-                else
-                {
-                    totalDamageToPlayer += bossDamage;
+                    List<Type> previousSpells = Spells.Where((value, index) => index >= Math.Max(0, i - spell.TotalDuration) && index < i).Select(spell => spell.GetType()).ToList();
+                    if (previousSpells.Contains(spell.GetType()))
+                    {
+                        return false;
+                    }
                 }
             }
-
-            return totalDamageToPlayer;
+            return true;
         }
 
     }

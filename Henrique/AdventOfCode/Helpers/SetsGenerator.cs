@@ -1,4 +1,5 @@
 ﻿using AdventOfCode._2015_7;
+using System.Xml.Linq;
 
 namespace AdventOfCode.Helpers
 {
@@ -89,40 +90,13 @@ namespace AdventOfCode.Helpers
             return sets;
         }
 
-        internal static IEnumerable<List<T>> GeneratePermutationsWithRepetition(int permutationSize, IEnumerable<T> valuesList)
-        {
-            List<List<T>> results = new List<List<T>>();
-            if (permutationSize == 0)
-            {
-                return results;
-            }
-
-            foreach (T value in valuesList)
-            {
-                results.Add(new List<T>() { value });
-            }
-            permutationSize--;
-
-            List<List<T>> tempResults = new List<List<T>>(results);
-            while (permutationSize > 0)
-            {
-                results.Clear();
-                foreach (List<T> result in tempResults)
-                {
-                    foreach (T value in valuesList)
-                    {
-                        List<T> newResult = new List<T>(result);
-                        newResult.Add(value);
-                        results.Add(newResult);
-                    }
-                }
-                tempResults = new List<List<T>>(results);
-                permutationSize--;
-            }
-            return results;
-        }
-
-        internal static IEnumerable<List<T>> GenerateCombinationsWithRepetition(int combinationSize, IEnumerable<T> valuesList)
+        /// <summary>
+        /// Generate all permutations of valuesList with size combinationSize, i.e. sets of elements where the order matters
+        /// </summary>
+        /// <param name="combinationSize"></param>
+        /// <param name="valuesList"></param>
+        /// <returns></returns>
+        internal static IEnumerable<List<T>> GeneratePermutationsWithRepetition(int combinationSize, IEnumerable<T> valuesList)
         {
             Dictionary<string, T> codifiedValues = new Dictionary<string, T>();
             List<T> inputValues = valuesList.ToList();
@@ -131,33 +105,74 @@ namespace AdventOfCode.Helpers
                 codifiedValues.Add(i.ToString(), inputValues.ElementAt(i - 1));
             }
 
-            IEnumerable<String> combinations = CombinationsWithRepetition(combinationSize, (IEnumerable<string>)codifiedValues.Keys.Select(k => k.ToString()));
+            IEnumerable<String> combinations = PermutationsWithRepetition(combinationSize, (IEnumerable<string>)codifiedValues.Keys.Select(k => k.ToString()));
             List<List<T>> results = new List<List<T>>();
 
             foreach (string combination in combinations)
             {
                 List<T> decodifiedResults = new List<T>();
-                foreach(char code in combination)
+                foreach (char code in combination)
                 {
                     decodifiedResults.Add(codifiedValues[code.ToString()]);
                 }
                 results.Add(decodifiedResults);
             }
             return results;
-
         }
 
+        /// <summary>
+        /// Generate all combinations of valuesList with size combinationSize, i.e. sets of elements where the order does not matter
+        /// </summary>
+        /// <param name="combinationSize"></param>
+        /// <param name="valuesList"></param>
+        /// <returns></returns>
+        internal static List<List<T>> GenerateCombinationsWithRepetition(IEnumerable<T> valuesList, int combinationSize)
+        {
+            // Allocate memory
+            int[] chosen = new int[combinationSize + 1];
 
-        private static IEnumerable<String> CombinationsWithRepetition(int length, IEnumerable<string> input)
+            int n = valuesList.Count();
+            List<List<T>> totalResults = new List<List<T>>();
+
+            // Call the recursive function
+            CombinationsWithRepetition(chosen, valuesList.ToArray(), 0, combinationSize, 0, n - 1, totalResults);
+
+            return totalResults;
+        }
+
+        private static IEnumerable<string> PermutationsWithRepetition(int length, IEnumerable<string> input)
         {
             if (length <= 0)
                 yield return "";
             else
             {
                 foreach (var i in input)
-                    foreach (var c in CombinationsWithRepetition(length - 1, input))
+                    foreach (var c in PermutationsWithRepetition(length - 1, input))
                         yield return i + c;
             }
+        }
+
+        private static void CombinationsWithRepetition(int[] chosen, T[] valuesList, int index, int combinationSize, int start, int end, List<List<T>> totalResults)
+        {
+            // Since index has become combinationSize, current combination is ready to be returned
+            if (index == combinationSize)
+            {
+                List<T> result = new List<T>();
+                for (int i = 0; i < combinationSize; i++)
+                {
+                    result.Add(valuesList[chosen[i]]);                    
+                }
+                totalResults.Add(result);
+                return; 
+            }
+
+            // One by one choose all elements (without considering the fact whether element is already chosen or not) and recur
+            for (int i = start; i <= end; i++)
+            {
+                chosen[index] = i;
+                CombinationsWithRepetition(chosen, valuesList, index + 1, combinationSize, i, end, totalResults);
+            }
+            return;
         }
     }
 }

@@ -3,6 +3,7 @@ using AdventOfCode.Code._2015.Entities._2015_22;
 using AdventOfCode.Helpers;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -46,7 +47,7 @@ namespace AdventOfCode.Code
 
         private string SolvePart1(MagicPlayerCharacter pc, Boss boss)
         {
-            for (int i = 1; i <= MaxSpells; i++)
+            for (int i = 10; i <= MaxSpells; i++)
             {
                 var validSpellLists = GenerateAllValidSpellLineups(i, pc.Mana, pc.HitPoints, boss.HitPoints, boss.Damage);
 
@@ -199,10 +200,9 @@ namespace AdventOfCode.Code
                 AvailableSpell.Poison,
                 AvailableSpell.Recharge
             };
-            IEnumerable<IEnumerable<AvailableSpell>> allGeneratedSpellTypeLists = SetsGenerator<AvailableSpell>.GenerateCombinationsWithRepetition(size, availableOptions);
 
+            IEnumerable<IEnumerable<AvailableSpell>> allGeneratedSpellTypeLists = SetsGenerator<AvailableSpell>.GenerateCombinationsWithRepetition(availableOptions, size);
             IEnumerable<List<Spell>> allGeneratedSpellLists = allGeneratedSpellTypeLists.Select(spellList => spellList.Select(spellType => SpellFactory.GetSpell(spellType)).ToList());
-
             var lineups = allGeneratedSpellLists.Select(filteredSpellList => new SpellsLineup(filteredSpellList));
 
             var filteredLineups = FilterValidSpellLists(lineups, pcMana, pcHitPoints, bossHP, bossDamage);
@@ -217,36 +217,16 @@ namespace AdventOfCode.Code
             // Filter by potential damage
             spellLineups = spellLineups.Where(spellLineup => spellLineup.CalculatePotentialDamage() >= bossHP);
 
-            // Filter by potential mana lost
-            spellLineups = spellLineups.Where(spellLineup => spellLineup.CalculatePotentialManaLost() <= pcMana);
+            // Filter by potential mana spent
+            spellLineups = spellLineups.Where(spellLineup => spellLineup.CalculatePotentialManaSpent() <= pcMana);
 
             // Filter by potential damage dealt to the player
             spellLineups = spellLineups.Where(spellLineup => spellLineup.CalculatePotentialDamageToPlayer(bossDamage) <= pcHitPoints);
 
 
-            foreach (var lineup in spellLineups)
-            {
-                bool isSpellOrderValid = true;
+            // Filter by lineup validity
+            //spellLineups = spellLineups.Where(spellLineup => spellLineup.IsSpellOrderValid());
 
-                for (int i = 0; i < lineup.Spells.Count; i++)
-                {
-                    Spell spell = lineup.Spells[i];
-                    if (!spell.HasImmediateEffect())
-                    {
-                        List<Type> previousSpells = lineup.Spells.Where((value, index) => index >= Math.Max(0, i - spell.TotalDuration) && index < i).Select(spell => spell.GetType()).ToList();
-                        if (previousSpells.Contains(spell.GetType()))
-                        {
-                            isSpellOrderValid = false;
-                            break;
-                        }
-                    }
-                }
-
-                if (isSpellOrderValid)
-                {
-                    filteredLineups.Add(lineup);
-                }
-            }
             return filteredLineups;
         }
 
