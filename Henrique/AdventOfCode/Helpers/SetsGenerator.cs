@@ -1,4 +1,5 @@
 ﻿using AdventOfCode._2015_7;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace AdventOfCode.Helpers
@@ -91,7 +92,7 @@ namespace AdventOfCode.Helpers
         }
 
         /// <summary>
-        /// Generate all permutations of valuesList with size combinationSize, i.e. sets of elements where the order matters
+        /// Generate all permutations of valuesList with size combinationSize and repetitions, i.e. sets of elements where the order matters
         /// </summary>
         /// <param name="combinationSize"></param>
         /// <param name="valuesList"></param>
@@ -121,12 +122,42 @@ namespace AdventOfCode.Helpers
         }
 
         /// <summary>
+        /// Generate all permutations of valuesList with size combinationSize without repetitions, i.e. sets of elements where the order matters
+        /// </summary>
+        /// <param name="combinationSize"></param>
+        /// <param name="valuesList"></param>
+        /// <returns></returns>
+        internal static IEnumerable<IEnumerable<T>> GeneratePermutationsWithoutRepetition(int combinationSize, IEnumerable<T> valuesList)
+        {
+            Dictionary<string, T> codifiedValues = new Dictionary<string, T>();
+            List<T> inputValues = valuesList.ToList();
+            for (int i = 1; i <= inputValues.Count(); i++)
+            {
+                codifiedValues.Add(((char)(64 + i)).ToString(), inputValues.ElementAt(i - 1));
+            }
+
+            IEnumerable<String> combinations = PermutationsWithoutRepetition(combinationSize, (IEnumerable<string>)codifiedValues.Keys.Select(k => k.ToString()));
+            List<List<T>> results = new List<List<T>>();
+
+            foreach (string combination in combinations)
+            {
+                List<T> decodifiedResults = new List<T>();
+                foreach (char code in combination)
+                {
+                    decodifiedResults.Add(codifiedValues[code.ToString()]);
+                }
+                results.Add(decodifiedResults);
+            }
+            return results;
+        }
+
+        /// <summary>
         /// Generate all combinations of valuesList with size combinationSize, i.e. sets of elements where the order does not matter
         /// </summary>
         /// <param name="combinationSize"></param>
         /// <param name="valuesList"></param>
         /// <returns></returns>
-        internal static List<List<T>> GenerateCombinationsWithRepetition(IEnumerable<T> valuesList, int combinationSize)
+        internal static List<List<T>> GenerateCombinationsWithRepetition(int combinationSize, IEnumerable<T> valuesList)
         {
             // Allocate memory
             int[] chosen = new int[combinationSize + 1];
@@ -152,6 +183,18 @@ namespace AdventOfCode.Helpers
             }
         }
 
+        private static IEnumerable<string> PermutationsWithoutRepetition(int length, IEnumerable<string> input)
+        {
+            if (length <= 0)
+                yield return "";
+            else
+            {
+                foreach (var i in input)
+                    foreach (var c in PermutationsWithoutRepetition(length - 1, input.Except(new List<string> { i })))
+                        yield return i + c;
+            }
+        }
+
         private static void CombinationsWithRepetition(int[] chosen, T[] valuesList, int index, int combinationSize, int start, int end, List<List<T>> totalResults)
         {
             // Since index has become combinationSize, current combination is ready to be returned
@@ -160,13 +203,13 @@ namespace AdventOfCode.Helpers
                 List<T> result = new List<T>();
                 for (int i = 0; i < combinationSize; i++)
                 {
-                    result.Add(valuesList[chosen[i]]);                    
+                    result.Add(valuesList[chosen[i]]);
                 }
                 totalResults.Add(result);
-                return; 
+                return;
             }
 
-            // One by one choose all elements (without considering the fact whether element is already chosen or not) and recur
+            // One by one choose all elements (without considering if the element is already chosen or not) and recur
             for (int i = start; i <= end; i++)
             {
                 chosen[index] = i;

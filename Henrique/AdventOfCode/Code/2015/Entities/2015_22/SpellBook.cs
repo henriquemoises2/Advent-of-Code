@@ -3,7 +3,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace AdventOfCode.Code._2015.Entities._2015_22
 {
-    internal enum AvailableSpell
+    internal enum SpellType
     {
         MagicMissile = 1,
         Drain = 2,
@@ -14,19 +14,19 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
 
     internal static class SpellFactory
     {
-        internal static Spell GetSpell(AvailableSpell spell)
+        internal static Spell GetSpell(SpellType spell)
         {
             switch (spell)
             {
-                case AvailableSpell.MagicMissile:
+                case SpellType.MagicMissile:
                     return new MagicMissile();
-                case AvailableSpell.Drain:
+                case SpellType.Drain:
                     return new Drain();
-                case AvailableSpell.Shield:
+                case SpellType.Shield:
                     return new Shield();
-                case AvailableSpell.Poison:
+                case SpellType.Poison:
                     return new Poison();
-                case AvailableSpell.Recharge:
+                case SpellType.Recharge:
                     return new Recharge();
                 default: throw new ArgumentOutOfRangeException(nameof(spell));
             }
@@ -40,6 +40,7 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
         internal MagicMissile()
         {
             ManaCost = 53;
+            Type = SpellType.MagicMissile;
         }
         internal override void ApplyEffect(MagicPlayerCharacter pc, Boss boss)
         {
@@ -63,6 +64,8 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
         internal Drain()
         {
             ManaCost = 73;
+            Type = SpellType.Drain;
+
         }
         internal override void ApplyEffect(MagicPlayerCharacter pc, Boss boss)
         {
@@ -90,6 +93,7 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
             ManaCost = 113;
             TotalDuration = 6;
             Timer = TotalDuration;
+            Type = SpellType.Shield;
         }
         internal override void ApplyEffect(MagicPlayerCharacter pc, Boss boss)
         {
@@ -125,6 +129,7 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
             ManaCost = 173;
             TotalDuration = 6;
             Timer = TotalDuration;
+            Type = SpellType.Poison;
         }
         internal override void ApplyEffect(MagicPlayerCharacter pc, Boss boss)
         {
@@ -157,6 +162,7 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
             ManaCost = 229;
             TotalDuration = 5;
             Timer = TotalDuration;
+            Type = SpellType.Recharge;
         }
         internal override void ApplyEffect(MagicPlayerCharacter pc, Boss boss)
         {

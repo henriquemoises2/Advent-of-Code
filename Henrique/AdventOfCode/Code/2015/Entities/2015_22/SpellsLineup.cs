@@ -24,7 +24,7 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
         {
             int shieldSpells = Spells.Count(s => s.GetType() == typeof(Shield));
             Shield template = new Shield();
-            int potentialDamageToPlayer = bossDamage * Spells.Count;
+            int potentialDamageToPlayer = bossDamage * (Spells.Count - 1);
             int potentialDamageReduction = 0;
             
             if(template.Armor >= bossDamage)
