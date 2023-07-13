@@ -106,7 +106,7 @@ namespace AdventOfCode.Helpers
                 codifiedValues.Add(i.ToString(), inputValues.ElementAt(i - 1));
             }
 
-            IEnumerable<String> combinations = PermutationsWithRepetition(combinationSize, (IEnumerable<string>)codifiedValues.Keys.Select(k => k.ToString()));
+            IEnumerable<String> combinations = PermutationsWithRepetitionRecursive(combinationSize, (IEnumerable<string>)codifiedValues.Keys.Select(k => k.ToString()));
             List<List<T>> results = new List<List<T>>();
 
             foreach (string combination in combinations)
@@ -136,7 +136,7 @@ namespace AdventOfCode.Helpers
                 codifiedValues.Add(((char)(64 + i)).ToString(), inputValues.ElementAt(i - 1));
             }
 
-            IEnumerable<String> combinations = PermutationsWithoutRepetition(combinationSize, (IEnumerable<string>)codifiedValues.Keys.Select(k => k.ToString()));
+            IEnumerable<String> combinations = PermutationsWithoutRepetitionRecursive(combinationSize, (IEnumerable<string>)codifiedValues.Keys.Select(k => k.ToString()));
             List<List<T>> results = new List<List<T>>();
 
             foreach (string combination in combinations)
@@ -166,36 +166,39 @@ namespace AdventOfCode.Helpers
             List<List<T>> totalResults = new List<List<T>>();
 
             // Call the recursive function
-            CombinationsWithRepetition(chosen, valuesList.ToArray(), 0, combinationSize, 0, n - 1, totalResults);
+            CombinationsWithRepetitionRecursive(chosen, valuesList.ToArray(), 0, combinationSize, 0, n - 1, totalResults);
 
             return totalResults;
         }
 
-        private static IEnumerable<string> PermutationsWithRepetition(int length, IEnumerable<string> input)
+
+        #region Private Methods
+
+        private static IEnumerable<string> PermutationsWithRepetitionRecursive(int length, IEnumerable<string> input)
         {
             if (length <= 0)
                 yield return "";
             else
             {
                 foreach (var i in input)
-                    foreach (var c in PermutationsWithRepetition(length - 1, input))
+                    foreach (var c in PermutationsWithRepetitionRecursive(length - 1, input))
                         yield return i + c;
             }
         }
 
-        private static IEnumerable<string> PermutationsWithoutRepetition(int length, IEnumerable<string> input)
+        private static IEnumerable<string> PermutationsWithoutRepetitionRecursive(int length, IEnumerable<string> input)
         {
             if (length <= 0)
                 yield return "";
             else
             {
                 foreach (var i in input)
-                    foreach (var c in PermutationsWithoutRepetition(length - 1, input.Except(new List<string> { i })))
+                    foreach (var c in PermutationsWithoutRepetitionRecursive(length - 1, input.Except(new List<string> { i })))
                         yield return i + c;
             }
         }
 
-        private static void CombinationsWithRepetition(int[] chosen, T[] valuesList, int index, int combinationSize, int start, int end, List<List<T>> totalResults)
+        private static void CombinationsWithRepetitionRecursive(int[] chosen, T[] valuesList, int index, int combinationSize, int start, int end, List<List<T>> totalResults)
         {
             // Since index has become combinationSize, current combination is ready to be returned
             if (index == combinationSize)
@@ -213,9 +216,11 @@ namespace AdventOfCode.Helpers
             for (int i = start; i <= end; i++)
             {
                 chosen[index] = i;
-                CombinationsWithRepetition(chosen, valuesList, index + 1, combinationSize, i, end, totalResults);
+                CombinationsWithRepetitionRecursive(chosen, valuesList, index + 1, combinationSize, i, end, totalResults);
             }
             return;
         }
+
+        #endregion
     }
 }

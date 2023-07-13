@@ -10,5 +10,10 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
         {
             Mana = mana;
         }
+        internal int GetMana()
+        {
+            return Mana;
+        }
+
     }
 }

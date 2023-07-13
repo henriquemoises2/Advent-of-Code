@@ -1,6 +1,4 @@
-﻿using AdventOfCode.Code._2015.Entities._2015_21;
-
-namespace AdventOfCode.Code._2015.Entities._2015_22
+﻿namespace AdventOfCode.Code._2015.Entities._2015_22
 {
     internal class SpellsLineup
     {
@@ -10,6 +8,8 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
         }
 
         internal List<Spell> Spells { get; set; }
+
+        internal int TurnsSurvived { get; set; }
 
         internal int CalculatePotentialDamage()
         {
@@ -55,6 +55,12 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
                 }
             }
             return true;
+        }
+
+        internal int ComputeFitness(int pcMana, int pcHitPoints, int bossHP, int bossDamage)
+        {
+            int fitnessValue = CalculatePotentialDamage() - CalculatePotentialDamageToPlayer(bossDamage);
+            return fitnessValue;
         }
 
     }
