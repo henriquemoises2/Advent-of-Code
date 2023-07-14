@@ -47,6 +47,8 @@
                             return new Problem_2015_18();
                         case 19:
                             return new Problem_2015_19();
+                        case 20:
+                            return new Problem_2015_20();
                         default: return null;
                     }
                 case 2022:
