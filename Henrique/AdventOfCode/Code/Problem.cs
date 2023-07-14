@@ -22,6 +22,17 @@ namespace AdventOfCode.Code
                 return string.Empty;
             }
         }
+        internal string InputLastLine
+        {
+            get
+            {
+                if (InputLines != null && InputLines.Any())
+                {
+                    return InputLines.Last();
+                }
+                return string.Empty;
+            }
+        }
         internal readonly Stopwatch StopWatch = new Stopwatch();
 
         internal Problem()
