@@ -1,7 +1,5 @@
-﻿using AdventOfCode.Code._2015.Entities._2015_19;
-using AdventOfCode.Code._2015.Entities._2015_21;
+﻿using AdventOfCode.Code._2015.Entities._2015_21;
 using AdventOfCode.Helpers;
-using System.CodeDom.Compiler;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
@@ -45,12 +43,12 @@ namespace AdventOfCode.Code
 
         private string SolvePart1(PlayerCharacter pc, Boss boss, HashSet<Inventory> inventoryCombinations)
         {
-            
+
             foreach (var inventory in inventoryCombinations.OrderBy(inventory => inventory.GetInventoryValue()))
             {
                 pc.Inventory = inventory;
                 Entity winner = SimulateFight(pc, boss);
-                if(winner.GetType() == typeof(PlayerCharacter))
+                if (winner.GetType() == typeof(PlayerCharacter))
                 {
                     return ((PlayerCharacter)winner).Inventory.GetInventoryValue().ToString();
                 }

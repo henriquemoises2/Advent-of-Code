@@ -1,8 +1,4 @@
-﻿using AdventOfCode._2015_7;
-using System.Linq;
-using System.Xml.Linq;
-
-namespace AdventOfCode.Helpers
+﻿namespace AdventOfCode.Helpers
 {
     internal static partial class SetsGenerator<T>
     {

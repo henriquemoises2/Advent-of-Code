@@ -7,7 +7,7 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
         internal int ManaCost { get; set; }
         internal int TotalDuration { get; set; }
         internal int Timer { get; set; }
-        internal SpellType Type { get;  set;}
+        internal SpellType Type { get; set; }
 
         internal void Cast(MagicPlayerCharacter pc)
         {

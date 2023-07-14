@@ -1,5 +1,4 @@
 ﻿using AdventOfCode.Code._2015.Entities._2015_21;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace AdventOfCode.Code._2015.Entities._2015_22
 {
@@ -182,6 +181,6 @@ namespace AdventOfCode.Code._2015.Entities._2015_22
         {
             return ManaCost - (ManaGain * TotalDuration);
         }
-        
+
     }
 }

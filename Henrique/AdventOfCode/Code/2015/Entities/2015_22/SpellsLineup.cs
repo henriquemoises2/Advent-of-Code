@@ -10,35 +10,8 @@
         internal List<Spell> Spells { get; set; }
 
         internal int TurnsSurvived { get; set; }
-
-        internal int CalculatePotentialDamage()
-        {
-            return Spells.Sum(spell => spell.CalculatePotentialDamage());
-        }
-        internal int CalculatePotentialManaSpent()
-        {
-            return Spells.Sum(spell => spell.CalculatePotentialManaSpent());
-        }
-
-        internal int CalculatePotentialDamageToPlayer(int bossDamage)
-        {
-            int shieldSpells = Spells.Count(s => s.GetType() == typeof(Shield));
-            Shield template = new Shield();
-            int potentialDamageToPlayer = bossDamage * (Spells.Count - 1);
-            int potentialDamageReduction = 0;
-            
-            if(template.Armor >= bossDamage)
-            {
-                potentialDamageReduction = ((bossDamage - 1) * template.TotalDuration) * Spells.Count(s => s.GetType() == typeof(Shield));
-            }
-            else
-            {
-                potentialDamageReduction = (template.Armor * template.TotalDuration) * Spells.Count(s => s.GetType() == typeof(Shield));
-            }            
-
-            int totalDamageToPlayer = potentialDamageToPlayer - potentialDamageReduction;
-            return totalDamageToPlayer;
-        }
+        internal int DamageDealtToBoss { get; set; }
+        internal int ManaSpent { get; set; }
 
         internal bool IsSpellOrderValid()
         {
@@ -47,20 +20,21 @@
                 Spell spell = Spells[i];
                 if (!spell.HasImmediateEffect())
                 {
-                    List<Type> previousSpells = Spells.Where((value, index) => index >= Math.Max(0, i - spell.TotalDuration) && index < i).Select(spell => spell.GetType()).ToList();
-                    if (previousSpells.Contains(spell.GetType()))
+                    int duration = spell.TotalDuration - 2;
+                    for (int j = i - 1; j >= 0 && duration > 0; j--)
                     {
-                        return false;
+                        if (Spells[j].GetType() == spell.GetType())
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            duration -= 2;
+                        }
                     }
                 }
             }
             return true;
-        }
-
-        internal int ComputeFitness(int pcMana, int pcHitPoints, int bossHP, int bossDamage)
-        {
-            int fitnessValue = CalculatePotentialDamage() - CalculatePotentialDamageToPlayer(bossDamage);
-            return fitnessValue;
         }
 
     }

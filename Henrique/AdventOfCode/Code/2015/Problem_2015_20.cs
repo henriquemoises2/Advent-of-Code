@@ -37,7 +37,7 @@ namespace AdventOfCode.Code
         {
             Dictionary<int, int> numberHousesVisitedByEachElf = new Dictionary<int, int>();
             List<int> combinedSolutions = new List<int>();
-            
+
             for (int i = 1; i < MaxHousesNumber; i++)
             {
                 IEnumerable<int> divisors = MathOperations.GetDivisors(i);
@@ -84,7 +84,7 @@ namespace AdventOfCode.Code
                 }
             }
 
-           
+
             throw new Exception("No solution found.");
         }
 

@@ -1,6 +1,5 @@
 ﻿using AdventOfCode.Code._2015.Entities._2015_21;
 using AdventOfCode.Code._2015.Entities._2015_22;
-using AdventOfCode.Helpers;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
@@ -8,10 +7,9 @@ namespace AdventOfCode.Code
     internal class Problem_2015_22 : Problem
     {
         private const string BossAttributesPattern = @"^Hit Points: (?<hitPoints>\d+)\nDamage: (?<damage>\d+)";
-        private const int MaxPcTurns = 100;
-        private const int MaxSpells = 100;
-        private const int MaxIterations = 2000;
-        private const int nChromossomes = 100;
+        private const int MaxSpells = 15;
+        private const int MaxIterations = 4000;
+        private const int nChromossomes = 50;
 
         internal Problem_2015_22() : base()
         {
@@ -45,7 +43,29 @@ namespace AdventOfCode.Code
 
         private string SolvePart1(MagicPlayerCharacter pc, Boss boss)
         {
+            SpellsLineup? solution = SolveProblem(pc, boss);
+            if (solution != null)
+            {
+                return solution.ManaSpent.ToString();
+            }
+            throw new Exception("No solution found.");
+        }
+
+        private string SolvePart2(MagicPlayerCharacter pc, Boss boss)
+        {
+            SpellsLineup? solution = SolveProblem(pc, boss, hardMode: true);
+            if (solution != null)
+            {
+                return solution.ManaSpent.ToString();
+            }
+            throw new Exception("No solution found.");
+        }
+
+        private SpellsLineup? SolveProblem(MagicPlayerCharacter pc, Boss boss, bool hardMode = false)
+        {
             SpellsLineup? bestLineup = null;
+            Dictionary<int, SpellsLineup> results = new Dictionary<int, SpellsLineup>();
+
 
             List<SpellType> availableOptions = new List<SpellType>()
             {
@@ -56,47 +76,68 @@ namespace AdventOfCode.Code
                 SpellType.Recharge
             };
 
-            for(int nSpells = 10; nSpells < MaxSpells; nSpells++)
+            for (int nSpells = 8; nSpells <= MaxSpells; nSpells++)
             {
                 List<SpellsLineup> validSpellLineups = GenerateFirstGeneration(nSpells, availableOptions, nChromossomes, pc.GetMana(), pc.GetHitPoints(), boss.GetHitPoints(), boss.GetDamage()).ToList();
-                
+
                 if (!validSpellLineups.Any())
                 {
                     continue;
                 }
-                
-                for (int nIterations = 0; nIterations < MaxIterations; nIterations++)
+
+                for (int nIterations = 1; nIterations < MaxIterations; nIterations++)
                 {
+                    //If we reach 75 % of the iterations and there is no solutions found yet, then it is assumed that no solutions will be found and we will add one more spell to the lineup
+                    //if ((nIterations >= 0.75 * MaxIterations) && !results.TryGetValue(nSpells, out _))
+                    //{
+                    //    break;
+                    //}
+
                     foreach (var spellLineup in validSpellLineups)
                     {
-                        Entity winner = SimulateFight(pc, boss, spellLineup);
-                        if (winner.GetType() == typeof(MagicPlayerCharacter))
+
+                        if (spellLineup.IsSpellOrderValid())
                         {
-                            if (bestLineup == null || bestLineup.Spells.Sum(spell => spell.ManaCost) > spellLineup.Spells.Sum(spell => spell.ManaCost))
+                            Entity winner = SimulateFight(pc, boss, spellLineup, hardMode);
+                            if (winner.GetType() == typeof(MagicPlayerCharacter))
                             {
-                                bestLineup = spellLineup;
+                                SpellsLineup? bestSoFar;
+                                if (results.TryGetValue(nSpells, out bestSoFar))
+                                {
+                                    if (bestSoFar.ManaSpent > spellLineup.ManaSpent)
+                                    {
+                                        results[nSpells] = spellLineup;
+                                    }
+                                }
+                                else
+                                {
+                                    results.Add(nSpells, spellLineup);
+                                }
+
                             }
                         }
                     }
-
                     validSpellLineups = SortSpellLineups(validSpellLineups, pc.GetMana(), pc.GetHitPoints(), boss.GetHitPoints(), boss.GetDamage());
                     validSpellLineups = GenerateNextGeneration(validSpellLineups, availableOptions, nChromossomes, pc.GetMana(), pc.GetHitPoints(), boss.GetHitPoints(), boss.GetDamage()).ToList();
                 }
-                if (bestLineup != null)
+
+                if (results.TryGetValue(nSpells, out SpellsLineup? bestLineupThisNumberSpells) && results.TryGetValue(nSpells - 1, out SpellsLineup? bestLineupPreviousNumberSpells))
                 {
-                    return bestLineup.Spells.Sum(spell => spell.ManaCost).ToString();
+                    if (bestLineupThisNumberSpells.ManaSpent >= bestLineupPreviousNumberSpells.ManaSpent)
+                    {
+                        break;
+                    }
                 }
-            }            
 
-            
+            }
+            if (results.Any())
+            {
+                return results.OrderBy(lineup => lineup.Value.ManaSpent).First().Value;
+            }
 
-            throw new Exception("No solution found.");
+            return bestLineup;
         }
 
-        private string SolvePart2(PlayerCharacter pc, Boss boss)
-        {
-            return "";
-        }
 
         private IEnumerable<SpellsLineup> GenerateFirstGeneration(int numberOfSpells, IEnumerable<SpellType> availableOptions, int nChromossomes, int pcMana, int pcHitPoints, int bossHP, int bossDamage)
         {
@@ -104,7 +145,7 @@ namespace AdventOfCode.Code
             List<SpellType> spellTypes = availableOptions.ToList();
             Random random = new Random();
 
-            for (int i = 0, generatedLineups = 0; i < MaxIterations && generatedLineups < nChromossomes; i++)
+            for (int i = 0, generatedLineups = 0; generatedLineups < nChromossomes; i++)
             {
                 List<Spell> spells = new List<Spell>();
                 for (int j = 0; j < numberOfSpells; j++)
@@ -112,11 +153,8 @@ namespace AdventOfCode.Code
                     spells.Add(SpellFactory.GetSpell(spellTypes[random.Next(0, spellTypes.Count)]));
                 }
                 SpellsLineup lineup = new SpellsLineup(spells);
-                if (lineup.IsSpellOrderValid())
-                {
-                    result.Add(lineup);
-                    generatedLineups++;
-                }
+                result.Add(lineup);
+                generatedLineups++;
             }
             return result;
         }
@@ -134,14 +172,14 @@ namespace AdventOfCode.Code
             result.AddRange(elite);
 
             // Select Parents - The remaining 90% of the next generation will be created by reproducing the parents from the current generation
-            for (int i = 0, generatedLineups = 0; i < MaxIterations && generatedLineups < (int)(0.9 * nChromossomes); i++)
+            for (int i = 0, generatedLineups = 0; generatedLineups < (int)(0.9 * nChromossomes); i++)
             {
                 SpellsLineup parent1 = spellsLineupsList[randomGenerator.Next(0, spellsLineupsList.Count)];
                 SpellsLineup parent2 = spellsLineupsList[randomGenerator.Next(0, spellsLineupsList.Count)];
 
                 List<Spell> spells = new List<Spell>();
                 for (int geneN = 0; geneN < parent1.Spells.Count; geneN++)
-                { 
+                {
                     int randomPercentage = randomGenerator.Next(0, 100);
 
                     // Select gene from parent1 with probability of 45%
@@ -161,16 +199,17 @@ namespace AdventOfCode.Code
                     }
                 }
                 SpellsLineup lineup = new SpellsLineup(spells);
-                if(lineup.IsSpellOrderValid())
+                if (lineup.IsSpellOrderValid())
                 {
                     result.Add(lineup);
                     generatedLineups++;
                 }
+
             }
             return result;
         }
 
-        private Entity SimulateFight(MagicPlayerCharacter pc, Boss boss, SpellsLineup spellsLineup)
+        private Entity SimulateFight(MagicPlayerCharacter pc, Boss boss, SpellsLineup spellsLineup, bool hardMode)
         {
             int pcInitialHitPoints = pc.GetHitPoints();
             int pcInitialArmor = pc.GetArmor();
@@ -181,14 +220,25 @@ namespace AdventOfCode.Code
 
             List<Spell> activeSpells = new List<Spell>();
 
-            while (pcTurnNumber < MaxPcTurns)
+            while (pcTurnNumber < MaxSpells)
             {
+                if (playerCharacterTurn && hardMode)
+                {
+                    pc.HitPoints -= 1;
+                    if (pc.HitPoints <= 0)
+                    {
+                        UpdateSpellsLineup(spellsLineup, pcTurnNumber, bossInitialHitPoints, boss.HitPoints);
+                        ResetEntitiesValues(pc, boss, pcInitialHitPoints, pcInitialArmor, pcInitialMana, bossInitialHitPoints);
+                        return boss;
+                    }
+                }
+
                 ApplyActiveEffects(pc, boss, activeSpells);
 
                 if (boss.GetHitPoints() <= 0)
                 {
+                    UpdateSpellsLineup(spellsLineup, pcTurnNumber, bossInitialHitPoints, boss.HitPoints);
                     ResetEntitiesValues(pc, boss, pcInitialHitPoints, pcInitialArmor, pcInitialMana, bossInitialHitPoints);
-                    spellsLineup.TurnsSurvived = pcTurnNumber;
                     return pc;
                 }
 
@@ -199,17 +249,18 @@ namespace AdventOfCode.Code
 
                     if (castedSpell == null)
                     {
+                        UpdateSpellsLineup(spellsLineup, pcTurnNumber, bossInitialHitPoints, boss.HitPoints);
                         ResetEntitiesValues(pc, boss, pcInitialHitPoints, pcInitialArmor, pcInitialMana, bossInitialHitPoints);
-                        spellsLineup.TurnsSurvived = pcTurnNumber;
                         return boss;
                     }
 
                     castedSpell.Cast(pc);
+                    spellsLineup.ManaSpent += castedSpell.ManaCost;
 
                     if (pc.Mana < 0)
                     {
+                        UpdateSpellsLineup(spellsLineup, pcTurnNumber, bossInitialHitPoints, boss.HitPoints);
                         ResetEntitiesValues(pc, boss, pcInitialHitPoints, pcInitialArmor, pcInitialMana, bossInitialHitPoints);
-                        spellsLineup.TurnsSurvived = pcTurnNumber;
                         return boss;
                     }
 
@@ -229,17 +280,25 @@ namespace AdventOfCode.Code
 
                     if (pc.HitPoints <= 0)
                     {
+                        UpdateSpellsLineup(spellsLineup, pcTurnNumber, bossInitialHitPoints, boss.HitPoints);
                         ResetEntitiesValues(pc, boss, pcInitialHitPoints, pcInitialArmor, pcInitialMana, bossInitialHitPoints);
-                        spellsLineup.TurnsSurvived = pcTurnNumber;
                         return boss;
                     }
                 }
                 playerCharacterTurn = !playerCharacterTurn;
             }
 
-            ResetEntitiesValues(pc, boss, pcInitialHitPoints, pcInitialArmor, pcInitialMana, bossInitialHitPoints);
             spellsLineup.TurnsSurvived = pcTurnNumber;
+            spellsLineup.DamageDealtToBoss = bossInitialHitPoints - boss.HitPoints;
+            ResetEntitiesValues(pc, boss, pcInitialHitPoints, pcInitialArmor, pcInitialMana, bossInitialHitPoints);
             return boss;
+        }
+
+        private void UpdateSpellsLineup(SpellsLineup spellsLineup, int pcTurnNumber, int bossInitialHitPoints, int bossHitpoints)
+        {
+            spellsLineup.TurnsSurvived = pcTurnNumber;
+            spellsLineup.DamageDealtToBoss = bossInitialHitPoints - bossHitpoints;
+
         }
 
         private void ResetEntitiesValues(MagicPlayerCharacter pc, Boss boss, int pcInitialHitPoints, int pcInitialArmor, int pcInitialMana, int bossInitialHitPoints)
@@ -282,43 +341,12 @@ namespace AdventOfCode.Code
             }
         }
 
-        //private IEnumerable<SpellsLineup> GenerateAllPotentialSpellCombinations(int size, int pcMana, int pcHitPoints, int bossHP, int bossDamage)
-        //{
-        //    List<SpellType> availableOptions = new List<SpellType>()
-        //    {
-        //        SpellType.MagicMissile,
-        //        SpellType.Drain,
-        //        SpellType.Shield,
-        //        SpellType.Poison,
-        //        SpellType.Recharge
-        //    };
-
-        //    IEnumerable<IEnumerable<SpellType>> allGeneratedSpellTypeLists = SetsGenerator<SpellType>.GenerateCombinationsWithRepetition(size, availableOptions);
-        //    IEnumerable<List<Spell>> allGeneratedSpellLists = allGeneratedSpellTypeLists.Select(spellList => spellList.Select(spellType => SpellFactory.GetSpell(spellType)).ToList());
-        //    var lineups = allGeneratedSpellLists.Select(filteredSpellList => new SpellsLineup(filteredSpellList));
-        //    var filteredLineups = FilterPotentialSpellLists(lineups, pcMana, pcHitPoints, bossHP, bossDamage);
-        //    SortSpellLineups(filteredLineups);
-
-        //    return filteredLineups;
-        //}
-
-        private IEnumerable<SpellsLineup> FilterPotentialSpellLists(IEnumerable<SpellsLineup> spellLineups, int pcMana, int pcHitPoints, int bossHP, int bossDamage)
-        {
-            // Filter by potential damage
-            spellLineups = spellLineups.Where(spellLineup => spellLineup.CalculatePotentialDamage() >= bossHP);
-
-            // Filter by potential mana spent
-            spellLineups = spellLineups.Where(spellLineup => spellLineup.CalculatePotentialManaSpent() <= pcMana);
-
-            // Filter by potential damage dealt to the player
-            spellLineups = spellLineups.Where(spellLineup => spellLineup.CalculatePotentialDamageToPlayer(bossDamage) <= pcHitPoints);
-
-            return spellLineups;
-        }
-
         private List<SpellsLineup> SortSpellLineups(IEnumerable<SpellsLineup> spellLineups, int pcMana, int pcHitPoints, int bossHP, int bossDamage)
         {
-            return spellLineups.OrderByDescending(spellLineup => spellLineup.ComputeFitness(pcMana, pcHitPoints, bossHP, bossDamage)).ThenBy(spellLineup => spellLineup.Spells.Sum(spell => spell.ManaCost)).ToList();
+            return spellLineups
+                .OrderByDescending(spellLineup => spellLineup.DamageDealtToBoss)
+                .OrderByDescending(spellLineup => spellLineup.TurnsSurvived)
+                .ThenBy(spellLineup => spellLineup.ManaSpent).ToList();
         }
     }
 }
