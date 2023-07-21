@@ -1,47 +1,56 @@
 ﻿namespace AdventOfCode.Code._2015.Entities._2015_23
 {
 
-    internal enum InstructionType
+    internal class InstructionParameters
     {
-        Half = 1,
-        Triple = 2,
-        Increment = 3,
-        Jump = 4,
-        JumpIfEven = 5,
-        JumpIfOne = 6
+        public InstructionParameters(string code, Register register, char? sign1, int? value1, char? sign2, int? value2)
+        {
+            Code = code;
+            Register = register;
+            Sign1 = sign1;
+            Value1 = value1;
+            Sign2 = sign2;
+            Value2 = value2;
+        }
+
+        internal string Code { get; set; }
+        internal Register Register { get; set; }
+        internal char? Sign1 { get; set; }
+        internal int? Value1 { get; set; }
+        internal char? Sign2 { get; set; }
+
+        internal int? Value2 { get; set; }
     }
 
     internal static class InstructionsFactory
     {
-        internal static IInstruction GetSpell(InstructionType instruction, Register? register = null, int? offset = null)
+        internal static IInstruction GetInstruction(InstructionParameters instructionParameters)
         {
-            switch (instruction)
+            switch (instructionParameters.Code)
             {
-                case InstructionType.Half:
-                    return new Half(register.Value);
-                case InstructionType.Triple:
-                    return new Triple(register.Value);
-                case InstructionType.Increment:
-                    return new Increment(register.Value);
-                case InstructionType.Jump:
-                    return new Jump(offset.Value);
-                case InstructionType.JumpIfEven:
-                    return new JumpIfEven(offset);
-                case InstructionType.JumpIfOne:
-                    return new JumpIfOne(offset);
-                default: throw new ArgumentOutOfRangeException(nameof(instruction));
+                case "hlf":
+                    return new Half(instructionParameters.Register);
+                case "tpl":
+                    return new Triple(instructionParameters.Register);
+                case "inc":
+                    return new Increment(instructionParameters.Register);
+                case "jmp":
+                    return new Jump((instructionParameters.Sign2 == '+' ? 1 : -1) * instructionParameters.Value2.GetValueOrDefault());
+                case "jie":
+                    return new JumpIfEven(instructionParameters.Register, (instructionParameters.Sign1 == '+' ? 1 : -1) * instructionParameters.Value1.GetValueOrDefault());
+                case "jio":
+                    return new JumpIfOne(instructionParameters.Register, (instructionParameters.Sign1 == '+' ? 1 : -1) * instructionParameters.Value1.GetValueOrDefault());
+                default: throw new ArgumentOutOfRangeException(nameof(instructionParameters.Code));
             }
         }
     }
 
-    public interface IInstruction { }
-
-    public interface IAirthmeticInstruction : IInstruction
+    public interface IInstruction 
     {
-        void Apply();
+        int Apply(int currentIndex);
     }
 
-    internal class Half : IAirthmeticInstruction
+    internal class Half : IInstruction
     {
         internal Register Register { get; set; }
         internal Half(Register register)
@@ -49,13 +58,14 @@
             Register = register;
         }
 
-        public void Apply ()
+        public int Apply (int currentIndex)
         {
             Register.StoredValue = Register.StoredValue / 2;
+            return currentIndex + 1;
         }
     }
 
-    internal class Triple : IAirthmeticInstruction
+    internal class Triple : IInstruction
     {
         internal Register Register { get; set; }
         internal Triple(Register register)
@@ -63,13 +73,14 @@
             Register = register;
         }
 
-        public void Apply()
+        public int Apply(int currentIndex)
         {
             Register.StoredValue = Register.StoredValue * 3;
+            return currentIndex + 1;
         }
     }
 
-    internal class Increment : IAirthmeticInstruction
+    internal class Increment : IInstruction
     {
         internal Register Register { get; set; }
         internal Increment(Register register)
@@ -77,18 +88,14 @@
             Register = register;
         }
 
-        public void Apply()
+        public int Apply(int currentIndex)
         {
             Register.StoredValue = Register.StoredValue + 1;
+            return currentIndex + 1;
         }
     }
 
-    public interface IControlFlowInstruction : IInstruction
-    {
-        int Apply(int currentIndex);
-    }
-
-    internal class Jump : IControlFlowInstruction
+    internal class Jump : IInstruction
     {
         internal int Offset { get; set; }
 
@@ -103,12 +110,7 @@
         }
     }
 
-    public interface IConditionalFlowInstruction : IInstruction
-    {
-        int Apply(Register register, int currentIndex);
-    }
-
-    internal class JumpIfEven : IConditionalFlowInstruction
+    internal class JumpIfEven : IInstruction
     {
         internal Register Register { get; set;}
         internal int Offset { get; set; }
@@ -119,21 +121,21 @@
             Offset = offset;
         }
 
-        public int Apply(Register register, int currentIndex)
+        public int Apply(int currentIndex)
         {
-            if(register.StoredValue % 2 == 0)
+            if(Register.StoredValue % 2 == 0)
             {
                 return currentIndex + Offset;
             }
             else
             {
-                return currentIndex;
+                return currentIndex + 1;
             } 
                 
         }
     }
 
-    internal class JumpIfOne : IConditionalFlowInstruction
+    internal class JumpIfOne : IInstruction
     {
         internal Register Register { get; set; }
         internal int Offset { get; set; }
@@ -144,15 +146,15 @@
             Offset = offset;
         }
 
-        public int Apply(Register register, int currentIndex)
+        public int Apply(int currentIndex)
         {
-            if (register.StoredValue == 1)
+            if (Register.StoredValue == 1)
             {
                 return currentIndex + Offset;
             }
             else
             {
-                return currentIndex;
+                return currentIndex + 1;
             }
 
         }
