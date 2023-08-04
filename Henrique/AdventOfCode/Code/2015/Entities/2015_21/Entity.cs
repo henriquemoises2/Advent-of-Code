@@ -3,8 +3,8 @@
     internal abstract class Entity
     {
         internal int HitPoints { get; set; }
-        protected int Damage { get; set; }
-        protected int Armor { get; set; }
+        internal int Damage { get; set; }
+        internal int Armor { get; set; }
 
         internal Entity(int hitPoints, int damage, int armor)
         {
