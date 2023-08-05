@@ -87,6 +87,12 @@
             return sets;
         }
 
+        internal static IEnumerable<IEnumerable<int>> GenerateIntSetsWithLimit(int subsetSize, IEnumerable<int> valuesList, int limit = 0)
+        {
+            List<IEnumerable<int>> sets = SetsGenerator<int>.GenerateSets(subsetSize, valuesList.ToList()).ToList();
+            return sets.Where(set => set.Sum() <= limit);
+        }
+
         /// <summary>
         /// Generate all permutations of valuesList with size combinationSize and repetitions, i.e. sets of elements where the order matters
         /// </summary>
