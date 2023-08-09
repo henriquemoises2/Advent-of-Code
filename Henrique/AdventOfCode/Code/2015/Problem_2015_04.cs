@@ -1,18 +1,18 @@
 ﻿namespace AdventOfCode.Code
 {
-    internal class Problem_2015_04 : Problem
+    public class Problem_2015_04 : Problem
     {
-        internal Problem_2015_04() : base()
+        public Problem_2015_04() : base()
         {
         }
 
-        internal override string Solve()
+        public override string Solve()
         {
             string part1 = SolvePart1();
             string part2 = SolvePart2();
 
-            return $"Part 1 solution: " + part1 + "\n"
-                + "Part 2 solution: " + part2;
+            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+
         }
 
         private string SolvePart1()

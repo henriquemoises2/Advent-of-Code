@@ -1,28 +1,27 @@
 ﻿namespace AdventOfCode.Code
 {
-    internal class Problem_2015_01 : Problem
+    public class Problem_2015_01 : Problem
     {
-        internal Problem_2015_01() : base()
+        public Problem_2015_01() : base()
         {
         }
 
-        internal override string Solve()
+        public override string Solve()
         {
             string part1 = SolvePart1();
             string part2 = SolvePart2();
 
-            return $"Part 1 solution: " + part1 + "\n"
-                + "Part 2 solution: " + part2;
+            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
         }
 
         private string SolvePart1()
         {
-            int upStairs, downStaris = 0;
+            int upStairs, downStairs = 0;
 
             upStairs = InputFirstLine.Count(inpt => inpt == '(');
-            downStaris = InputFirstLine.Count(inpt => inpt == ')');
+            downStairs = InputFirstLine.Count(inpt => inpt == ')');
 
-            return (upStairs - downStaris).ToString();
+            return (upStairs - downStairs).ToString();
         }
 
         private string SolvePart2()

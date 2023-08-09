@@ -2,14 +2,14 @@
 
 namespace AdventOfCode.Code
 {
-    internal class Problem_2015_24 : Problem
+    public class Problem_2015_24 : Problem
     {
-       
-        internal Problem_2015_24() : base()
+
+        public Problem_2015_24() : base()
         {
         }
 
-        internal override string Solve()
+        public override string Solve()
         {
             IEnumerable<int> packagesWeights;
             try
@@ -24,8 +24,8 @@ namespace AdventOfCode.Code
             string part1 = SolvePart1(packagesWeights);
             string part2 = SolvePart2(packagesWeights);
 
-            return $"Part 1 solution: " + part1 + "\n"
-                + "Part 2 solution: " + part2;
+            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+
         }
 
         private string SolvePart1(IEnumerable<int> packagesWeights)
@@ -43,7 +43,7 @@ namespace AdventOfCode.Code
         {
 
             double? result = SolveProblem(4, packagesWeights);
-            if(result != null)
+            if (result != null)
             {
                 return result.Value.ToString();
             }
@@ -52,13 +52,15 @@ namespace AdventOfCode.Code
 
         }
 
-        private double? SolveProblem(int nGroups, IEnumerable<int> packagesWeights)
+        private double? SolveProblem(int nCargoCompartments, IEnumerable<int> packagesWeights)
         {
             int totalCargoWeight = packagesWeights.Sum();
-            int groupWeight = totalCargoWeight / nGroups;
+            // The exact weight for each cargo compartment is given by the total weight divided by the number of cargo compartments
+            int groupWeight = totalCargoWeight / nCargoCompartments;
 
-            for (int i = 1; i < packagesWeights.Count() / nGroups; i++)
+            for (int i = 1; i < packagesWeights.Count() / nCargoCompartments; i++)
             {
+                // Generates all possible sets of length i, with a top limit of groupWeight
                 var sets = SetsGenerator<int>.GenerateIntSetsWithLimit(i, packagesWeights, groupWeight);
                 sets = sets.Where(set => set.Sum() == groupWeight);
 
@@ -78,23 +80,13 @@ namespace AdventOfCode.Code
                     return ComputeQuantumEntanglement(fewerElementsGroupWithSmallestQE);
                 }
             }
-
             return null;
         }
 
-
-        private double ComputeQuantumEntanglement(IEnumerable<int> itemsWeights)
+        private long ComputeQuantumEntanglement(IEnumerable<int> itemsWeights)
         {
-            double quantumEntanglement = 1;
-            foreach(int weight in itemsWeights)
-            {
-                quantumEntanglement = quantumEntanglement * weight;
-            }
+            long quantumEntanglement = MathOperations.MultiplyElements(itemsWeights);
             return quantumEntanglement;
         }
-
-
-
-
     }
 }

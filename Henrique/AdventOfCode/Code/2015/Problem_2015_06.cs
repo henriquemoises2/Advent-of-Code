@@ -2,9 +2,9 @@
 
 namespace AdventOfCode.Code
 {
-    internal class Problem_2015_06 : Problem
+    public class Problem_2015_06 : Problem
     {
-        const string Pattern = "^(.*) (\\d+),(\\d+) through (\\d+),(\\d+)$";
+        const string Pattern = @"^(.*) (\d+),(\d+) through (\d+),(\d+)$";
         const int GridSize = 1000;
         private int[,] LightsGrid;
         private int[,] BrightnessGrid;
@@ -16,19 +16,19 @@ namespace AdventOfCode.Code
             Toggle = 3
         }
 
-        internal Problem_2015_06() : base()
+        public Problem_2015_06() : base()
         {
             LightsGrid = new int[GridSize, GridSize];
             BrightnessGrid = new int[GridSize, GridSize];
         }
 
-        internal override string Solve()
+        public override string Solve()
         {
             string part1 = SolvePart1();
             string part2 = SolvePart2();
 
-            return $"Part 1 solution: " + part1 + "\n"
-                + "Part 2 solution: " + part2;
+            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+
         }
 
         private string SolvePart1()

@@ -1,21 +1,21 @@
-﻿using AdventOfCode.Code._2015.Entities._2015_19;
+﻿using AdventOfCode._2015_19;
 using AdventOfCode.Helpers;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
 {
-    internal class Problem_2015_19 : Problem
+    public class Problem_2015_19 : Problem
     {
         private const string TransformationPattern = @"^(?<initialMolecule>\w+) => (?<finalMolecule>\w+)";
         private const string SingleElectron = "e";
         private const string MoleculePattern = @"([A-Z][a-z]*|e)+";
         private const int MaxNumberSteps = 1000;
 
-        internal Problem_2015_19() : base()
+        public Problem_2015_19() : base()
         {
         }
 
-        internal override string Solve()
+        public override string Solve()
         {
             List<Transformation> moleculeTransformations = new List<Transformation>();
             string initialMedicineMolecule;
@@ -42,8 +42,8 @@ namespace AdventOfCode.Code
             string part1 = SolvePart1(initialMedicineMolecule, moleculeTransformations);
             string part2 = SolvePart2(initialMedicineMolecule, moleculeTransformations);
 
-            return $"Part 1 solution: " + part1 + "\n"
-                + "Part 2 solution: " + part2;
+            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+
         }
 
         private string SolvePart1(string initialMedicineMolecule, List<Transformation> moleculeTransformations)

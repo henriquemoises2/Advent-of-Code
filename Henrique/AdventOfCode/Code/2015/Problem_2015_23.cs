@@ -1,17 +1,17 @@
-﻿using AdventOfCode.Code._2015.Entities._2015_23;
+﻿using AdventOfCode._2015_23;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
 {
-    internal class Problem_2015_23 : Problem
+    public class Problem_2015_23 : Problem
     {
         private const string InstructionPattern = @"^(?<instruction>\w+) (?<register>\w+)*(, (?<sign1>[+-])(?<value1>\d+))*((?<sign2>[+-])(?<value2>\d+))*$";
 
-        internal Problem_2015_23() : base()
+        public Problem_2015_23() : base()
         {
         }
 
-        internal override string Solve()
+        public override string Solve()
         {
             Regex pattern = new Regex(InstructionPattern, RegexOptions.Compiled);
             List<IInstruction> instructions = new List<IInstruction>();
@@ -52,15 +52,15 @@ namespace AdventOfCode.Code
             string part1 = SolvePart1(instructions, registers);
             string part2 = SolvePart2(instructions, registers);
 
-            return $"Part 1 solution: " + part1 + "\n"
-                + "Part 2 solution: " + part2;
+            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+
         }
 
         private string SolvePart1(List<IInstruction> instructions, IEnumerable<Register> registers)
         {
             int currentIndex = 0, totalInstructions = instructions.Count;
 
-            while(currentIndex < totalInstructions)
+            while (currentIndex < totalInstructions)
             {
                 currentIndex = instructions[currentIndex].Apply(currentIndex);
             }
@@ -71,7 +71,7 @@ namespace AdventOfCode.Code
         private string SolvePart2(List<IInstruction> instructions, IEnumerable<Register> registers)
         {
 
-            foreach(Register register in registers)
+            foreach (Register register in registers)
             {
                 if (register.Id == 'a')
                 {

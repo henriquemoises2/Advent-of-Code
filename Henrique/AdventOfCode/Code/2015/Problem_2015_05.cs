@@ -2,26 +2,26 @@
 
 namespace AdventOfCode.Code
 {
-    internal class Problem_2015_05 : Problem
+    public class Problem_2015_05 : Problem
     {
-        private const string RULE_1 = "^(.*a.*|.*e.*|.*i.*|.*o.*|.*u.*){3,}$";
-        private const string RULE_2 = "^.*(?<letter>[a-z])\\k<letter>.*$";
-        private const string RULE_3 = "^((?!ab|cd|pq|xy).)+$";
-        private const string RULE_4 = "^.*(?<sequence>[a-z][a-z]).*\\k<sequence>.*$";
-        private const string RULE_5 = "^.*(?<letter>[a-z])[a-z]\\k<letter>.*$";
+        private const string RULE_1 = @"^(.*a.*|.*e.*|.*i.*|.*o.*|.*u.*){3,}$";
+        private const string RULE_2 = @$"^.*(?<letter>[a-z])\k<letter>.*$";
+        private const string RULE_3 = @"^((?!ab|cd|pq|xy).)+$";
+        private const string RULE_4 = @"^.*(?<sequence>[a-z][a-z]).*\k<sequence>.*$";
+        private const string RULE_5 = @"^.*(?<letter>[a-z])[a-z]\k<letter>.*$";
 
 
-        internal Problem_2015_05() : base()
+        public Problem_2015_05() : base()
         {
         }
 
-        internal override string Solve()
+        public override string Solve()
         {
             string part1 = SolvePart1();
             string part2 = SolvePart2();
 
-            return $"Part 1 solution: " + part1 + "\n"
-                + "Part 2 solution: " + part2;
+            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+
         }
 
         private string SolvePart1()

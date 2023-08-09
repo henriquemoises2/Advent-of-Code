@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode.Code
 {
-    internal class Problem_2015_18 : Problem
+    public class Problem_2015_18 : Problem
     {
         private readonly int GridSize;
         private char[,] LightsGrid;
@@ -8,13 +8,13 @@
         private char LightOn = '#';
 
 
-        internal Problem_2015_18() : base()
+        public Problem_2015_18() : base()
         {
             GridSize = InputFirstLine.Length;
             LightsGrid = new char[GridSize, GridSize];
         }
 
-        internal override string Solve()
+        public override string Solve()
         {
             int i = 0;
             foreach (string line in InputLines)
@@ -33,8 +33,8 @@
             string part1 = SolvePart1();
             string part2 = SolvePart2();
 
-            return $"Part 1 solution: " + part1 + "\n"
-                + "Part 2 solution: " + part2;
+            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+
         }
 
         private string SolvePart1()

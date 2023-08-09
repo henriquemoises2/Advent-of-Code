@@ -1,11 +1,10 @@
 ﻿using AdventOfCode._2015_15;
-using AdventOfCode.Code._2015.Entities._2015_15;
 using System.Text.RegularExpressions;
-using Cookie = AdventOfCode.Code._2015.Entities._2015_15.Cookie;
+using Cookie = AdventOfCode._2015_15.Cookie;
 
 namespace AdventOfCode.Code
 {
-    internal class Problem_2015_15 : Problem
+    public class Problem_2015_15 : Problem
     {
 
         private const string IngredientPattern = @"^(?<name>\w+): capacity (?<capacity>-*\d+), durability (?<durability>-*\d+), flavor (?<flavor>-*\d+), texture (?<texture>-*\d+), calories (?<calories>-*\d+)";
@@ -14,10 +13,10 @@ namespace AdventOfCode.Code
         private int TotalQuantityPerIngredient;
 
 
-        internal Problem_2015_15() : base()
+        public Problem_2015_15() : base()
         { }
 
-        internal override string Solve()
+        public override string Solve()
         {
             Regex pattern = new Regex(IngredientPattern, RegexOptions.Compiled);
             string ingredientName = string.Empty;
@@ -58,8 +57,8 @@ namespace AdventOfCode.Code
             string part1 = SolvePart1(possibleCookies);
             string part2 = SolvePart2(possibleCookies);
 
-            return $"Part 1 solution: " + part1 + "\n"
-                + "Part 2 solution: " + part2;
+            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+
         }
 
         private string SolvePart1(IEnumerable<Cookie> possibleCookies)

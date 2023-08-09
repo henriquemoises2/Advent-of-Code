@@ -2,14 +2,14 @@
 
 namespace AdventOfCode.Code
 {
-    internal class Problem_2015_17 : Problem
+    public class Problem_2015_17 : Problem
     {
         private const int TotalEggnogLitres = 150;
 
-        internal Problem_2015_17() : base()
+        public Problem_2015_17() : base()
         { }
 
-        internal override string Solve()
+        public override string Solve()
         {
             List<int> ContainerSizes = new List<int>();
             try
@@ -26,8 +26,8 @@ namespace AdventOfCode.Code
             string part1 = SolvePart1(allContainerPossibilities);
             string part2 = SolvePart2(allContainerPossibilities);
 
-            return $"Part 1 solution: " + part1 + "\n"
-                + "Part 2 solution: " + part2;
+            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+
         }
 
         private string SolvePart1(IEnumerable<IEnumerable<int>> allContainerPossibilities)

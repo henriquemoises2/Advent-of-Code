@@ -2,13 +2,13 @@
 
 namespace AdventOfCode.Code
 {
-    internal class Problem_2015_12 : Problem
+    public class Problem_2015_12 : Problem
     {
-        internal Problem_2015_12() : base()
+        public Problem_2015_12() : base()
         {
         }
 
-        internal override string Solve()
+        public override string Solve()
         {
             JsonDocument json = JsonDocument.Parse(InputFirstLine);
             JsonElement baseElement = json.RootElement;
@@ -16,8 +16,8 @@ namespace AdventOfCode.Code
             string part1 = SolvePart1(baseElement);
             string part2 = SolvePart2(baseElement);
 
-            return $"Part 1 solution: " + part1 + "\n"
-                + "Part 2 solution: " + part2;
+            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+
         }
 
         private string SolvePart1(JsonElement baseElement)

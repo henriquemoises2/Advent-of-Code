@@ -1,18 +1,18 @@
-﻿using AdventOfCode.Code._2015.Entities._2015_16;
+﻿using AdventOfCode._2015_16;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
 {
-    internal class Problem_2015_16 : Problem
+    public class Problem_2015_16 : Problem
     {
 
         private const string AuntSuePattern = @"^Sue (?<auntSueNumber>\d+): ((?<compoundName>\w+): (?<compoundQuantity>\d+)(, )*)+";
         private List<AuntSue> auntsSue = new List<AuntSue>();
 
-        internal Problem_2015_16() : base()
+        public Problem_2015_16() : base()
         { }
 
-        internal override string Solve()
+        public override string Solve()
         {
             Regex pattern = new Regex(AuntSuePattern, RegexOptions.Compiled);
             foreach (string line in InputLines)
@@ -49,8 +49,8 @@ namespace AdventOfCode.Code
             string part1 = SolvePart1(mfcsam);
             string part2 = SolvePart2(mfcsam);
 
-            return $"Part 1 solution: " + part1 + "\n"
-                + "Part 2 solution: " + part2;
+            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+
         }
 
         private string SolvePart1(MFCSAM mfcsam)

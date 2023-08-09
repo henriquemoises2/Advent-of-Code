@@ -2,7 +2,7 @@
 
 namespace AdventOfCode.Code
 {
-    internal class Problem_2015_11 : Problem
+    public class Problem_2015_11 : Problem
     {
         private const byte ByteValueA = 0x61;
         private const byte ByteValueI = 0x69;
@@ -10,17 +10,17 @@ namespace AdventOfCode.Code
         private const byte ByteValueO = 0x6f;
         private const byte ByteValueZ = 0x7a;
 
-        internal Problem_2015_11() : base()
+        public Problem_2015_11() : base()
         {
         }
 
-        internal override string Solve()
+        public override string Solve()
         {
             string part1 = SolvePart1();
             string part2 = SolvePart2(part1);
 
-            return $"Part 1 solution: " + part1 + "\n"
-                + "Part 2 solution: " + part2;
+            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+
         }
 
         private string SolvePart1()

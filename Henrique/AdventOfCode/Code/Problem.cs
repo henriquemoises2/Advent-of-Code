@@ -6,7 +6,7 @@ namespace AdventOfCode.Code
     /// Problem must have the following:
     /// Class name should be Problem_{YEAR}_{DAY_NUMBER}
     /// </summary>
-    internal abstract class Problem
+    public abstract class Problem
     {
         internal int Year { get; }
         internal int DayNumber { get; }
@@ -81,7 +81,7 @@ namespace AdventOfCode.Code
             return result;
         }
 
-        internal abstract string Solve();
+        public abstract string Solve();
 
 
     }

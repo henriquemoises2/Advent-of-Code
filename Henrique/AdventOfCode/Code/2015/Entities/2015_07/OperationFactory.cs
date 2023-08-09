@@ -1,5 +1,4 @@
-﻿
-namespace AdventOfCode._2015_7
+﻿namespace AdventOfCode._2015_7
 {
     internal class OperationFactory
     {

@@ -1,18 +1,18 @@
-﻿using AdventOfCode.Code._2015.Entities._2015_21;
+﻿using AdventOfCode._2015_21;
 using AdventOfCode.Helpers;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
 {
-    internal class Problem_2015_21 : Problem
+    public class Problem_2015_21 : Problem
     {
         private const string BossAttributesPattern = @"^Hit Points: (?<hitPoints>\d+)\nDamage: (?<damage>\d+)\nArmor: (?<armor>\d+)";
 
-        internal Problem_2015_21() : base()
+        public Problem_2015_21() : base()
         {
         }
 
-        internal override string Solve()
+        public override string Solve()
         {
             Boss boss;
             PlayerCharacter pc = new PlayerCharacter();
@@ -37,8 +37,8 @@ namespace AdventOfCode.Code
             string part1 = SolvePart1(pc, boss, allGeneratedInventoryCombinations);
             string part2 = SolvePart2(pc, boss, allGeneratedInventoryCombinations);
 
-            return $"Part 1 solution: " + part1 + "\n"
-                + "Part 2 solution: " + part2;
+            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+
         }
 
         private string SolvePart1(PlayerCharacter pc, Boss boss, HashSet<Inventory> inventoryCombinations)

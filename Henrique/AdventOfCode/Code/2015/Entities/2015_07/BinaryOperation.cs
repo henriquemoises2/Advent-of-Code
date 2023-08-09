@@ -1,5 +1,13 @@
 ﻿namespace AdventOfCode._2015_7
 {
+    internal enum BinaryOperationType
+    {
+        And = 1,
+        Or = 2,
+        LShift = 3,
+        RShift = 4,
+    }
+
     internal class BinaryOperation : ISource
     {
         private ISource _value1;
@@ -38,14 +46,5 @@
                     throw new Exception("Invalid operation.");
             }
         }
-
-    }
-
-    internal enum BinaryOperationType
-    {
-        And = 1,
-        Or = 2,
-        LShift = 3,
-        RShift = 4,
     }
 }
