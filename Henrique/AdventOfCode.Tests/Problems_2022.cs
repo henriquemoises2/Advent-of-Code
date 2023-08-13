@@ -1,0 +1,18 @@
+namespace AdventOfCode.Tests
+{
+    public class Problems_2022
+    {
+        [Fact]
+        public void Test_2022_01()
+        {
+            Assert.Equal("Part 1 solution: 64929\nPart 2 solution: 193697", new Problem_2022_01().Solve());
+        }
+
+        [Fact]
+        public void Test_2022_02()
+        {
+            Assert.Equal("Part 1 solution: 9651\nPart 2 solution: 10560", new Problem_2022_02().Solve());
+        }
+
+    }
+}
