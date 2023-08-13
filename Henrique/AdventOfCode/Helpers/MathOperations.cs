@@ -24,5 +24,15 @@
         {
             return numbers.Sum(number => factor * number);
         }
+
+        static internal long MultiplyElements(IEnumerable<int> numbers)
+        {
+            long result = 1;
+            foreach (int number in numbers)
+            {
+                result *= number;
+            }
+            return result;
+        }
     }
 }

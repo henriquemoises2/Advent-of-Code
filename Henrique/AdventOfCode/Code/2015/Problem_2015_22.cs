@@ -1,24 +1,27 @@
-﻿using AdventOfCode.Code._2015.Entities._2015_21;
-using AdventOfCode.Code._2015.Entities._2015_22;
+﻿using AdventOfCode._2015_21;
+using AdventOfCode._2015_22;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
 {
-    internal class Problem_2015_22 : Problem
+    public class Problem_2015_22 : Problem
     {
         private const string BossAttributesPattern = @"^Hit Points: (?<hitPoints>\d+)\nDamage: (?<damage>\d+)";
+        private const int MinSpells = 8;
         private const int MaxSpells = 15;
         private const int MaxIterations = 4000;
-        private const int nChromossomes = 50;
+        private const int NChromossomes = 50;
+        private const int PlayerHitpoints = 50;
+        private const int PlayerMana = 500;
 
-        internal Problem_2015_22() : base()
+        public Problem_2015_22() : base()
         {
         }
 
-        internal override string Solve()
+        public override string Solve()
         {
             Boss boss;
-            MagicPlayerCharacter pc = new MagicPlayerCharacter(50, 500);
+            MagicPlayerCharacter pc = new MagicPlayerCharacter(PlayerHitpoints, PlayerMana);
 
             Regex pattern = new Regex(BossAttributesPattern, RegexOptions.Compiled);
             try
@@ -37,8 +40,8 @@ namespace AdventOfCode.Code
             string part1 = SolvePart1(pc, boss);
             string part2 = SolvePart2(pc, boss);
 
-            return $"Part 1 solution: " + part1 + "\n"
-                + "Part 2 solution: " + part2;
+            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+
         }
 
         private string SolvePart1(MagicPlayerCharacter pc, Boss boss)
@@ -53,7 +56,7 @@ namespace AdventOfCode.Code
 
         private string SolvePart2(MagicPlayerCharacter pc, Boss boss)
         {
-                SpellsLineup? solution = SolveProblem(pc, boss, hardMode: true);
+            SpellsLineup? solution = SolveProblem(pc, boss, hardMode: true);
             if (solution != null)
             {
                 return solution.ManaSpent.ToString();
@@ -61,6 +64,15 @@ namespace AdventOfCode.Code
             throw new Exception("No solution found.");
         }
 
+        /// <summary>
+        /// The problem was solved using a Genetic Algorithm to search for the optimal solution. The genetic algorithm itself does not guarantee the optimal solution,
+        /// but with the defined parameters it gives the correct answer most times. The parameters had to be tweaked over the development time and from the trial they seem to be the ones
+        /// that provide the correct answer most times.
+        /// </summary>
+        /// <param name="pc"></param>
+        /// <param name="boss"></param>
+        /// <param name="hardMode"></param>
+        /// <returns></returns>
         private SpellsLineup? SolveProblem(MagicPlayerCharacter pc, Boss boss, bool hardMode = false)
         {
             SpellsLineup? bestLineup = null;
@@ -75,10 +87,12 @@ namespace AdventOfCode.Code
                 SpellType.Poison,
                 SpellType.Recharge
             };
-
-            for (int nSpells = 8; nSpells <= MaxSpells; nSpells++)
+            
+            // Tries to find spell orders that defeat the boss inside the [MinSpells,MaxSpells] interval
+            for (int nSpells = MinSpells; nSpells <= MaxSpells; nSpells++)
             {
-                List<SpellsLineup> validSpellLineups = GenerateFirstGeneration(nSpells, availableOptions, nChromossomes, pc.GetMana(), pc.GetHitPoints(), boss.GetHitPoints(), boss.GetDamage()).ToList();
+                // Generated the first generation of genomes at random, i.e. with random spells as chromossomes
+                List<SpellsLineup> validSpellLineups = GenerateFirstGeneration(nSpells, availableOptions, NChromossomes).ToList();
 
                 if (!validSpellLineups.Any())
                 {
@@ -111,8 +125,10 @@ namespace AdventOfCode.Code
                             }
                         }
                     }
-                    validSpellLineups = SortSpellLineups(validSpellLineups, pc.GetMana(), pc.GetHitPoints(), boss.GetHitPoints(), boss.GetDamage());
-                    validSpellLineups = GenerateNextGeneration(validSpellLineups, availableOptions, nChromossomes, pc.GetMana(), pc.GetHitPoints(), boss.GetHitPoints(), boss.GetDamage()).ToList();
+                    // Sorts genomes by the following criteria: Damage dealt to boss, turns survived and mana spent
+                    validSpellLineups = SortSpellLineups(validSpellLineups);
+                    // Generates next generation by combining the top 10% best genomes and 90% of the remaining genomes through reproduction, with a 20% chance of mutation for each reproduced chromossome.
+                    validSpellLineups = GenerateNextGeneration(validSpellLineups, availableOptions, NChromossomes).ToList();
                 }
 
                 if (results.TryGetValue(nSpells, out SpellsLineup? bestLineupThisNumberSpells) && results.TryGetValue(nSpells - 1, out SpellsLineup? bestLineupPreviousNumberSpells))
@@ -133,7 +149,7 @@ namespace AdventOfCode.Code
         }
 
 
-        private IEnumerable<SpellsLineup> GenerateFirstGeneration(int numberOfSpells, IEnumerable<SpellType> availableOptions, int nChromossomes, int pcMana, int pcHitPoints, int bossHP, int bossDamage)
+        private IEnumerable<SpellsLineup> GenerateFirstGeneration(int numberOfSpells, IEnumerable<SpellType> availableOptions, int nChromossomes)
         {
             List<SpellsLineup> result = new List<SpellsLineup>();
             List<SpellType> spellTypes = availableOptions.ToList();
@@ -153,7 +169,7 @@ namespace AdventOfCode.Code
             return result;
         }
 
-        private IEnumerable<SpellsLineup> GenerateNextGeneration(IEnumerable<SpellsLineup> spellsLineups, IEnumerable<SpellType> availableOptions, int nChromossomes, int pcMana, int pcHitPoints, int bossHP, int bossDamage)
+        private IEnumerable<SpellsLineup> GenerateNextGeneration(IEnumerable<SpellsLineup> spellsLineups, IEnumerable<SpellType> availableOptions, int nChromossomes)
         {
             List<SpellsLineup> result = new List<SpellsLineup>();
             List<SpellsLineup> spellsLineupsList = spellsLineups.ToList();
@@ -198,7 +214,6 @@ namespace AdventOfCode.Code
                     result.Add(lineup);
                     generatedLineups++;
                 }
-
             }
             return result;
         }
@@ -292,7 +307,6 @@ namespace AdventOfCode.Code
         {
             spellsLineup.TurnsSurvived = pcTurnNumber;
             spellsLineup.DamageDealtToBoss = bossInitialHitPoints - bossHitpoints;
-
         }
 
         private void ResetEntitiesValues(MagicPlayerCharacter pc, Boss boss, int pcInitialHitPoints, int pcInitialArmor, int pcInitialMana, int bossInitialHitPoints)
@@ -318,6 +332,7 @@ namespace AdventOfCode.Code
             {
                 return;
             }
+
             List<Spell> endedSpells = new List<Spell>();
             foreach (Spell spell in activeSpells)
             {
@@ -335,7 +350,7 @@ namespace AdventOfCode.Code
             }
         }
 
-        private List<SpellsLineup> SortSpellLineups(IEnumerable<SpellsLineup> spellLineups, int pcMana, int pcHitPoints, int bossHP, int bossDamage)
+        private List<SpellsLineup> SortSpellLineups(IEnumerable<SpellsLineup> spellLineups)
         {
             return spellLineups
                 .OrderByDescending(spellLineup => spellLineup.DamageDealtToBoss)

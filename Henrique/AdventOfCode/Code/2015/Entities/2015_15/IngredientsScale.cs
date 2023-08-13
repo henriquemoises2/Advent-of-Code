@@ -1,6 +1,4 @@
-﻿using AdventOfCode._2015_15;
-
-namespace AdventOfCode.Code._2015.Entities._2015_15
+﻿namespace AdventOfCode._2015_15
 {
     internal class IngredientsScale
     {

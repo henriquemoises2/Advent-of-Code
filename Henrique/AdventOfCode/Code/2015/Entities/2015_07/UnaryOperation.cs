@@ -1,5 +1,10 @@
 ﻿namespace AdventOfCode._2015_7
 {
+    internal enum UnaryOperationType
+    {
+        Not = 1
+    }
+
     internal class UnaryOperation : ISource
     {
         private ISource _value;
@@ -23,11 +28,5 @@
                     throw new Exception("Invalid operation.");
             }
         }
-
-    }
-
-    internal enum UnaryOperationType
-    {
-        Not = 1
     }
 }

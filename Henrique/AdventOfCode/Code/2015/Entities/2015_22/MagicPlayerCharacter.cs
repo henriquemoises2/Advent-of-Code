@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Code._2015.Entities._2015_21;
+﻿using AdventOfCode._2015_21;
 
-namespace AdventOfCode.Code._2015.Entities._2015_22
+namespace AdventOfCode._2015_22
 {
     internal class MagicPlayerCharacter : PlayerCharacter
     {

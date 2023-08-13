@@ -1,4 +1,4 @@
-﻿namespace AdventOfCode.Code._2015.Entities._2015_19
+﻿namespace AdventOfCode._2015_19
 {
     internal class Molecule : IEquatable<Molecule>
     {

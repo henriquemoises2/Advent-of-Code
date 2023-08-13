@@ -3,16 +3,16 @@ using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
 {
-    internal class Problem_2015_14 : Problem
+    public class Problem_2015_14 : Problem
     {
 
         private const string RaindeerSpeedPattern = @"^(?<name>\w+) can fly (?<speed>\d+) km/s for (?<flytime>\d+) seconds, but then must rest for (?<resttime>\d+) seconds.";
         private const int RaceTime = 2503;
 
-        internal Problem_2015_14() : base()
+        public Problem_2015_14() : base()
         { }
 
-        internal override string Solve()
+        public override string Solve()
         {
             Regex pattern = new Regex(RaindeerSpeedPattern, RegexOptions.Compiled);
             string raindeerName = string.Empty;
@@ -44,8 +44,8 @@ namespace AdventOfCode.Code
 
             string part2 = SolvePart2(raindeerList);
 
-            return $"Part 1 solution: " + part1 + "\n"
-                + "Part 2 solution: " + part2;
+            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+
         }
 
         private string SolvePart1(IEnumerable<Raindeer> raindeerList)

@@ -1,12 +1,12 @@
 ﻿namespace AdventOfCode.Code
 {
-    internal class Problem_2015_02 : Problem
+    public class Problem_2015_02 : Problem
     {
-        internal Problem_2015_02() : base()
+        public Problem_2015_02() : base()
         {
         }
 
-        internal override string Solve()
+        public override string Solve()
         {
             int totalArea = 0, totalRibbon = 0;
             // Process each file line
@@ -24,8 +24,7 @@
                 totalArea += CalculateArea(length, width, height);
                 totalRibbon += CalculateRibbon(length, width, height);
             }
-            return $"Part 1 solution: " + totalArea + "\n"
-                + "Part 2 solution: " + totalRibbon;
+            return $"Part 1 solution: {totalArea}\nPart 2 solution: {totalRibbon}";
         }
 
         /// <summary>

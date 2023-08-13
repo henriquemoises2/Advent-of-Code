@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode.Code
 {
-    internal class Problem_2015_03 : Problem
+    public class Problem_2015_03 : Problem
     {
         private List<Tuple<int, int>> visitedHouses;
         private Tuple<int, int> SantaLastVisitedHouse;
@@ -13,20 +13,19 @@
             RoboSanta
         }
 
-        internal Problem_2015_03() : base()
+        public Problem_2015_03() : base()
         {
             visitedHouses = new List<Tuple<int, int>>();
             SantaLastVisitedHouse = Tuple.Create(0, 0);
             RoboSantaLastVisitedHouse = Tuple.Create(0, 0);
         }
 
-        internal override string Solve()
+        public override string Solve()
         {
             string part1 = SolvePart1();
             string part2 = SolvePart2();
 
-            return $"Part 1 solution: " + part1 + "\n"
-                + "Part 2 solution: " + part2;
+            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
         }
 
         private string SolvePart1()

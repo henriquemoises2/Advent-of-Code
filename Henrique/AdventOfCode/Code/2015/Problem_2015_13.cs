@@ -3,17 +3,17 @@ using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
 {
-    internal class Problem_2015_13 : Problem
+    public class Problem_2015_13 : Problem
     {
 
         private const string DispositionPattern = @"^(?<person1>[A-Za-z]+) would (?<signal>[A-Za-z]+) (?<value>\d+) happiness units by sitting next to (?<person2>[A-Za-z]+).";
         private int[,] DispositionMatrix = new int[0, 0];
 
-        internal Problem_2015_13() : base()
+        public Problem_2015_13() : base()
         {
         }
 
-        internal override string Solve()
+        public override string Solve()
         {
             List<DispositionChange> dispositionList = ParseDispositionList();
             Dictionary<int, string> people = new Dictionary<int, string>();
@@ -30,8 +30,8 @@ namespace AdventOfCode.Code
             IncludeMyself(dispositionList, people);
             string part2 = SolvePart2(people);
 
-            return $"Part 1 solution: " + part1 + "\n"
-                + "Part 2 solution: " + part2;
+            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+
         }
 
         private void IncludeMyself(List<DispositionChange> dispositionList, Dictionary<int, string> people)

@@ -1,4 +1,4 @@
-﻿namespace AdventOfCode.Code._2015.Entities._2015_21
+﻿namespace AdventOfCode._2015_21
 {
     internal class Inventory : IEquatable<Inventory>
     {

@@ -60,16 +60,6 @@ namespace AdventOfCode.Code
                 Console.WriteLine();
                 Console.WriteLine(problem.GetProblemDescription());
 
-                //if(debugMode)
-                //{
-                //    Console.WriteLine("Input:");
-                //    foreach(string line in problem.InputLines)
-                //    {
-                //        Console.WriteLine(line);
-                //        Console.WriteLine();
-                //    }
-                //}
-
                 Console.WriteLine("The solution for this problem is:");
                 try
                 {

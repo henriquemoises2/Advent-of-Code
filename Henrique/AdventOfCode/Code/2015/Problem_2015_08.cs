@@ -2,17 +2,17 @@
 
 namespace AdventOfCode.Code
 {
-    internal class Problem_2015_08 : Problem
+    public class Problem_2015_08 : Problem
     {
 
         private const string PatternNonLetterCharacters = @"(\\\\)|(\\"")|(\\x[0-f][0-f])|([a-z])";
 
-        internal Problem_2015_08() : base()
+        public Problem_2015_08() : base()
         {
 
         }
 
-        internal override string Solve()
+        public override string Solve()
         {
             int totalCodeCharacters = 0;
             int totalEncodedCharacters = 0;
@@ -31,8 +31,8 @@ namespace AdventOfCode.Code
 
             string part2 = (totalEncodedCharacters - totalCodeCharacters).ToString();
 
-            return $"Part 1 solution: " + part1 + "\n"
-                + "Part 2 solution: " + part2;
+            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+
         }
 
         private string EncodeString(string decodedString)

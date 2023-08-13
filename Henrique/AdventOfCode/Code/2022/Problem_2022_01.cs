@@ -1,12 +1,12 @@
 ﻿namespace AdventOfCode.Code
 {
-    internal class Problem_2022_01 : Problem
+    public class Problem_2022_01 : Problem
     {
-        internal Problem_2022_01() : base()
+        public Problem_2022_01() : base()
         {
         }
 
-        internal override string Solve()
+        public override string Solve()
         {
             List<int> elfsList = new List<int>();
 
@@ -36,8 +36,8 @@
             string part1 = SolvePart1(elfsList);
             string part2 = SolvePart2(elfsList);
 
-            return $"Part 1 solution: " + part1 + "\n"
-                + "Part 2 solution: " + part2;
+            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+
         }
 
         private string SolvePart1(List<int> elfsList)

@@ -1,9 +1,15 @@
-﻿namespace AdventOfCode.Code._2015.Entities._2015_23
+﻿namespace AdventOfCode._2015_23
 {
-
     internal class InstructionParameters
     {
-        public InstructionParameters(string code, Register register, char? sign1, int? value1, char? sign2, int? value2)
+        internal string Code { get; set; }
+        internal Register? Register { get; set; }
+        internal char? Sign1 { get; set; }
+        internal int? Value1 { get; set; }
+        internal char? Sign2 { get; set; }
+        internal int? Value2 { get; set; }
+
+        public InstructionParameters(string code, Register? register, char? sign1, int? value1, char? sign2, int? value2)
         {
             Code = code;
             Register = register;
@@ -12,40 +18,44 @@
             Sign2 = sign2;
             Value2 = value2;
         }
-
-        internal string Code { get; set; }
-        internal Register Register { get; set; }
-        internal char? Sign1 { get; set; }
-        internal int? Value1 { get; set; }
-        internal char? Sign2 { get; set; }
-
-        internal int? Value2 { get; set; }
     }
 
     internal static class InstructionsFactory
     {
         internal static IInstruction GetInstruction(InstructionParameters instructionParameters)
         {
-            switch (instructionParameters.Code)
+            if (instructionParameters.Register != null)
             {
-                case "hlf":
-                    return new Half(instructionParameters.Register);
-                case "tpl":
-                    return new Triple(instructionParameters.Register);
-                case "inc":
-                    return new Increment(instructionParameters.Register);
-                case "jmp":
-                    return new Jump((instructionParameters.Sign2 == '+' ? 1 : -1) * instructionParameters.Value2.GetValueOrDefault());
-                case "jie":
-                    return new JumpIfEven(instructionParameters.Register, (instructionParameters.Sign1 == '+' ? 1 : -1) * instructionParameters.Value1.GetValueOrDefault());
-                case "jio":
-                    return new JumpIfOne(instructionParameters.Register, (instructionParameters.Sign1 == '+' ? 1 : -1) * instructionParameters.Value1.GetValueOrDefault());
-                default: throw new ArgumentOutOfRangeException(nameof(instructionParameters.Code));
+                switch (instructionParameters.Code)
+                {
+
+                    case "hlf":
+                        return new Half(instructionParameters.Register);
+                    case "tpl":
+                        return new Triple(instructionParameters.Register);
+                    case "inc":
+                        return new Increment(instructionParameters.Register);
+                    case "jie":
+                        return new JumpIfEven(instructionParameters.Register, (instructionParameters.Sign1 == '+' ? 1 : -1) * instructionParameters.Value1.GetValueOrDefault());
+                    case "jio":
+                        return new JumpIfOne(instructionParameters.Register, (instructionParameters.Sign1 == '+' ? 1 : -1) * instructionParameters.Value1.GetValueOrDefault());
+                    default: throw new ArgumentOutOfRangeException(nameof(instructionParameters.Code));
+                }
             }
+            else
+            {
+                switch (instructionParameters.Code)
+                {
+                    case "jmp":
+                        return new Jump((instructionParameters.Sign2 == '+' ? 1 : -1) * instructionParameters.Value2.GetValueOrDefault());
+                    default: throw new ArgumentOutOfRangeException(nameof(instructionParameters.Code));
+                }
+            }
+
         }
     }
 
-    public interface IInstruction 
+    public interface IInstruction
     {
         int Apply(int currentIndex);
     }
@@ -58,7 +68,7 @@
             Register = register;
         }
 
-        public int Apply (int currentIndex)
+        public int Apply(int currentIndex)
         {
             Register.StoredValue = Register.StoredValue / 2;
             return currentIndex + 1;
@@ -99,7 +109,7 @@
     {
         internal int Offset { get; set; }
 
-        internal Jump (int offset)
+        internal Jump(int offset)
         {
             Offset = offset;
         }
@@ -112,7 +122,7 @@
 
     internal class JumpIfEven : IInstruction
     {
-        internal Register Register { get; set;}
+        internal Register Register { get; set; }
         internal int Offset { get; set; }
 
         internal JumpIfEven(Register register, int offset)
@@ -123,15 +133,15 @@
 
         public int Apply(int currentIndex)
         {
-            if(Register.StoredValue % 2 == 0)
+            if (Register.StoredValue % 2 == 0)
             {
                 return currentIndex + Offset;
             }
             else
             {
                 return currentIndex + 1;
-            } 
-                
+            }
+
         }
     }
 
