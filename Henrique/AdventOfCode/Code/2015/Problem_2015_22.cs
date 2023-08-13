@@ -53,7 +53,7 @@ namespace AdventOfCode.Code
 
         private string SolvePart2(MagicPlayerCharacter pc, Boss boss)
         {
-            SpellsLineup? solution = SolveProblem(pc, boss, hardMode: true);
+                SpellsLineup? solution = SolveProblem(pc, boss, hardMode: true);
             if (solution != null)
             {
                 return solution.ManaSpent.ToString();
@@ -87,12 +87,6 @@ namespace AdventOfCode.Code
 
                 for (int nIterations = 1; nIterations < MaxIterations; nIterations++)
                 {
-                    //If we reach 75 % of the iterations and there is no solutions found yet, then it is assumed that no solutions will be found and we will add one more spell to the lineup
-                    //if ((nIterations >= 0.75 * MaxIterations) && !results.TryGetValue(nSpells, out _))
-                    //{
-                    //    break;
-                    //}
-
                     foreach (var spellLineup in validSpellLineups)
                     {
 
@@ -180,19 +174,19 @@ namespace AdventOfCode.Code
                 List<Spell> spells = new List<Spell>();
                 for (int geneN = 0; geneN < parent1.Spells.Count; geneN++)
                 {
-                    int randomPercentage = randomGenerator.Next(0, 100);
+                    int randomPercentage = randomGenerator.Next(1, 101);
 
-                    // Select gene from parent1 with probability of 45%
-                    if (randomPercentage < 45)
+                    // Select gene from parent1 with probability of 40%
+                    if (randomPercentage <= 40)
                     {
                         spells.Add(SpellFactory.GetSpell(parent1.Spells[geneN].Type));
                     }
-                    // Select gene from parent2 with probability of 45%
-                    else if (randomPercentage < 90)
+                    // Select gene from parent2 with probability of 40%
+                    else if (randomPercentage <= 80)
                     {
                         spells.Add(SpellFactory.GetSpell(parent2.Spells[geneN].Type));
                     }
-                    // Mutate with probability of 10%
+                    // Mutate with probability of 20%
                     else
                     {
                         spells.Add(SpellFactory.GetSpell(spellTypes[randomGenerator.Next(0, availableOptions.Count())]));
