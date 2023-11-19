@@ -87,7 +87,7 @@ namespace AdventOfCode.Code
                 SpellType.Poison,
                 SpellType.Recharge
             };
-            
+
             // Tries to find spell orders that defeat the boss inside the [MinSpells,MaxSpells] interval
             for (int nSpells = MinSpells; nSpells <= MaxSpells; nSpells++)
             {
