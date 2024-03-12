@@ -68,6 +68,8 @@
                             return new Problem_2022_01();
                         case 2:
                             return new Problem_2022_02();
+                        case 3:
+                            return new Problem_2022_03();
                         default: return null;
 
                     }
