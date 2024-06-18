@@ -79,7 +79,12 @@ namespace AdventOfCode.Code
                         stacks[instruction.Item3].Push(stacks[instruction.Item2].Pop());
                     }
                 }
-                return GetSolution(stacks.Values.ToList());
+                string result = "";
+                foreach (IEnumerable<char> crates in stacks.Values)
+                {
+                    result += crates.First();
+                }
+                return result;
             }
             catch
             {
@@ -99,22 +104,17 @@ namespace AdventOfCode.Code
                     toStack.AddRange(fromStack.TakeLast(instruction.Item1));
                     fromStack.RemoveRange(fromStack.Count - instruction.Item1, instruction.Item1);
                 }
-                return GetSolution(stacks.Values.ToList());
+                string result = "";
+                foreach (IEnumerable<char> crates in stacks.Values)
+                {
+                    result += crates.Last();
+                }
+                return result;
             }
             catch
             {
                 throw new Exception("Invalid line in input.");
             }
-        }
-
-        private string GetSolution(IEnumerable<IEnumerable<char>> stacks)
-        {
-            string result = "";
-            foreach (IEnumerable<char> crates in stacks)
-            {
-                result += crates.First();
-            }
-            return result;
         }
 
     }
