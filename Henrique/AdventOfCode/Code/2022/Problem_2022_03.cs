@@ -15,14 +15,14 @@
 
         }
 
-        private string SolvePart1(IEnumerable<string> InputLines)
+        private static string SolvePart1(IEnumerable<string> InputLines)
         {
             try
             {
                 int totalValue = 0;
                 foreach (string line in InputLines)
                 {
-                    Dictionary<char, int> itemsCountTracker = new Dictionary<char, int>();
+                    Dictionary<char, int> itemsCountTracker = new();
                     char? commonItem = null;
                     foreach (char character in line.Take(line.Length / 2))
                     {
@@ -53,14 +53,14 @@
             }
         }
 
-        private string SolvePart2(IEnumerable<string> InputLines)
+        private static string SolvePart2(IEnumerable<string> InputLines)
         {
 
             try
             {
                 int totalValue = 0;
                 int elfNumber = 1;
-                Dictionary<char, int> itemsCountTracker = new Dictionary<char, int>();
+                Dictionary<char, int> itemsCountTracker = new();
                 char? commonItem = null;
                 foreach (string line in InputLines)
                 {
@@ -111,7 +111,7 @@
             }
         }
 
-        private int ComputeItemValue(char item)
+        private static int ComputeItemValue(char item)
         {
             if (Char.IsLower(item))
             {

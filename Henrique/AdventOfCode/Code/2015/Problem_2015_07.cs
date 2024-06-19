@@ -20,13 +20,13 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            Regex regexPatterValue = new Regex(PatternValue, RegexOptions.Compiled);
-            Regex regexPatternUnaryOperation = new Regex(PatternUnaryOperation, RegexOptions.Compiled);
-            Regex regexPatternBinaryOperation = new Regex(PatternBinaryOperation, RegexOptions.Compiled);
+            Regex regexPatterValue = new(PatternValue, RegexOptions.Compiled);
+            Regex regexPatternUnaryOperation = new(PatternUnaryOperation, RegexOptions.Compiled);
+            Regex regexPatternBinaryOperation = new(PatternBinaryOperation, RegexOptions.Compiled);
             Match match;
 
             IDictionary<string, ISource> originalCircuit = new Dictionary<string, ISource>();
-            OperationFactory factory = new OperationFactory(originalCircuit);
+            OperationFactory factory = new(originalCircuit);
 
             foreach (string line in InputLines)
             {
@@ -118,12 +118,12 @@ namespace AdventOfCode.Code
 
         }
 
-        private string SolvePart1(IDictionary<string, ISource> circuit)
+        private static string SolvePart1(IDictionary<string, ISource> circuit)
         {
             return circuit[CableToEvaluate].Evaluate(circuit).ToString();
         }
 
-        private string SolvePart2(IDictionary<string, ISource> circuit, string resultSignal)
+        private static string SolvePart2(IDictionary<string, ISource> circuit, string resultSignal)
         {
             circuit[CableToOverride] = new Value(ushort.Parse(resultSignal));
             return circuit[CableToEvaluate].Evaluate(circuit).ToString();

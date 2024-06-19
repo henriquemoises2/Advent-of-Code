@@ -14,13 +14,8 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            Regex pattern = new Regex(RaindeerSpeedPattern, RegexOptions.Compiled);
-            string raindeerName = string.Empty;
-            int speed = 0;
-            int flyTime = 0;
-            int restTime = 0;
-
-            List<Raindeer> raindeerList = new List<Raindeer>();
+            Regex pattern = new(RaindeerSpeedPattern, RegexOptions.Compiled);
+            List<Raindeer> raindeerList = new();
 
             foreach (string line in InputLines)
             {
@@ -31,10 +26,10 @@ namespace AdventOfCode.Code
                 }
                 else
                 {
-                    raindeerName = match.Groups[1].Value;
-                    speed = int.Parse(match.Groups[2].Value);
-                    flyTime = int.Parse(match.Groups[3].Value);
-                    restTime = int.Parse(match.Groups[4].Value);
+                    string raindeerName = match.Groups[1].Value;
+                    int speed = int.Parse(match.Groups[2].Value);
+                    int flyTime = int.Parse(match.Groups[3].Value);
+                    int restTime = int.Parse(match.Groups[4].Value);
                     raindeerList.Add(new Raindeer(raindeerName, speed, flyTime, restTime));
                 }
             }
@@ -48,13 +43,13 @@ namespace AdventOfCode.Code
 
         }
 
-        private string SolvePart1(IEnumerable<Raindeer> raindeerList)
+        private static string SolvePart1(IEnumerable<Raindeer> raindeerList)
         {
             Parallel.ForEach(raindeerList, raindeer => { raindeer.ActForN(RaceTime); });
             return raindeerList.Max(raindeer => raindeer.TraveledDistance).ToString();
         }
 
-        private string SolvePart2(IEnumerable<Raindeer> raindeerList)
+        private static string SolvePart2(IEnumerable<Raindeer> raindeerList)
         {
             for (int i = 0; i < RaceTime; i++)
             {
@@ -73,7 +68,7 @@ namespace AdventOfCode.Code
             return raindeerList.Max(raindeer => raindeer.AccumulatedPoints).ToString();
         }
 
-        private void ResetRaindeerList(IEnumerable<Raindeer> raindeerList)
+        private static void ResetRaindeerList(IEnumerable<Raindeer> raindeerList)
         {
             foreach (Raindeer raindeer in raindeerList)
             {

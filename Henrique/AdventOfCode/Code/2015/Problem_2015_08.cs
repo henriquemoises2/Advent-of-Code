@@ -18,13 +18,13 @@ namespace AdventOfCode.Code
             int totalEncodedCharacters = 0;
             int totalInMemoryCharacters = 0;
 
-            Regex regexNonLetterCharacters = new Regex(PatternNonLetterCharacters, RegexOptions.Compiled);
+            Regex regexNonLetterCharacters = new(PatternNonLetterCharacters, RegexOptions.Compiled);
             MatchCollection matchCollection;
             foreach (string line in InputLines)
             {
                 totalCodeCharacters += line.Length;
                 matchCollection = regexNonLetterCharacters.Matches(line);
-                totalInMemoryCharacters += matchCollection.Count();
+                totalInMemoryCharacters += matchCollection.Count;
                 totalEncodedCharacters += EncodeString(line).Length;
             }
             string part1 = (totalCodeCharacters - totalInMemoryCharacters).ToString();
@@ -35,7 +35,7 @@ namespace AdventOfCode.Code
 
         }
 
-        private string EncodeString(string decodedString)
+        private static string EncodeString(string decodedString)
         {
             string encodedString = decodedString.Replace(@"\", @"\\").Replace(@"""", @"\""");
             return @"""" + encodedString + @"""";

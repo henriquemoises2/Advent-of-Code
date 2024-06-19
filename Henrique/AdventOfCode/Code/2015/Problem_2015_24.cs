@@ -52,7 +52,7 @@ namespace AdventOfCode.Code
 
         }
 
-        private double? SolveProblem(int nCargoCompartments, IEnumerable<int> packagesWeights)
+        private static double? SolveProblem(int nCargoCompartments, IEnumerable<int> packagesWeights)
         {
             int totalCargoWeight = packagesWeights.Sum();
             // The exact weight for each cargo compartment is given by the total weight divided by the number of cargo compartments
@@ -83,7 +83,7 @@ namespace AdventOfCode.Code
             return null;
         }
 
-        private long ComputeQuantumEntanglement(IEnumerable<int> itemsWeights)
+        private static long ComputeQuantumEntanglement(IEnumerable<int> itemsWeights)
         {
             long quantumEntanglement = MathOperations.MultiplyElements(itemsWeights);
             return quantumEntanglement;

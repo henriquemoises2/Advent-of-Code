@@ -1,6 +1,4 @@
-﻿using AdventOfCode._2015_23;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
 {
@@ -15,8 +13,8 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            Dictionary<int, IEnumerable<char>> stacks = new Dictionary<int, IEnumerable<char>>();
-            List<Tuple<int, int, int>> instructions = new List<Tuple<int, int, int>>();
+            Dictionary<int, IEnumerable<char>> stacks = new();
+            List<Tuple<int, int, int>> instructions = new();
 
             try
             {
@@ -30,7 +28,7 @@ namespace AdventOfCode.Code
                     if (stackNumbers[i] != ' ')
                     {
                         int stackNumber = stackNumbers[i] - '0';
-                        List<char> crates = new List<char>();
+                        List<char> crates = new();
                         for (int j = maxColumnHeight - 1; j >= 0; j--)
                         {
                             if (inputLinesAsArray[j][i] != ' ' && inputLinesAsArray[j][i] != '[' && inputLinesAsArray[j][i] != ']')
@@ -42,7 +40,7 @@ namespace AdventOfCode.Code
                     }
                 }
 
-                Regex pattern = new Regex(InstructionPattern, RegexOptions.Compiled);
+                Regex pattern = new(InstructionPattern, RegexOptions.Compiled);
                 MatchCollection match = pattern.Matches(string.Join("/n", InputLines));
 
                 for (int i = 0; i < match.Count; i++)
@@ -68,7 +66,7 @@ namespace AdventOfCode.Code
 
         }
 
-        private string SolvePart1(Dictionary<int, Stack<char>> stacks, List<Tuple<int, int, int>> instructions)
+        private static string SolvePart1(Dictionary<int, Stack<char>> stacks, List<Tuple<int, int, int>> instructions)
         {
             try
             {
@@ -92,7 +90,7 @@ namespace AdventOfCode.Code
             }
         }
 
-        private string SolvePart2(Dictionary<int, List<char>> stacks, List<Tuple<int, int, int>> instructions)
+        private static string SolvePart2(Dictionary<int, List<char>> stacks, List<Tuple<int, int, int>> instructions)
         {
             try
             {

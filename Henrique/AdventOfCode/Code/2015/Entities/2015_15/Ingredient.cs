@@ -25,8 +25,10 @@
 
         internal Ingredient Clone()
         {
-            Ingredient clone = new Ingredient(Name, Capacity, Durability, Flavor, Texture, Calories);
-            clone.Quantity = Quantity;
+            Ingredient clone = new(Name, Capacity, Durability, Flavor, Texture, Calories)
+            {
+                Quantity = Quantity
+            };
             return clone;
         }
 

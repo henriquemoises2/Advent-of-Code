@@ -20,23 +20,21 @@
             byte[] zeroArray = new byte[2] { 0x00, 0x00 };
             byte[] inputBytes, hashBytes;
             string input;
-            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+            using System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create();
+            for (int i = 0; i < int.MaxValue; i++)
             {
-                for (int i = 0; i < int.MaxValue; i++)
-                {
-                    input = InputFirstLine + i;
-                    inputBytes = System.Text.Encoding.UTF8.GetBytes(input);
-                    hashBytes = md5.ComputeHash(inputBytes);
+                input = InputFirstLine + i;
+                inputBytes = System.Text.Encoding.UTF8.GetBytes(input);
+                hashBytes = md5.ComputeHash(inputBytes);
 
-                    // Compare in hexadecimal instead of converting to string for performance reasons
-                    // The first 2 bytes have to be 0x00 (which is equal to 0000 in hex)
-                    if (hashBytes.Take(2).SequenceEqual(zeroArray))
+                // Compare in hexadecimal instead of converting to string for performance reasons
+                // The first 2 bytes have to be 0x00 (which is equal to 0000 in hex)
+                if (hashBytes.Take(2).SequenceEqual(zeroArray))
+                {
+                    // Then the next byte have to start with a 0, which is any byte lower than or equal to 0x15 (which is 0- in hex)
+                    if (hashBytes[2] <= 0x15)
                     {
-                        // Then the next byte have to start with a 0, which is any byte lower than or equal to 0x15 (which is 0- in hex)
-                        if (hashBytes[2] <= 0x15)
-                        {
-                            return i.ToString();
-                        }
+                        return i.ToString();
                     }
                 }
             }
@@ -48,20 +46,18 @@
             byte[] zeroArray = new byte[3] { 0x00, 0x00, 0x00 };
             byte[] inputBytes, hashBytes;
             string input;
-            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+            using System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create();
+            for (int i = 0; i < int.MaxValue; i++)
             {
-                for (int i = 0; i < int.MaxValue; i++)
-                {
-                    input = InputFirstLine + i;
-                    inputBytes = System.Text.Encoding.UTF8.GetBytes(input);
-                    hashBytes = md5.ComputeHash(inputBytes);
+                input = InputFirstLine + i;
+                inputBytes = System.Text.Encoding.UTF8.GetBytes(input);
+                hashBytes = md5.ComputeHash(inputBytes);
 
-                    // Compare in hexadecimal instead of converting to string for performance reasons
-                    // The first 3 bytes have to be 0x00 (which is equal to 000000 in hex)
-                    if (hashBytes.Take(3).SequenceEqual(zeroArray))
-                    {
-                        return i.ToString();
-                    }
+                // Compare in hexadecimal instead of converting to string for performance reasons
+                // The first 3 bytes have to be 0x00 (which is equal to 000000 in hex)
+                if (hashBytes.Take(3).SequenceEqual(zeroArray))
+                {
+                    return i.ToString();
                 }
             }
             return "Solution not found";

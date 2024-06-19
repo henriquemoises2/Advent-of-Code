@@ -13,9 +13,9 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            Regex pattern = new Regex(InstructionPattern, RegexOptions.Compiled);
-            List<IInstruction> instructions = new List<IInstruction>();
-            List<Register> registers = new List<Register>();
+            Regex pattern = new(InstructionPattern, RegexOptions.Compiled);
+            List<IInstruction> instructions = new();
+            List<Register> registers = new();
             try
             {
 
@@ -23,10 +23,13 @@ namespace AdventOfCode.Code
                 {
                     Match match = pattern.Match(line);
                     string instruction = match.Groups["instruction"].Value;
-                    char.TryParse(match.Groups["sign1"].Value, out char sign1);
-                    int.TryParse(match.Groups["value1"].Value, out int value1);
-                    char.TryParse(match.Groups["sign2"].Value, out char sign2);
-                    int.TryParse(match.Groups["value2"].Value, out int value2);
+                    if (char.TryParse(match.Groups["sign1"].Value, out char sign1) ||
+                        int.TryParse(match.Groups["value1"].Value, out int value1) ||
+                        char.TryParse(match.Groups["sign2"].Value, out char sign2) ||
+                        int.TryParse(match.Groups["value2"].Value, out int value2))
+                    {
+                        throw new Exception("Invalid line in input.");
+                    }
 
                     Register? register = null;
                     if (char.TryParse(match.Groups["register"].Value, out char registerId))
@@ -38,7 +41,7 @@ namespace AdventOfCode.Code
                             registers.Add(register);
                         }
                     }
-                    InstructionParameters parameters = new InstructionParameters(instruction, register, sign1, value1, sign2, value2);
+                    InstructionParameters parameters = new(instruction, register, sign1, value1, sign2, value2);
                     IInstruction intruction = InstructionsFactory.GetInstruction(parameters);
                     instructions.Add(intruction);
 
@@ -56,7 +59,7 @@ namespace AdventOfCode.Code
 
         }
 
-        private string SolvePart1(List<IInstruction> instructions, IEnumerable<Register> registers)
+        private static string SolvePart1(List<IInstruction> instructions, IEnumerable<Register> registers)
         {
             int currentIndex = 0, totalInstructions = instructions.Count;
 
@@ -68,7 +71,7 @@ namespace AdventOfCode.Code
             return registers.Single(reg => reg.Id == 'b').StoredValue.ToString();
         }
 
-        private string SolvePart2(List<IInstruction> instructions, IEnumerable<Register> registers)
+        private static string SolvePart2(List<IInstruction> instructions, IEnumerable<Register> registers)
         {
 
             foreach (Register register in registers)

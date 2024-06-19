@@ -17,23 +17,23 @@
             return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
         }
 
-        private string SolvePart1(string buffer)
+        private static string SolvePart1(string buffer)
         {
             int index = 0;
             do
             {
                 string sample = buffer.Substring(index, StartOfPacketLength);
-                if(sample.Distinct().Count() == StartOfPacketLength)
+                if (sample.Distinct().Count() == StartOfPacketLength)
                 {
                     return (index + StartOfPacketLength).ToString();
                 }
                 index++;
             }
             while (index + 4 < buffer.Length);
-            throw new Exception("Unable to find start-of-packet"); 
+            throw new Exception("Unable to find start-of-packet");
         }
 
-        private string SolvePart2(string buffer)
+        private static string SolvePart2(string buffer)
         {
             int index = 0;
             do

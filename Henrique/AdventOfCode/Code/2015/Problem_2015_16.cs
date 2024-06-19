@@ -7,14 +7,14 @@ namespace AdventOfCode.Code
     {
 
         private const string AuntSuePattern = @"^Sue (?<auntSueNumber>\d+): ((?<compoundName>\w+): (?<compoundQuantity>\d+)(, )*)+";
-        private List<AuntSue> auntsSue = new List<AuntSue>();
+        private readonly List<AuntSue> auntsSue = new();
 
         public Problem_2015_16() : base()
         { }
 
         public override string Solve()
         {
-            Regex pattern = new Regex(AuntSuePattern, RegexOptions.Compiled);
+            Regex pattern = new(AuntSuePattern, RegexOptions.Compiled);
             foreach (string line in InputLines)
             {
                 Match match = pattern.Match(line);
@@ -27,7 +27,7 @@ namespace AdventOfCode.Code
 
                     try
                     {
-                        List<Compound> compounds = new List<Compound>();
+                        List<Compound> compounds = new();
                         int auntNumber = int.Parse(match.Groups["auntSueNumber"].Value);
                         for (int i = 0; i < match.Groups["compoundName"].Captures.Count; i++)
                         {
@@ -45,7 +45,7 @@ namespace AdventOfCode.Code
                 }
             }
 
-            MFCSAM mfcsam = new MFCSAM();
+            MFCSAM mfcsam = new();
             string part1 = SolvePart1(mfcsam);
             string part2 = SolvePart2(mfcsam);
 
@@ -56,21 +56,13 @@ namespace AdventOfCode.Code
         private string SolvePart1(MFCSAM mfcsam)
         {
             AuntSue? validSamples = auntsSue.SingleOrDefault(aunt => mfcsam.ValidateSample(aunt));
-            if (validSamples == null)
-            {
-                throw new Exception("Inconclusive MFCSAM result!");
-            }
-            return validSamples.Number.ToString();
+            return validSamples == null ? throw new Exception("Inconclusive MFCSAM result!") : validSamples.Number.ToString();
         }
 
         private string SolvePart2(MFCSAM mfcsam)
         {
             AuntSue? validSamples = auntsSue.SingleOrDefault(aunt => mfcsam.ValidateSampleWithOutdatedRetroencabulator(aunt));
-            if (validSamples == null)
-            {
-                throw new Exception("Inconclusive MFCSAM result!");
-            }
-            return validSamples.Number.ToString();
+            return validSamples == null ? throw new Exception("Inconclusive MFCSAM result!") : validSamples.Number.ToString();
         }
     }
 }

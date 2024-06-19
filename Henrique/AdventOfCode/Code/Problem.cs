@@ -33,7 +33,7 @@ namespace AdventOfCode.Code
                 return string.Empty;
             }
         }
-        internal readonly Stopwatch StopWatch = new Stopwatch();
+        internal readonly Stopwatch StopWatch = new();
 
         internal Problem()
         {
@@ -52,7 +52,7 @@ namespace AdventOfCode.Code
         /// <returns>The problem description</returns>
         internal string GetProblemDescription()
         {
-            return File.ReadAllText($"Problems/{Year}/Day{DayNumber.ToString("00")}.txt");
+            return File.ReadAllText($"Problems/{Year}/Day{DayNumber:00}.txt");
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace AdventOfCode.Code
         /// <returns>Returns the input as a single string</returns>
         internal string GetProblemInputString()
         {
-            return File.ReadAllText($"Problems/{Year}/Day{DayNumber.ToString("00")}_Input.txt");
+            return File.ReadAllText($"Problems/{Year}/Day{DayNumber:00}_Input.txt");
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace AdventOfCode.Code
         /// <returns>Returns the input as a collection of lines as strings</returns>
         internal IEnumerable<string> GetProblemInputAllLines()
         {
-            return File.ReadAllLines($"Problems/{Year}/Day{DayNumber.ToString("00")}_Input.txt");
+            return File.ReadAllLines($"Problems/{Year}/Day{DayNumber:00}_Input.txt");
         }
 
         internal string SolveWithStopWatch()

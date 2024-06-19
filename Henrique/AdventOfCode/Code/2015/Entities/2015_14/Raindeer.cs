@@ -10,7 +10,7 @@
         internal int AccumulatedPoints { get; set; }
 
 
-        private RaindeerState _state { get; set; }
+        private RaindeerState State { get; set; }
 
         internal Raindeer(string name, int speed, int flyTime, int restTime)
         {
@@ -18,25 +18,25 @@
             Speed = speed;
             FlyTime = flyTime;
             RestTime = restTime;
-            _state = new FlyingRaindeerState(this);
+            State = new FlyingRaindeerState(this);
             TraveledDistance = 0;
             AccumulatedPoints = 0;
         }
 
         internal void ChangeState(RaindeerState state)
         {
-            _state = state;
-            _state.Raindeer = this;
+            State = state;
+            State.Raindeer = this;
         }
 
         internal void ActForN(int seconds)
         {
-            _state.ActForN(seconds);
+            State.ActForN(seconds);
         }
 
         internal void ActForSingle()
         {
-            _state.ActForSingle();
+            State.ActForSingle();
         }
 
     }

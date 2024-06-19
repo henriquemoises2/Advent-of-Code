@@ -6,8 +6,8 @@ namespace AdventOfCode.Code
     {
         const string Pattern = @"^(.*) (\d+),(\d+) through (\d+),(\d+)$";
         const int GridSize = 1000;
-        private int[,] LightsGrid;
-        private int[,] BrightnessGrid;
+        private readonly int[,] LightsGrid;
+        private readonly int[,] BrightnessGrid;
 
         private enum Operation
         {
@@ -33,7 +33,7 @@ namespace AdventOfCode.Code
 
         private string SolvePart1()
         {
-            Regex regex = new Regex(Pattern, RegexOptions.Compiled);
+            Regex regex = new(Pattern, RegexOptions.Compiled);
             foreach (string line in InputLines)
             {
                 Match match = regex.Match(line);

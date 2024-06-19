@@ -17,10 +17,10 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            List<Transformation> moleculeTransformations = new List<Transformation>();
+            List<Transformation> moleculeTransformations = new();
             string initialMedicineMolecule;
 
-            Regex pattern = new Regex(TransformationPattern, RegexOptions.Compiled);
+            Regex pattern = new(TransformationPattern, RegexOptions.Compiled);
             try
             {
                 foreach (string line in InputLines)
@@ -46,22 +46,22 @@ namespace AdventOfCode.Code
 
         }
 
-        private string SolvePart1(string initialMedicineMolecule, List<Transformation> moleculeTransformations)
+        private static string SolvePart1(string initialMedicineMolecule, List<Transformation> moleculeTransformations)
         {
             HashSet<string> distinctGeneratedMedicineMolecules = ExecuteGenerationStep(initialMedicineMolecule, moleculeTransformations);
             return distinctGeneratedMedicineMolecules.Count.ToString();
         }
 
-        private string SolvePart2(string wantedMedicineMolecule, List<Transformation> moleculeTransformations)
+        private static string SolvePart2(string wantedMedicineMolecule, List<Transformation> moleculeTransformations)
         {
-            HashSet<string> generatedMedicineMolecules = new HashSet<string>();
-            HashSet<string> uniqueMedicineMolecules = new HashSet<string>();
+            HashSet<string> generatedMedicineMolecules = new();
+            HashSet<string> uniqueMedicineMolecules = new();
             generatedMedicineMolecules.Add(wantedMedicineMolecule);
             int stepNumber = 1;
 
             while (stepNumber < MaxNumberSteps)
             {
-                HashSet<string> newDistinctGeneratedMedicineMolecules = new HashSet<string>();
+                HashSet<string> newDistinctGeneratedMedicineMolecules = new();
                 foreach (string generatedMolecule in generatedMedicineMolecules)
                 {
                     newDistinctGeneratedMedicineMolecules = ExecuteReverseGenerationStep(generatedMolecule, moleculeTransformations);
@@ -78,10 +78,10 @@ namespace AdventOfCode.Code
             throw new Exception("No solution found.");
         }
 
-        private HashSet<string> ExecuteGenerationStep(string initialMedicineMolecule, List<Transformation> moleculeTransformations)
+        private static HashSet<string> ExecuteGenerationStep(string initialMedicineMolecule, List<Transformation> moleculeTransformations)
         {
             List<Molecule> initialMedicineMolecules = ExtractMoleculesFromString(initialMedicineMolecule).ToList();
-            HashSet<string> distinctGeneratedMedicineMolecules = new HashSet<string>();
+            HashSet<string> distinctGeneratedMedicineMolecules = new();
 
             // Filter transformations, i.e. eliminate transformations whose Initial component does not exist in the initial molecule
             moleculeTransformations = moleculeTransformations.Where(trans => initialMedicineMolecules.Select(molecule => molecule.Value).Contains(trans.InitialMolecule)).ToList();
@@ -99,19 +99,19 @@ namespace AdventOfCode.Code
             return distinctGeneratedMedicineMolecules;
         }
 
-        private HashSet<string> ExecuteReverseGenerationStep(string molecule, List<Transformation> moleculeTransformations)
+        private static HashSet<string> ExecuteReverseGenerationStep(string molecule, List<Transformation> moleculeTransformations)
         {
             List<Molecule> initialMedicineMolecules = ExtractMoleculesFromString(molecule).ToList();
-            HashSet<string> distinctGeneratedMedicineMolecules = new HashSet<string>();
+            HashSet<string> distinctGeneratedMedicineMolecules = new();
 
             // Filter transformations, i.e. eliminate transformations whose final component does not exist in the initial molecule
             moleculeTransformations = moleculeTransformations.Where(trans => molecule.Contains(trans.FinalMolecule)).ToList();
 
             foreach (Transformation transformation in moleculeTransformations)
             {
-                Regex regex = new Regex(transformation.FinalMolecule);
+                Regex regex = new(transformation.FinalMolecule);
                 MatchCollection matches = regex.Matches(molecule);
-                foreach (Match match in matches)
+                foreach (Match match in matches.Cast<Match>())
                 {
                     string newMolecule = MoleculeReplace(molecule, match.Groups[0].Index, transformation.FinalMolecule, transformation.InitialMolecule);
                     distinctGeneratedMedicineMolecules.Add(newMolecule);
@@ -121,19 +121,19 @@ namespace AdventOfCode.Code
             return distinctGeneratedMedicineMolecules;
         }
 
-        private HashSet<string> SelectBestCandidates(HashSet<string> generatedMolecules, int topElements)
+        private static HashSet<string> SelectBestCandidates(HashSet<string> generatedMolecules, int topElements)
         {
             var sortedCandidates = generatedMolecules.OrderBy(molecule => molecule.Length).Take(topElements);
             return sortedCandidates.ToHashSet();
         }
 
-        private IEnumerable<Molecule> ExtractMoleculesFromString(string medicineMolecule)
+        private static IEnumerable<Molecule> ExtractMoleculesFromString(string medicineMolecule)
         {
-            Regex pattern = new Regex(MoleculePattern, RegexOptions.Compiled);
+            Regex pattern = new(MoleculePattern, RegexOptions.Compiled);
             List<string> capturedMolecules = pattern.Match(medicineMolecule).Groups[1].Captures.Select(capt => capt.Value).ToList();
 
-            List<Molecule> extractedMolecules = new List<Molecule>();
-            for (int i = 0; i < capturedMolecules.Count(); i++)
+            List<Molecule> extractedMolecules = new();
+            for (int i = 0; i < capturedMolecules.Count; i++)
             {
                 extractedMolecules.Add(new Molecule(i, capturedMolecules.ElementAt(i)));
             }
@@ -141,12 +141,12 @@ namespace AdventOfCode.Code
             return extractedMolecules;
         }
 
-        private string ExtractStringFromMolecules(IEnumerable<Molecule> molecules)
+        private static string ExtractStringFromMolecules(IEnumerable<Molecule> molecules)
         {
             return string.Join("", molecules.Select(molecule => molecule.Value));
         }
 
-        private string MoleculeReplace(string molecule, int index, string replacementInitial, string replacementFinal)
+        private static string MoleculeReplace(string molecule, int index, string replacementInitial, string replacementFinal)
         {
             return StringOperations.ReplaceAtIndex(molecule, index, replacementInitial, replacementFinal);
         }

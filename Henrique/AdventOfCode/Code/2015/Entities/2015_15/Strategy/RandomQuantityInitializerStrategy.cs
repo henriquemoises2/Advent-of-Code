@@ -4,7 +4,7 @@
     {
         IEnumerable<Ingredient> IQuantityInitializerStrategy.Initialize(IEnumerable<Ingredient> ingredients, int totalQuantity)
         {
-            Random random = new Random();
+            Random random = new();
 
             int maxAvailable = totalQuantity - ingredients.Count();
             Ingredient lastIngredient = ingredients.Last();

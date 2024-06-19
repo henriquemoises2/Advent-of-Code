@@ -34,7 +34,7 @@
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <returns></returns>
-        private int CalculateArea(int length, int width, int height)
+        private static int CalculateArea(int length, int width, int height)
         {
             int area1 = length * width;
             int area2 = width * height;
@@ -55,7 +55,7 @@
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <returns></returns>
-        private int CalculateRibbon(int length, int width, int height)
+        private static int CalculateRibbon(int length, int width, int height)
         {
             // Find the two smallest value to use in bow calculation
             Tuple<int, int> smallestSides = TwoMin(length, width, height);
@@ -74,7 +74,7 @@
         /// <param name="b"></param>
         /// <param name="c"></param>
         /// <returns>Returns the 2 min values</returns>
-        private Tuple<int, int> TwoMin(int a, int b, int c)
+        private static Tuple<int, int> TwoMin(int a, int b, int c)
         {
             int maxValue = Math.Max(a, Math.Max(b, c));
             if (a == maxValue)

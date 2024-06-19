@@ -15,26 +15,21 @@ namespace AdventOfCode._2015_22
     {
         internal static Spell GetSpell(SpellType spell)
         {
-            switch (spell)
+            return spell switch
             {
-                case SpellType.MagicMissile:
-                    return new MagicMissile();
-                case SpellType.Drain:
-                    return new Drain();
-                case SpellType.Shield:
-                    return new Shield();
-                case SpellType.Poison:
-                    return new Poison();
-                case SpellType.Recharge:
-                    return new Recharge();
-                default: throw new ArgumentOutOfRangeException(nameof(spell));
-            }
+                SpellType.MagicMissile => new MagicMissile(),
+                SpellType.Drain => new Drain(),
+                SpellType.Shield => new Shield(),
+                SpellType.Poison => new Poison(),
+                SpellType.Recharge => new Recharge(),
+                _ => throw new ArgumentOutOfRangeException(nameof(spell)),
+            };
         }
     }
 
     internal class MagicMissile : Spell
     {
-        private int Damage = 4;
+        private readonly int Damage = 4;
 
         internal MagicMissile()
         {
@@ -59,7 +54,7 @@ namespace AdventOfCode._2015_22
 
     internal class Drain : Spell
     {
-        private int Damage = 2;
+        private readonly int Damage = 2;
         internal Drain()
         {
             ManaCost = 73;
@@ -121,7 +116,7 @@ namespace AdventOfCode._2015_22
 
     internal class Poison : Spell
     {
-        private int Damage = 3;
+        private readonly int Damage = 3;
 
         internal Poison()
         {

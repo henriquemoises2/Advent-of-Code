@@ -16,10 +16,10 @@ namespace AdventOfCode.Code
         public override string Solve()
         {
             List<DispositionChange> dispositionList = ParseDispositionList();
-            Dictionary<int, string> people = new Dictionary<int, string>();
+            Dictionary<int, string> people = new();
 
             string[] uniquePeople = dispositionList.Select(d => d.Person1).Distinct().ToArray();
-            for (int i = 0; i < uniquePeople.Count(); i++)
+            for (int i = 0; i < uniquePeople.Length; i++)
             {
                 people.Add(i, uniquePeople[i]);
             }
@@ -60,8 +60,8 @@ namespace AdventOfCode.Code
 
         private List<DispositionChange> ParseDispositionList()
         {
-            Regex regexDispositionChangeInput = new Regex(DispositionPattern, RegexOptions.Compiled);
-            List<DispositionChange> dispositionsList = new List<DispositionChange>();
+            Regex regexDispositionChangeInput = new(DispositionPattern, RegexOptions.Compiled);
+            List<DispositionChange> dispositionsList = new();
 
             foreach (var line in InputLines)
             {
@@ -88,8 +88,7 @@ namespace AdventOfCode.Code
                 }
 
                 // Parse value
-                int value = 0;
-                if (!int.TryParse(valueAsString, out value))
+                if (!int.TryParse(valueAsString, out int value))
                 {
                     throw new Exception("Invalid line in input.");
                 }
@@ -112,10 +111,10 @@ namespace AdventOfCode.Code
 
         private int ComputeTotalDisposition(Dictionary<int, string> original)
         {
-            List<int> results = new List<int>();
+            List<int> results = new();
             for (int startingPerson = 0; startingPerson < original.Count; startingPerson++)
             {
-                Dictionary<int, string> people = new Dictionary<int, string>(original);
+                Dictionary<int, string> people = new(original);
                 int totalDisposition = 0;
 
                 int currentPersonIndex = startingPerson;

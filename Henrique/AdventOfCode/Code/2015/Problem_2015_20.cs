@@ -14,7 +14,7 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            int minimumGifts = 0;
+            int minimumGifts;
             try
             {
                 minimumGifts = int.Parse(InputLastLine);
@@ -33,10 +33,10 @@ namespace AdventOfCode.Code
 
         }
 
-        private Tuple<int, int> SolveBothParts(int minimumGifts)
+        private static Tuple<int, int> SolveBothParts(int minimumGifts)
         {
-            Dictionary<int, int> numberHousesVisitedByEachElf = new Dictionary<int, int>();
-            Tuple<int, int> combinedSolutions = new Tuple<int, int>(0, 0);
+            Dictionary<int, int> numberHousesVisitedByEachElf = new();
+            Tuple<int, int> combinedSolutions = new(0, 0);
             long totalGiftsFirstRun = 0, totalGiftsSecondRun = 0;
             for (int i = 1; i < MaxHousesNumber; i++)
             {
@@ -94,12 +94,12 @@ namespace AdventOfCode.Code
             throw new Exception("No solution found.");
         }
 
-        private string SolvePart1(Tuple<int, int> combinedResult)
+        private static string SolvePart1(Tuple<int, int> combinedResult)
         {
             return combinedResult.Item1.ToString();
         }
 
-        private string SolvePart2(Tuple<int, int> combinedResult)
+        private static string SolvePart2(Tuple<int, int> combinedResult)
         {
             return combinedResult.Item2.ToString();
         }

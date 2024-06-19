@@ -15,9 +15,9 @@ namespace AdventOfCode.Code
         public override string Solve()
         {
             Boss boss;
-            PlayerCharacter pc = new PlayerCharacter();
+            PlayerCharacter pc = new();
 
-            Regex pattern = new Regex(BossAttributesPattern, RegexOptions.Compiled);
+            Regex pattern = new(BossAttributesPattern, RegexOptions.Compiled);
             try
             {
                 Match match = pattern.Match(string.Join("\n", InputLines));
@@ -41,7 +41,7 @@ namespace AdventOfCode.Code
 
         }
 
-        private string SolvePart1(PlayerCharacter pc, Boss boss, HashSet<Inventory> inventoryCombinations)
+        private static string SolvePart1(PlayerCharacter pc, Boss boss, HashSet<Inventory> inventoryCombinations)
         {
 
             foreach (var inventory in inventoryCombinations.OrderBy(inventory => inventory.GetInventoryValue()))
@@ -56,7 +56,7 @@ namespace AdventOfCode.Code
             return "No solution found.";
         }
 
-        private string SolvePart2(PlayerCharacter pc, Boss boss, HashSet<Inventory> inventoryCombinations)
+        private static string SolvePart2(PlayerCharacter pc, Boss boss, HashSet<Inventory> inventoryCombinations)
         {
             foreach (var inventory in inventoryCombinations.OrderByDescending(inventory => inventory.GetInventoryValue()))
             {
@@ -70,7 +70,7 @@ namespace AdventOfCode.Code
             return "No solution found.";
         }
 
-        private Entity SimulateFight(PlayerCharacter pc, Boss boss)
+        private static Entity SimulateFight(PlayerCharacter pc, Boss boss)
         {
             int pcInitialHitPoints = pc.GetHitPoints();
             int bossInitialHitPoints = boss.GetHitPoints();
@@ -80,11 +80,11 @@ namespace AdventOfCode.Code
             {
                 if (playerCharacterTurn)
                 {
-                    boss.HitPoints = boss.HitPoints - Math.Max(1, pc.GetDamage() - boss.GetArmor());
+                    boss.HitPoints -= Math.Max(1, pc.GetDamage() - boss.GetArmor());
                 }
                 else
                 {
-                    pc.HitPoints = pc.HitPoints - Math.Max(1, boss.GetDamage() - pc.GetArmor());
+                    pc.HitPoints -= Math.Max(1, boss.GetDamage() - pc.GetArmor());
                 }
                 playerCharacterTurn = !playerCharacterTurn;
             }
@@ -95,17 +95,17 @@ namespace AdventOfCode.Code
             return winner;
         }
 
-        private HashSet<Inventory> GenerateAllInventoryCombinations()
+        private static HashSet<Inventory> GenerateAllInventoryCombinations()
         {
             IEnumerable<Item> availableWeapons = ItemsStore.AvailableItems.Where(item => item.Type == ItemType.Weapon);
             IEnumerable<Item> availableArmor = ItemsStore.AvailableItems.Where(item => item.Type == ItemType.Armor);
             IEnumerable<Item> availableRings = ItemsStore.AvailableItems.Where(item => item.Type == ItemType.Ring);
 
-            Inventory newInventory = new Inventory();
+            Inventory newInventory = new();
 
-            HashSet<Inventory> allCombinationsWithWeapons = new HashSet<Inventory>();
-            HashSet<Inventory> allCombinationsWithArmor = new HashSet<Inventory>();
-            HashSet<Inventory> allCombinationsWithRings = new HashSet<Inventory>();
+            HashSet<Inventory> allCombinationsWithWeapons = new();
+            HashSet<Inventory> allCombinationsWithArmor = new();
+            HashSet<Inventory> allCombinationsWithRings = new();
 
             allCombinationsWithWeapons.UnionWith(GenerateWeaponCombinations(newInventory).ToList());
 
@@ -120,27 +120,27 @@ namespace AdventOfCode.Code
             return allCombinationsWithRings;
         }
 
-        private HashSet<Inventory> GenerateWeaponCombinations(Inventory originalInvontory)
+        private static HashSet<Inventory> GenerateWeaponCombinations(Inventory originalInvontory)
         {
             return GenerateCombinations(1, 1, ItemType.Weapon, originalInvontory);
         }
 
-        private HashSet<Inventory> GenerateArmorCombinations(Inventory originalInvontory)
+        private static HashSet<Inventory> GenerateArmorCombinations(Inventory originalInvontory)
         {
             return GenerateCombinations(0, 1, ItemType.Armor, originalInvontory);
         }
 
-        private HashSet<Inventory> GenerateRingCombinations(Inventory originalInvontory)
+        private static HashSet<Inventory> GenerateRingCombinations(Inventory originalInvontory)
         {
             return GenerateCombinations(0, 2, ItemType.Ring, originalInvontory);
         }
 
-        private HashSet<Inventory> GenerateCombinations(int minItems, int maxItems, ItemType itemType, Inventory originalInvontory)
+        private static HashSet<Inventory> GenerateCombinations(int minItems, int maxItems, ItemType itemType, Inventory originalInvontory)
         {
             HashSet<Inventory> generatedInventories = new();
             Inventory newInventory;
             List<Item> newInventoryItem;
-            List<IEnumerable<Item>> allRingCombinations = new List<IEnumerable<Item>>();
+            List<IEnumerable<Item>> allRingCombinations = new();
             allRingCombinations = SetsGenerator<Item>.GenerateAllSets(minItems, maxItems, ItemsStore.AvailableItems.Where(item => item.Type == itemType)).ToList();
 
             if (minItems == 0)

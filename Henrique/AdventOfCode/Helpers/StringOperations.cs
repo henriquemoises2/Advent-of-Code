@@ -4,11 +4,11 @@
     {
         internal static string ReplaceAtIndex(string value, int index, string match, string replacement)
         {
-            if (value == null)
+            if (string.IsNullOrWhiteSpace(value))
             {
                 return "";
             }
-            if (match == null || replacement == null)
+            if (string.IsNullOrWhiteSpace(match) || string.IsNullOrWhiteSpace(replacement))
             {
                 return value;
             }
