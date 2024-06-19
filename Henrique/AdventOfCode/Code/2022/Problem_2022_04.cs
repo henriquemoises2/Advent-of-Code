@@ -19,6 +19,7 @@ namespace AdventOfCode.Code
             try
             {
                 Regex pattern = new Regex(ElfsSectionsPattern, RegexOptions.Compiled);
+                // TODO: Uniformise between the use of Match or Matches
                 MatchCollection match = pattern.Matches(string.Join("/n", InputLines));
                 for (int i = 0; i < match.Count; i++)
                 {

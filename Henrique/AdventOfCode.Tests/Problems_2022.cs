@@ -33,7 +33,10 @@ namespace AdventOfCode.Tests
             Assert.Equal("Part 1 solution: LJSVLTWQM\nPart 2 solution: BRQWDBBJM", new Problem_2022_05().Solve());
         }
 
-
-
+        [Fact]
+        public void Test_2022_06()
+        {
+            Assert.Equal("Part 1 solution: 1848\nPart 2 solution: 2308", new Problem_2022_06().Solve());
+        }
     }
 }
