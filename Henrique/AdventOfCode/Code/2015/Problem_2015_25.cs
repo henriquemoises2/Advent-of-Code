@@ -19,7 +19,6 @@ namespace AdventOfCode.Code
                 Match match = pattern.Match(InputFirstLine);
                 row = int.Parse(match.Groups["row"].Value);
                 column = int.Parse(match.Groups["column"].Value);
-
             }
             catch
             {
