@@ -72,6 +72,8 @@
                             return new Problem_2022_03();
                         case 4:
                             return new Problem_2022_04();
+                        case 5:
+                            return new Problem_2022_05();
                         default: return null;
 
                     }
