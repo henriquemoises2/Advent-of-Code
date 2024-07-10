@@ -23,16 +23,17 @@ namespace AdventOfCode.Code
                 {
                     Match match = pattern.Match(line);
                     string instruction = match.Groups["instruction"].Value;
-                    if (char.TryParse(match.Groups["sign1"].Value, out char sign1) ||
-                        int.TryParse(match.Groups["value1"].Value, out int value1) ||
-                        char.TryParse(match.Groups["sign2"].Value, out char sign2) ||
-                        int.TryParse(match.Groups["value2"].Value, out int value2))
+                    bool parsedSign1 = char.TryParse(match.Groups["sign1"].Value, out char sign1);
+                    bool parsedValue1 = int.TryParse(match.Groups["value1"].Value, out int value1);
+                    bool parsedSign2 = char.TryParse(match.Groups["sign2"].Value, out char sign2);
+                    bool parsedValue2 = int.TryParse(match.Groups["value2"].Value, out int value2);
+                    Register? register = null;
+                    bool parsedRegister = char.TryParse(match.Groups["register"].Value, out char registerId);
+                    if (!parsedSign1 && !parsedValue1 && !parsedSign2 && !parsedValue2 && !parsedRegister)
                     {
                         throw new Exception("Invalid line in input.");
                     }
-
-                    Register? register = null;
-                    if (char.TryParse(match.Groups["register"].Value, out char registerId))
+                    if (parsedRegister)
                     {
                         register = registers.SingleOrDefault(reg => reg.Id == registerId);
                         if (register == null)
@@ -47,7 +48,7 @@ namespace AdventOfCode.Code
 
                 }
             }
-            catch
+            catch (Exception)
             {
                 throw new Exception("Invalid line in input.");
             }

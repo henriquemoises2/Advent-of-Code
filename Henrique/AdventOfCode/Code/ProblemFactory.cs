@@ -43,6 +43,8 @@
                     4 => new Problem_2022_04(),
                     5 => new Problem_2022_05(),
                     6 => new Problem_2022_06(),
+                    7 => new Problem_2022_07(),
+                    8 => new Problem_2022_08(),
                     _ => null,
                 },
                 _ => null,

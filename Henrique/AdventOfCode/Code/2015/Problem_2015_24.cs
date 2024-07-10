@@ -28,7 +28,7 @@ namespace AdventOfCode.Code
 
         }
 
-        private string SolvePart1(IEnumerable<int> packagesWeights)
+        private static string SolvePart1(IEnumerable<int> packagesWeights)
         {
             double? result = SolveProblem(3, packagesWeights);
             if (result != null)
@@ -39,7 +39,7 @@ namespace AdventOfCode.Code
             throw new Exception("No solution found");
         }
 
-        private string SolvePart2(IEnumerable<int> packagesWeights)
+        private static string SolvePart2(IEnumerable<int> packagesWeights)
         {
 
             double? result = SolveProblem(4, packagesWeights);
