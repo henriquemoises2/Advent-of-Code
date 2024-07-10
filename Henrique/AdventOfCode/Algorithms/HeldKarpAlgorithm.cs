@@ -4,11 +4,11 @@ namespace AdventOfCode.Algorithms
 {
     internal class HeldKarpAlgorithm
     {
-        private int[,] _distanceMatrix;
-        private int? _startingNode;
-        private bool _returnToOrigin;
+        private readonly int[,] _distanceMatrix;
+        private readonly int? _startingNode;
+        private readonly bool _returnToOrigin;
 
-        private Dictionary<string, int> _costLookup;
+        private readonly Dictionary<string, int> _costLookup;
 
         internal HeldKarpAlgorithm(int[,] distanceMatrix, int? startingNode, bool returnToOrigin = true)
         {
@@ -20,9 +20,9 @@ namespace AdventOfCode.Algorithms
 
         internal int GetShortestPathCost()
         {
-            List<int> totalNodes = new List<int>();
-            List<int> subsetsResult = new List<int>();
-            List<int> currentSubsets = new List<int>();
+            List<int> totalNodes = new();
+            List<int> subsetsResult = new();
+            List<int> currentSubsets = new();
 
             int numberOfNodes = _distanceMatrix.GetLength(0) - 1;
             totalNodes = ComputePathCostsToOrigin(numberOfNodes);
@@ -110,9 +110,9 @@ namespace AdventOfCode.Algorithms
 
         internal int GetLongestPathCost()
         {
-            List<int> totalNodes = new List<int>();
-            List<int> subsetsResult = new List<int>();
-            List<int> currentSubsets = new List<int>();
+            List<int> totalNodes = new();
+            List<int> subsetsResult = new();
+            List<int> currentSubsets = new();
 
             int numberOfNodes = _distanceMatrix.GetLength(0) - 1;
             totalNodes = ComputePathCostsToOrigin(numberOfNodes);
@@ -202,7 +202,7 @@ namespace AdventOfCode.Algorithms
 
         private List<int> ComputePathCostsToOrigin(int numberOfNodes)
         {
-            List<int> totalNodes = new List<int>();
+            List<int> totalNodes = new();
 
             for (int i = 1; i <= numberOfNodes + 1; i++)
             {

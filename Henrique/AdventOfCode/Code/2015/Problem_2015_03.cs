@@ -73,11 +73,10 @@
                SantaLastVisitedHouse
             };
             totalVisitedUniqueHouses = 1;
-
-            MoveTurn moveTurn = MoveTurn.Santa;
-
             for (int i = 0; i < InputFirstLine.Length; i++)
             {
+
+                MoveTurn moveTurn;
                 // Alternate movement between Santa and RoboSanta
                 if (i % 2 == 0)
                 {

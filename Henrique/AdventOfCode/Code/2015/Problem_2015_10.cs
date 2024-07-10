@@ -33,7 +33,7 @@ namespace AdventOfCode.Code
             return sequence;
         }
 
-        private string SolvePart2(string sequence)
+        private static string SolvePart2(string sequence)
         {
             // Generate the sequence 10 more times for a total of 50 times
             for (int i = 0; i < SequenceExtraIterations; i++)
@@ -44,9 +44,9 @@ namespace AdventOfCode.Code
             return sequence;
         }
 
-        private string LookAndSay(string input)
+        private static string LookAndSay(string input)
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
 
             int currentNumber = int.Parse(input[0].ToString());
             int numberOfOccurences = 1;

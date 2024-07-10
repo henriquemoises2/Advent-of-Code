@@ -2,7 +2,7 @@
 {
     internal class Cable : ISource
     {
-        private string _cableName;
+        private readonly string _cableName;
 
         internal Cable(string cableName)
         {

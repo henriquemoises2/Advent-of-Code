@@ -12,7 +12,7 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            Regex pattern = new Regex(SomeRegexPattern, RegexOptions.Compiled);
+            Regex pattern = new(SomeRegexPattern, RegexOptions.Compiled);
             foreach (string line in InputLines)
             {
                 Match match = pattern.Match(line);
@@ -32,12 +32,12 @@ namespace AdventOfCode.Code
 
         }
 
-        private string SolvePart1()
+        private static string SolvePart1()
         {
             return "";
         }
 
-        private string SolvePart2()
+        private static string SolvePart2()
         {
             return "";
         }

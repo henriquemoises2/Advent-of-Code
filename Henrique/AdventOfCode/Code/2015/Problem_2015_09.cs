@@ -8,7 +8,7 @@ namespace AdventOfCode.Code
     {
 
         private const string PatternDistance = @"^(\w+) to (\w+) = (\d+)$";
-        private List<Distance> Distances;
+        private readonly List<Distance> Distances;
         private Dictionary<string, int> LocationIDs { get; set; }
         private int[,] _distanceMatrix;
 
@@ -21,10 +21,7 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            Regex pattern = new Regex(PatternDistance, RegexOptions.Compiled);
-            string startingLocation = string.Empty;
-            string endingLocation = string.Empty;
-            int cost = 0;
+            Regex pattern = new(PatternDistance, RegexOptions.Compiled);
             int locationIdsIndex = 0;
             foreach (string line in InputLines)
             {
@@ -35,10 +32,10 @@ namespace AdventOfCode.Code
                 }
                 else
                 {
-                    startingLocation = match.Groups[1].Value;
-                    endingLocation = match.Groups[2].Value;
+                    string startingLocation = match.Groups[1].Value;
+                    string endingLocation = match.Groups[2].Value;
                     // Already validated in regex that is a number
-                    cost = int.Parse(match.Groups[3].Value);
+                    int cost = int.Parse(match.Groups[3].Value);
 
                     // Assign unique int to each location
                     if (!LocationIDs.ContainsKey(startingLocation))

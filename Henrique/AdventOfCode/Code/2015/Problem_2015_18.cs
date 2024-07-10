@@ -3,9 +3,9 @@
     public class Problem_2015_18 : Problem
     {
         private readonly int GridSize;
-        private char[,] LightsGrid;
-        private char LightOff = '.';
-        private char LightOn = '#';
+        private readonly char[,] LightsGrid;
+        private readonly char LightOff = '.';
+        private readonly char LightOn = '#';
 
 
         public Problem_2015_18() : base()

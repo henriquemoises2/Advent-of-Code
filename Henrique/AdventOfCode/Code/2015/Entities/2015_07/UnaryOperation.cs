@@ -7,8 +7,8 @@
 
     internal class UnaryOperation : ISource
     {
-        private ISource _value;
-        private UnaryOperationType _operationType;
+        private readonly ISource _value;
+        private readonly UnaryOperationType _operationType;
 
         internal UnaryOperation(ISource value, UnaryOperationType operationType)
         {

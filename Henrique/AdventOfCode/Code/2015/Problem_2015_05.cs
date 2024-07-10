@@ -26,9 +26,9 @@ namespace AdventOfCode.Code
 
         private string SolvePart1()
         {
-            Regex expression1 = new Regex(RULE_1, RegexOptions.Compiled);
-            Regex expression2 = new Regex(RULE_2, RegexOptions.Compiled);
-            Regex expression3 = new Regex(RULE_3, RegexOptions.Compiled);
+            Regex expression1 = new(RULE_1, RegexOptions.Compiled);
+            Regex expression2 = new(RULE_2, RegexOptions.Compiled);
+            Regex expression3 = new(RULE_3, RegexOptions.Compiled);
 
             int niceSentences = 0;
             int naughtySentences = 0;
@@ -50,8 +50,8 @@ namespace AdventOfCode.Code
 
         private string SolvePart2()
         {
-            Regex expression4 = new Regex(RULE_4, RegexOptions.Compiled);
-            Regex expression5 = new Regex(RULE_5, RegexOptions.Compiled);
+            Regex expression4 = new(RULE_4, RegexOptions.Compiled);
+            Regex expression5 = new(RULE_5, RegexOptions.Compiled);
 
             int niceSentences = 0;
             int naughtySentences = 0;

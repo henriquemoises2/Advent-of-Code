@@ -18,15 +18,8 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            Regex pattern = new Regex(IngredientPattern, RegexOptions.Compiled);
-            string ingredientName = string.Empty;
-            int capacityValue = 0;
-            int durabilityValue = 0;
-            int flavorValue = 0;
-            int textureValue = 0;
-            int caloriesValue = 0;
-
-            List<Ingredient> ingredientsList = new List<Ingredient>();
+            Regex pattern = new(IngredientPattern, RegexOptions.Compiled);
+            List<Ingredient> ingredientsList = new();
 
             foreach (string line in InputLines)
             {
@@ -37,20 +30,19 @@ namespace AdventOfCode.Code
                 }
                 else
                 {
-                    ingredientName = match.Groups[1].Value;
-                    capacityValue = int.Parse(match.Groups[2].Value);
-                    durabilityValue = int.Parse(match.Groups[3].Value);
-                    flavorValue = int.Parse(match.Groups[4].Value);
-                    textureValue = int.Parse(match.Groups[5].Value);
-                    caloriesValue = int.Parse(match.Groups[6].Value);
-
+                    string ingredientName = match.Groups[1].Value;
+                    int capacityValue = int.Parse(match.Groups[2].Value);
+                    int durabilityValue = int.Parse(match.Groups[3].Value);
+                    int flavorValue = int.Parse(match.Groups[4].Value);
+                    int textureValue = int.Parse(match.Groups[5].Value);
+                    int caloriesValue = int.Parse(match.Groups[6].Value);
                     ingredientsList.Add(new Ingredient(ingredientName, capacityValue, durabilityValue, flavorValue, textureValue, caloriesValue));
                 }
             }
 
-            TotalQuantityPerIngredient = TotalIngredientsQuantity - ingredientsList.Count() + 1;
+            TotalQuantityPerIngredient = TotalIngredientsQuantity - ingredientsList.Count + 1;
 
-            IngredientsQuantityInitializer ingredientsQuantityInitializer = new IngredientsQuantityInitializer(new MinimumQuantityInitializerStrategy(), ingredientsList, TotalIngredientsQuantity);
+            IngredientsQuantityInitializer ingredientsQuantityInitializer = new(new MinimumQuantityInitializerStrategy(), ingredientsList, TotalIngredientsQuantity);
             IEnumerable<Ingredient> weightedIngredientsList = ingredientsQuantityInitializer.Initialize();
             IEnumerable<Cookie> possibleCookies = GenerateAllPossibleCookies(weightedIngredientsList, new List<Cookie>());
 
@@ -61,58 +53,15 @@ namespace AdventOfCode.Code
 
         }
 
-        private string SolvePart1(IEnumerable<Cookie> possibleCookies)
+        private static string SolvePart1(IEnumerable<Cookie> possibleCookies)
         {
             return possibleCookies.OrderByDescending(cookie => cookie.TotalValue).First().TotalValue.ToString();
         }
 
-        private string SolvePart2(IEnumerable<Cookie> possibleCookies)
+        private static string SolvePart2(IEnumerable<Cookie> possibleCookies)
         {
             possibleCookies = possibleCookies.Where(cookie => cookie.Calories == WantedCalories);
             return possibleCookies.OrderByDescending(cookie => cookie.TotalValue).First().TotalValue.ToString();
-        }
-
-        /// <summary>
-        /// Not working properly in some situations. May be related to the fact that it is hitting a local maximum.
-        /// </summary>
-        /// <param name="ingredientsList"></param>
-        /// <returns></returns>
-        [Obsolete("SolveAlternativePart1 is deprecated, please use SolvePart1 instead.")]
-        private string SolveAlternativePart1(List<Ingredient> ingredientsList)
-        {
-            IngredientsQuantityInitializer ingredientsQuantityInitializer = new IngredientsQuantityInitializer(new RandomQuantityInitializerStrategy(), ingredientsList, TotalIngredientsQuantity);
-
-            IEnumerable<Ingredient> weightedIngredientsList;
-            do
-            {
-                weightedIngredientsList = ingredientsQuantityInitializer.Initialize();
-            }
-            while (ComputeCookieValue(weightedIngredientsList) == 0);
-
-            return ComputeHighestCookieTotalValue(weightedIngredientsList.ToList()).ToString();
-        }
-
-        private long ComputeHighestCookieTotalValue(List<Ingredient> ingredientsList)
-        {
-            long highestCookieValue = ComputeCookieValue(ingredientsList);
-            long oldHighestCookieValue = long.MinValue;
-
-            do
-            {
-                oldHighestCookieValue = highestCookieValue;
-
-                IngredientsScale? ingredientsScale = FindIngredientsToIncreaseDecrease(ingredientsList, highestCookieValue);
-                if (ingredientsScale == null)
-                {
-                    return oldHighestCookieValue;
-                }
-                ingredientsScale.ApplyScale();
-                highestCookieValue = ingredientsScale.CookieValue;
-
-            }
-            while (highestCookieValue >= oldHighestCookieValue);
-
-            return oldHighestCookieValue;
         }
 
         private List<Cookie> GenerateAllPossibleCookies(IEnumerable<Ingredient> ingredientsList, List<Cookie> possibleCookies)
@@ -125,99 +74,11 @@ namespace AdventOfCode.Code
                 int totalQuantity = ingredientsList.Sum(ing => ing.Quantity);
                 if (TotalIngredientsQuantity == totalQuantity)
                 {
-                    Cookie cookie = new Cookie(new List<Ingredient>(((List<Ingredient>)ingredientsList).ConvertAll(ing => ing.Clone())));
+                    Cookie cookie = new(new List<Ingredient>(((List<Ingredient>)ingredientsList).ConvertAll(ing => ing.Clone())));
                     possibleCookies.Add(cookie);
                 }
             }
             return possibleCookies;
-        }
-
-        /// <summary>
-        /// Find the ingredients which, when increasing the quantity by one to one ingredient 
-        /// and decreasing the quantity by one to another ingredient, will maximize the total cookie value.
-        /// </summary>
-        /// <param name="ingredientsList"></param>
-        /// <param name="currentHighestCookieValue"></param>
-        /// <returns></returns>
-        private IngredientsScale? FindIngredientsToIncreaseDecrease(IEnumerable<Ingredient> ingredientsList, long currentHighestCookieValue)
-        {
-            Ingredient? ingredientToIncrease = null;
-            Ingredient? ingredientToDecrease = null;
-            long potentialCookieValue = long.MinValue;
-
-            foreach (Ingredient ingredient in ingredientsList)
-            {
-                // Check if it is still possible to increase the quantity
-                if (ingredient.Quantity == TotalIngredientsQuantity - (ingredientsList.Count() - 1))
-                {
-                    continue;
-                }
-
-                foreach (Ingredient otherIngredient in ingredientsList.Where(ing => ing != ingredient))
-                {
-                    // Check if it is still possible to decrease the quantity
-                    if (ingredient.Quantity == 1)
-                    {
-                        continue;
-                    }
-                    potentialCookieValue = SimulateCookieValue(ingredientsList, ingredient, otherIngredient);
-                    if (potentialCookieValue > currentHighestCookieValue)
-                    {
-                        currentHighestCookieValue = potentialCookieValue;
-                        ingredientToIncrease = ingredient;
-                        ingredientToDecrease = otherIngredient;
-                    }
-                }
-            }
-
-            if (ingredientToIncrease != null && ingredientToDecrease != null)
-            {
-                return new IngredientsScale(ingredientToIncrease, ingredientToDecrease, currentHighestCookieValue);
-            }
-            return null;
-        }
-
-        private long SimulateCookieValue(IEnumerable<Ingredient> ingredientsList, Ingredient ingredientToIncrease, Ingredient ingredientToDecrease)
-        {
-            ingredientToIncrease.Quantity++;
-            ingredientToDecrease.Quantity--;
-
-            long simulatedCookieValue = ComputeCookieValue(ingredientsList);
-
-            ingredientToIncrease.Quantity--;
-            ingredientToDecrease.Quantity++;
-
-            return simulatedCookieValue;
-        }
-
-        private long ComputeCookieValue(IEnumerable<Ingredient> ingredientsList)
-        {
-            long cookieValue = 0;
-            int totalCookieCapacity = 0;
-            int totalCookieDurability = 0;
-            int totalCookieFlavor = 0;
-            int totalCookieTexture = 0;
-
-            foreach (Ingredient ingredient in ingredientsList)
-            {
-                int ingredientQuantity = ingredient.Quantity;
-
-                int ingredientCookieCapacity = ingredient.Capacity * ingredientQuantity;
-                int ingredientCookieDurability = ingredient.Durability * ingredientQuantity;
-                int ingredientCookieFlavor = ingredient.Flavor * ingredientQuantity;
-                int ingredientCookieTexture = ingredient.Texture * ingredientQuantity;
-
-                totalCookieCapacity += ingredientCookieCapacity;
-                totalCookieDurability += ingredientCookieDurability;
-                totalCookieFlavor += ingredientCookieFlavor;
-                totalCookieTexture += ingredientCookieTexture;
-            }
-
-            if (totalCookieCapacity <= 0 || totalCookieDurability <= 0 || totalCookieFlavor <= 0 || totalCookieTexture <= 0)
-                return 0;
-
-            cookieValue = totalCookieCapacity * totalCookieDurability * totalCookieFlavor * totalCookieTexture;
-            return cookieValue;
         }
 
         private Ingredient? UpdateIngredientsQuantity(IEnumerable<Ingredient> ingredientsList)
@@ -249,16 +110,6 @@ namespace AdventOfCode.Code
 
             }
             return null;
-        }
-
-        private void PrintIngredients(IEnumerable<Ingredient> ingredientsList)
-        {
-            Console.WriteLine("------ Ingredients -------");
-            foreach (var ingredient in ingredientsList)
-            {
-                Console.Write($"{ingredient.Name} {ingredient.Quantity} | ");
-            }
-            Console.WriteLine("--------------------------");
         }
     }
 }

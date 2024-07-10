@@ -2,9 +2,9 @@
 {
     internal class IngredientsQuantityInitializer
     {
-        private IQuantityInitializerStrategy _strategy;
-        private IEnumerable<Ingredient> _ingredients;
-        private int _totalQuantity;
+        private readonly IQuantityInitializerStrategy _strategy;
+        private readonly IEnumerable<Ingredient> _ingredients;
+        private readonly int _totalQuantity;
 
 
         internal IngredientsQuantityInitializer(IQuantityInitializerStrategy strategy, IEnumerable<Ingredient> ingredients, int totalQuantity)

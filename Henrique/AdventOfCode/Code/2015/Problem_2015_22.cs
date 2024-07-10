@@ -21,9 +21,9 @@ namespace AdventOfCode.Code
         public override string Solve()
         {
             Boss boss;
-            MagicPlayerCharacter pc = new MagicPlayerCharacter(PlayerHitpoints, PlayerMana);
+            MagicPlayerCharacter pc = new(PlayerHitpoints, PlayerMana);
 
-            Regex pattern = new Regex(BossAttributesPattern, RegexOptions.Compiled);
+            Regex pattern = new(BossAttributesPattern, RegexOptions.Compiled);
             try
             {
                 Match match = pattern.Match(string.Join("\n", InputLines));
@@ -44,7 +44,7 @@ namespace AdventOfCode.Code
 
         }
 
-        private string SolvePart1(MagicPlayerCharacter pc, Boss boss)
+        private static string SolvePart1(MagicPlayerCharacter pc, Boss boss)
         {
             SpellsLineup? solution = SolveProblem(pc, boss);
             if (solution != null)
@@ -54,7 +54,7 @@ namespace AdventOfCode.Code
             throw new Exception("No solution found.");
         }
 
-        private string SolvePart2(MagicPlayerCharacter pc, Boss boss)
+        private static string SolvePart2(MagicPlayerCharacter pc, Boss boss)
         {
             SpellsLineup? solution = SolveProblem(pc, boss, hardMode: true);
             if (solution != null)
@@ -73,13 +73,13 @@ namespace AdventOfCode.Code
         /// <param name="boss"></param>
         /// <param name="hardMode"></param>
         /// <returns></returns>
-        private SpellsLineup? SolveProblem(MagicPlayerCharacter pc, Boss boss, bool hardMode = false)
+        private static SpellsLineup? SolveProblem(MagicPlayerCharacter pc, Boss boss, bool hardMode = false)
         {
             SpellsLineup? bestLineup = null;
-            Dictionary<int, SpellsLineup> results = new Dictionary<int, SpellsLineup>();
+            Dictionary<int, SpellsLineup> results = new();
 
 
-            List<SpellType> availableOptions = new List<SpellType>()
+            List<SpellType> availableOptions = new()
             {
                 SpellType.MagicMissile,
                 SpellType.Drain,
@@ -109,8 +109,7 @@ namespace AdventOfCode.Code
                             Entity winner = SimulateFight(pc, boss, spellLineup, hardMode);
                             if (winner.GetType() == typeof(MagicPlayerCharacter))
                             {
-                                SpellsLineup? bestSoFar;
-                                if (results.TryGetValue(nSpells, out bestSoFar))
+                                if (results.TryGetValue(nSpells, out SpellsLineup? bestSoFar))
                                 {
                                     if (bestSoFar.ManaSpent > spellLineup.ManaSpent)
                                     {
@@ -149,33 +148,33 @@ namespace AdventOfCode.Code
         }
 
 
-        private IEnumerable<SpellsLineup> GenerateFirstGeneration(int numberOfSpells, IEnumerable<SpellType> availableOptions, int nChromossomes)
+        private static IEnumerable<SpellsLineup> GenerateFirstGeneration(int numberOfSpells, IEnumerable<SpellType> availableOptions, int nChromossomes)
         {
-            List<SpellsLineup> result = new List<SpellsLineup>();
+            List<SpellsLineup> result = new();
             List<SpellType> spellTypes = availableOptions.ToList();
-            Random random = new Random();
+            Random random = new();
 
             for (int i = 0, generatedLineups = 0; generatedLineups < nChromossomes; i++)
             {
-                List<Spell> spells = new List<Spell>();
+                List<Spell> spells = new();
                 for (int j = 0; j < numberOfSpells; j++)
                 {
                     spells.Add(SpellFactory.GetSpell(spellTypes[random.Next(0, spellTypes.Count)]));
                 }
-                SpellsLineup lineup = new SpellsLineup(spells);
+                SpellsLineup lineup = new(spells);
                 result.Add(lineup);
                 generatedLineups++;
             }
             return result;
         }
 
-        private IEnumerable<SpellsLineup> GenerateNextGeneration(IEnumerable<SpellsLineup> spellsLineups, IEnumerable<SpellType> availableOptions, int nChromossomes)
+        private static IEnumerable<SpellsLineup> GenerateNextGeneration(IEnumerable<SpellsLineup> spellsLineups, IEnumerable<SpellType> availableOptions, int nChromossomes)
         {
-            List<SpellsLineup> result = new List<SpellsLineup>();
+            List<SpellsLineup> result = new();
             List<SpellsLineup> spellsLineupsList = spellsLineups.ToList();
             List<SpellType> spellTypes = availableOptions.ToList();
 
-            Random randomGenerator = new Random();
+            Random randomGenerator = new();
 
             // Retain Elite - The 10% better spellLineups from the previous generation will automatically pass to the next generation
             var elite = spellsLineupsList.Take((int)(0.1 * nChromossomes));
@@ -187,7 +186,7 @@ namespace AdventOfCode.Code
                 SpellsLineup parent1 = spellsLineupsList[randomGenerator.Next(0, spellsLineupsList.Count)];
                 SpellsLineup parent2 = spellsLineupsList[randomGenerator.Next(0, spellsLineupsList.Count)];
 
-                List<Spell> spells = new List<Spell>();
+                List<Spell> spells = new();
                 for (int geneN = 0; geneN < parent1.Spells.Count; geneN++)
                 {
                     int randomPercentage = randomGenerator.Next(1, 101);
@@ -208,7 +207,7 @@ namespace AdventOfCode.Code
                         spells.Add(SpellFactory.GetSpell(spellTypes[randomGenerator.Next(0, availableOptions.Count())]));
                     }
                 }
-                SpellsLineup lineup = new SpellsLineup(spells);
+                SpellsLineup lineup = new(spells);
                 if (lineup.IsSpellOrderValid())
                 {
                     result.Add(lineup);
@@ -218,7 +217,7 @@ namespace AdventOfCode.Code
             return result;
         }
 
-        private Entity SimulateFight(MagicPlayerCharacter pc, Boss boss, SpellsLineup spellsLineup, bool hardMode)
+        private static Entity SimulateFight(MagicPlayerCharacter pc, Boss boss, SpellsLineup spellsLineup, bool hardMode)
         {
             int pcInitialHitPoints = pc.GetHitPoints();
             int pcInitialArmor = pc.GetArmor();
@@ -227,7 +226,7 @@ namespace AdventOfCode.Code
             bool playerCharacterTurn = true;
             int pcTurnNumber = 0;
 
-            List<Spell> activeSpells = new List<Spell>();
+            List<Spell> activeSpells = new();
 
             while (pcTurnNumber < MaxSpells)
             {
@@ -285,7 +284,7 @@ namespace AdventOfCode.Code
                 }
                 else
                 {
-                    pc.HitPoints = pc.HitPoints - Math.Max(1, boss.GetDamage() - pc.GetArmor());
+                    pc.HitPoints -= Math.Max(1, boss.GetDamage() - pc.GetArmor());
 
                     if (pc.HitPoints <= 0)
                     {
@@ -303,13 +302,13 @@ namespace AdventOfCode.Code
             return boss;
         }
 
-        private void UpdateSpellsLineup(SpellsLineup spellsLineup, int pcTurnNumber, int bossInitialHitPoints, int bossHitpoints)
+        private static void UpdateSpellsLineup(SpellsLineup spellsLineup, int pcTurnNumber, int bossInitialHitPoints, int bossHitpoints)
         {
             spellsLineup.TurnsSurvived = pcTurnNumber;
             spellsLineup.DamageDealtToBoss = bossInitialHitPoints - bossHitpoints;
         }
 
-        private void ResetEntitiesValues(MagicPlayerCharacter pc, Boss boss, int pcInitialHitPoints, int pcInitialArmor, int pcInitialMana, int bossInitialHitPoints)
+        private static void ResetEntitiesValues(MagicPlayerCharacter pc, Boss boss, int pcInitialHitPoints, int pcInitialArmor, int pcInitialMana, int bossInitialHitPoints)
         {
             pc.HitPoints = pcInitialHitPoints;
             pc.Armor = pcInitialArmor;
@@ -317,7 +316,7 @@ namespace AdventOfCode.Code
             boss.HitPoints = bossInitialHitPoints;
         }
 
-        private Spell? SelectNextCastedSpell(List<Spell> orderedSpellList, int turnNumber)
+        private static Spell? SelectNextCastedSpell(List<Spell> orderedSpellList, int turnNumber)
         {
             if (turnNumber >= orderedSpellList.Count)
             {
@@ -326,14 +325,14 @@ namespace AdventOfCode.Code
             return orderedSpellList[turnNumber];
         }
 
-        private void ApplyActiveEffects(MagicPlayerCharacter pc, Boss boss, List<Spell> activeSpells)
+        private static void ApplyActiveEffects(MagicPlayerCharacter pc, Boss boss, List<Spell> activeSpells)
         {
             if (activeSpells == null)
             {
                 return;
             }
 
-            List<Spell> endedSpells = new List<Spell>();
+            List<Spell> endedSpells = new();
             foreach (Spell spell in activeSpells)
             {
                 spell.ApplyEffect(pc, boss);
@@ -350,7 +349,7 @@ namespace AdventOfCode.Code
             }
         }
 
-        private List<SpellsLineup> SortSpellLineups(IEnumerable<SpellsLineup> spellLineups)
+        private static List<SpellsLineup> SortSpellLineups(IEnumerable<SpellsLineup> spellLineups)
         {
             return spellLineups
                 .OrderByDescending(spellLineup => spellLineup.DamageDealtToBoss)

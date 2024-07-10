@@ -15,7 +15,7 @@
 
         }
 
-        private string SolvePart1(IEnumerable<string> InputLines)
+        private static string SolvePart1(IEnumerable<string> InputLines)
         {
             // A, X = Rock
             // B, Y = Paper
@@ -37,7 +37,7 @@
             }
         }
 
-        private string SolvePart2(IEnumerable<string> InputLines)
+        private static string SolvePart2(IEnumerable<string> InputLines)
         {
             // A = Rock
             // B = Paper
@@ -62,7 +62,7 @@
             }
         }
 
-        private int PlayRockPaperScissors(char opponent, char player)
+        private static int PlayRockPaperScissors(char opponent, char player)
         {
             int points = 0;
             switch (opponent)
@@ -117,7 +117,7 @@
             return points;
         }
 
-        private int PlayRockPaperScissorsWithResult(char opponent, char result)
+        private static int PlayRockPaperScissorsWithResult(char opponent, char result)
         {
             int points = 0;
             switch (opponent)

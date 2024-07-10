@@ -41,7 +41,6 @@
 
         private long ComputeCookieValue()
         {
-            long cookieValue = 0;
             int totalCookieCapacity = 0;
             int totalCookieDurability = 0;
             int totalCookieFlavor = 0;
@@ -65,7 +64,7 @@
             if (totalCookieCapacity <= 0 || totalCookieDurability <= 0 || totalCookieFlavor <= 0 || totalCookieTexture <= 0)
                 return 0;
 
-            cookieValue = totalCookieCapacity * totalCookieDurability * totalCookieFlavor * totalCookieTexture;
+            long cookieValue = totalCookieCapacity * totalCookieDurability * totalCookieFlavor * totalCookieTexture;
             return cookieValue;
         }
 

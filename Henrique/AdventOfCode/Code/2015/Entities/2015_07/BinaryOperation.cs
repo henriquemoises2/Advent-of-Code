@@ -10,10 +10,10 @@
 
     internal class BinaryOperation : ISource
     {
-        private ISource _value1;
-        private ISource _value2;
+        private readonly ISource _value1;
+        private readonly ISource _value2;
 
-        private BinaryOperationType _operationType;
+        private readonly BinaryOperationType _operationType;
 
         internal BinaryOperation(ISource value1, ISource value2, BinaryOperationType operationType)
         {

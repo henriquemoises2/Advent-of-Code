@@ -25,7 +25,7 @@ namespace AdventOfCode.Code
                 Console.WriteLine("Please select the day (1-25) (or type \"back\" to return to year selection):");
 
                 input = Console.ReadLine();
-                int dayNumber = 0;
+                int dayNumber;
                 try
                 {
                     if (input != null && input.Equals("back", StringComparison.InvariantCultureIgnoreCase))
@@ -89,8 +89,6 @@ namespace AdventOfCode.Code
 
             Console.WriteLine("Welcome to Advent of Code. Please select the year (2015-2022):");
             string? input = Console.ReadLine();
-            int year = 0;
-
             try
             {
                 if (string.IsNullOrEmpty(input))
@@ -105,7 +103,7 @@ namespace AdventOfCode.Code
                     return -1;
                 }
 
-                year = Convert.ToInt16(input);
+                int year = Convert.ToInt16(input);
                 if (!Availability.AvailableYears.Contains(year))
                 {
                     throw new Exception();

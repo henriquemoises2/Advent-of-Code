@@ -1,5 +1,4 @@
-﻿using System.Data.Common;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
 {
@@ -18,7 +17,8 @@ namespace AdventOfCode.Code
 
             try
             {
-                Regex pattern = new Regex(ElfsSectionsPattern, RegexOptions.Compiled);
+                Regex pattern = new(ElfsSectionsPattern, RegexOptions.Compiled);
+                // TODO: Uniformise between the use of Match or Matches
                 MatchCollection match = pattern.Matches(string.Join("/n", InputLines));
                 for (int i = 0; i < match.Count; i++)
                 {
@@ -26,11 +26,11 @@ namespace AdventOfCode.Code
 
                     int elf1SectionStart = int.Parse(elfSectionLineMatch.Groups["elf1sectionstart"].Value);
                     int elf1SectionEnd = int.Parse(elfSectionLineMatch.Groups["elf1sectionend"].Value);
-                    Tuple<int, int> elf1Sections = new Tuple<int, int>(elf1SectionStart, elf1SectionEnd);
+                    Tuple<int, int> elf1Sections = new(elf1SectionStart, elf1SectionEnd);
 
                     int elf2SectionStart = int.Parse(elfSectionLineMatch.Groups["elf2sectionstart"].Value);
                     int elf2SectionEnd = int.Parse(elfSectionLineMatch.Groups["elf2sectionend"].Value);
-                    Tuple<int, int> elf2Sections = new Tuple<int, int>(elf2SectionStart, elf2SectionEnd);
+                    Tuple<int, int> elf2Sections = new(elf2SectionStart, elf2SectionEnd);
 
                     elfSections.Add(new Tuple<Tuple<int, int>, Tuple<int, int>>(elf1Sections, elf2Sections));
                 }
@@ -47,7 +47,7 @@ namespace AdventOfCode.Code
 
         }
 
-        private string SolvePart1(IEnumerable<Tuple<Tuple<int, int>, Tuple<int, int>>> elfSections)
+        private static string SolvePart1(IEnumerable<Tuple<Tuple<int, int>, Tuple<int, int>>> elfSections)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace AdventOfCode.Code
             }
         }
 
-        private string SolvePart2(IEnumerable<Tuple<Tuple<int, int>, Tuple<int, int>>> elfSections)
+        private static string SolvePart2(IEnumerable<Tuple<Tuple<int, int>, Tuple<int, int>>> elfSections)
         {
             try
             {

@@ -11,7 +11,7 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            List<int> ContainerSizes = new List<int>();
+            List<int> ContainerSizes = new();
             try
             {
                 ContainerSizes.AddRange(InputLines.Select(line => int.Parse(line)));
@@ -30,14 +30,14 @@ namespace AdventOfCode.Code
 
         }
 
-        private string SolvePart1(IEnumerable<IEnumerable<int>> allContainerPossibilities)
+        private static string SolvePart1(IEnumerable<IEnumerable<int>> allContainerPossibilities)
         {
             // Check which container sets can be completely filled with TotalEggnogLitres
             IEnumerable<IEnumerable<int>> realContainerPossibilities = allContainerPossibilities.Where(set => set.Sum() == TotalEggnogLitres);
             return realContainerPossibilities.Count().ToString();
         }
 
-        private string SolvePart2(IEnumerable<IEnumerable<int>> allContainerPossibilities)
+        private static string SolvePart2(IEnumerable<IEnumerable<int>> allContainerPossibilities)
         {
             // Check which container sets can be completely filled with TotalEggnogLitres
             IEnumerable<IEnumerable<int>> realContainerPossibilities = allContainerPossibilities.Where(set => set.Sum() == TotalEggnogLitres);

@@ -28,12 +28,12 @@ namespace AdventOfCode.Code
             return FindNextValidPassword(InputFirstLine).ToString();
         }
 
-        private string SolvePart2(string sequence)
+        private static string SolvePart2(string sequence)
         {
             return FindNextValidPassword(sequence).ToString();
         }
 
-        private string FindNextValidPassword(string currentPassword)
+        private static string FindNextValidPassword(string currentPassword)
         {
             bool isValidPassword = false;
             while (!isValidPassword)
@@ -45,7 +45,7 @@ namespace AdventOfCode.Code
             return currentPassword;
         }
 
-        private string IncrementPassword(string password)
+        private static string IncrementPassword(string password)
         {
             byte[] passwordAsByteArray = Encoding.ASCII.GetBytes(password);
             int i = passwordAsByteArray.Length - 1;
@@ -60,7 +60,7 @@ namespace AdventOfCode.Code
                 else
                 {
                     passwordAsByteArray[i]++;
-                    // Skip invalid characters
+                    // Skip invalid characters (Requirement #2)
                     passwordAsByteArray = SkipInvalidCharacters(passwordAsByteArray);
                     return Encoding.ASCII.GetString(passwordAsByteArray);
                 }
@@ -71,13 +71,14 @@ namespace AdventOfCode.Code
             return Encoding.ASCII.GetString(passwordAsByteArray);
         }
 
-        private byte[] SkipInvalidCharacters(byte[] passwordAsByteArray)
+        private static byte[] SkipInvalidCharacters(byte[] passwordAsByteArray)
         {
-            List<int> indexesOfInvalidCharacters = new List<int>();
-
-            indexesOfInvalidCharacters.Add(Array.IndexOf(passwordAsByteArray, ByteValueI));
-            indexesOfInvalidCharacters.Add(Array.IndexOf(passwordAsByteArray, ByteValueL));
-            indexesOfInvalidCharacters.Add(Array.IndexOf(passwordAsByteArray, ByteValueO));
+            List<int> indexesOfInvalidCharacters = new()
+            {
+                Array.IndexOf(passwordAsByteArray, ByteValueI),
+                Array.IndexOf(passwordAsByteArray, ByteValueL),
+                Array.IndexOf(passwordAsByteArray, ByteValueO)
+            };
 
             if (!indexesOfInvalidCharacters.Any(index => index > -1))
             {
@@ -101,7 +102,7 @@ namespace AdventOfCode.Code
         /// </summary>
         /// <param name="password"></param>
         /// <returns></returns>
-        private bool ValidateFirstRequirement(string password)
+        private static bool ValidateFirstRequirement(string password)
         {
             byte[] passwordAsByteArray = Encoding.ASCII.GetBytes(password);
             for (int i = 0; i <= passwordAsByteArray.Length - 3; i++)
@@ -115,26 +116,11 @@ namespace AdventOfCode.Code
         }
 
         /// <summary>
-        /// Validate if the letters 'i', 'o', or 'l' are not present.
-        /// </summary>
-        /// <param name="password"></param>
-        /// <returns></returns>
-        private bool ValidateSecondRequirement(string password)
-        {
-            byte[] passwordAsByteArray = Encoding.ASCII.GetBytes(password);
-            if (passwordAsByteArray.Contains(ByteValueI) || passwordAsByteArray.Contains(ByteValueL) || passwordAsByteArray.Contains(ByteValueO))
-            {
-                return false;
-            }
-            return true;
-        }
-
-        /// <summary>
         /// Validate if there are at least two pairs of adjacent equal characters.
         /// </summary>
         /// <param name="password"></param>
         /// <returns></returns>
-        private bool ValidateThirdRequirement(string password)
+        private static bool ValidateThirdRequirement(string password)
         {
             byte[] passwordAsByteArray = Encoding.ASCII.GetBytes(password);
             int nSequentialEqualPairs = 0;
@@ -160,7 +146,7 @@ namespace AdventOfCode.Code
         /// </summary>
         /// <param name="character1"></param>
         /// <param name="character2"></param>
-        private bool IsNextChar(byte character1, byte character2)
+        private static bool IsNextChar(byte character1, byte character2)
         {
             return character2 == character1 + 1;
         }

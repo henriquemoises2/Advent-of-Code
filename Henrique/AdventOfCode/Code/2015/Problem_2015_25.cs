@@ -12,7 +12,7 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            Regex pattern = new Regex(ManualInstructionPattern, RegexOptions.Compiled);
+            Regex pattern = new(ManualInstructionPattern, RegexOptions.Compiled);
             int row, column;
             try
             {
@@ -32,10 +32,10 @@ namespace AdventOfCode.Code
 
         }
 
-        private string SolvePart1(int row, int column)
+        private static string SolvePart1(int row, int column)
         {
             double value = 20151125;
-            Tuple<int, int> coordinates = new Tuple<int, int>(1, 1);
+            Tuple<int, int> coordinates = new(1, 1);
 
             do
             {
@@ -47,17 +47,17 @@ namespace AdventOfCode.Code
             return value.ToString();
         }
 
-        private string SolvePart2()
+        private static string SolvePart2()
         {
             return "Congratulations!";
         }
 
-        private double ComputeNextValue(double value)
+        private static double ComputeNextValue(double value)
         {
             return (value * 252533) % 33554393;
         }
 
-        private Tuple<int, int> ComputeNextCoordinates(Tuple<int, int> coords)
+        private static Tuple<int, int> ComputeNextCoordinates(Tuple<int, int> coords)
         {
             int x, y;
             if (coords.Item2 == 1)

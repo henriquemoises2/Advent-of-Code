@@ -8,7 +8,7 @@
 
         public override string Solve()
         {
-            List<int> elfsList = new List<int>();
+            List<int> elfsList = new();
 
             int totalCalories = 0;
 
@@ -40,12 +40,12 @@
 
         }
 
-        private string SolvePart1(List<int> elfsList)
+        private static string SolvePart1(List<int> elfsList)
         {
             return elfsList.OrderByDescending(elf => elf).FirstOrDefault().ToString();
         }
 
-        private string SolvePart2(List<int> elfsList)
+        private static string SolvePart2(List<int> elfsList)
         {
             return elfsList.OrderByDescending(elf => elf).Take(3).Sum().ToString();
         }

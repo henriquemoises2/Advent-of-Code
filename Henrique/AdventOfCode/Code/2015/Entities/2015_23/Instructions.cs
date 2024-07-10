@@ -26,30 +26,23 @@
         {
             if (instructionParameters.Register != null)
             {
-                switch (instructionParameters.Code)
+                return instructionParameters.Code switch
                 {
-
-                    case "hlf":
-                        return new Half(instructionParameters.Register);
-                    case "tpl":
-                        return new Triple(instructionParameters.Register);
-                    case "inc":
-                        return new Increment(instructionParameters.Register);
-                    case "jie":
-                        return new JumpIfEven(instructionParameters.Register, (instructionParameters.Sign1 == '+' ? 1 : -1) * instructionParameters.Value1.GetValueOrDefault());
-                    case "jio":
-                        return new JumpIfOne(instructionParameters.Register, (instructionParameters.Sign1 == '+' ? 1 : -1) * instructionParameters.Value1.GetValueOrDefault());
-                    default: throw new ArgumentOutOfRangeException(nameof(instructionParameters.Code));
-                }
+                    "hlf" => new Half(instructionParameters.Register),
+                    "tpl" => new Triple(instructionParameters.Register),
+                    "inc" => new Increment(instructionParameters.Register),
+                    "jie" => new JumpIfEven(instructionParameters.Register, (instructionParameters.Sign1 == '+' ? 1 : -1) * instructionParameters.Value1.GetValueOrDefault()),
+                    "jio" => new JumpIfOne(instructionParameters.Register, (instructionParameters.Sign1 == '+' ? 1 : -1) * instructionParameters.Value1.GetValueOrDefault()),
+                    _ => throw new ArgumentException(nameof(instructionParameters.Code)),
+                };
             }
             else
             {
-                switch (instructionParameters.Code)
+                return instructionParameters.Code switch
                 {
-                    case "jmp":
-                        return new Jump((instructionParameters.Sign2 == '+' ? 1 : -1) * instructionParameters.Value2.GetValueOrDefault());
-                    default: throw new ArgumentOutOfRangeException(nameof(instructionParameters.Code));
-                }
+                    "jmp" => new Jump((instructionParameters.Sign2 == '+' ? 1 : -1) * instructionParameters.Value2.GetValueOrDefault()),
+                    _ => throw new ArgumentException(nameof(instructionParameters.Code)),
+                };
             }
 
         }

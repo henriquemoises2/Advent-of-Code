@@ -2,7 +2,7 @@
 {
     internal class Inventory : IEquatable<Inventory>
     {
-        internal List<Item> Items = new List<Item>();
+        internal List<Item> Items = new();
 
         internal Inventory()
         {

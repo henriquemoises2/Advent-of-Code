@@ -2,7 +2,7 @@
 {
     internal class Value : ISource
     {
-        private ushort _signal;
+        private readonly ushort _signal;
 
         internal Value(ushort value)
         {

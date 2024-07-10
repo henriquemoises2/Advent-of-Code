@@ -17,20 +17,20 @@
         {
             get;
         }
-        private IEnumerable<Compound> GetResult()
+        private static IEnumerable<Compound> GetResult()
         {
             return new List<Compound>()
             {
-                new Compound("children", Children),
-                new Compound("cats", Cats),
-                new Compound("samoyeds", Samoyeds),
-                new Compound("pomeranians", Pomeranians),
-                new Compound("akitas", Akitas),
-                new Compound("vizslas", Vizslas),
-                new Compound("goldfish", Goldfish),
-                new Compound("trees", Trees),
-                new Compound("cars", Cars),
-                new Compound("perfumes", Perfumes),
+                new("children", Children),
+                new("cats", Cats),
+                new("samoyeds", Samoyeds),
+                new("pomeranians", Pomeranians),
+                new("akitas", Akitas),
+                new("vizslas", Vizslas),
+                new("goldfish", Goldfish),
+                new("trees", Trees),
+                new("cars", Cars),
+                new("perfumes", Perfumes),
             };
         }
 
