@@ -1,7 +1,4 @@
-﻿using System.Data.Common;
-using System.Text.RegularExpressions;
-
-namespace AdventOfCode.Code
+﻿namespace AdventOfCode.Code
 {
     public class Problem_2022_08 : Problem
     {
@@ -37,7 +34,7 @@ namespace AdventOfCode.Code
             {
                 for (int j = 0; j < columns; j++)
                 {
-                    if(IsTreeVisible(i, j, treeSizes))
+                    if (IsTreeVisible(i, j, treeSizes))
                     {
                         visibleTrees++;
                     }
@@ -66,7 +63,7 @@ namespace AdventOfCode.Code
             return IsTreeBorder(i, j, treeSizes) || IsTreeVisibleFromOutside(i, j, treeSizes);
         }
 
-        private static bool IsTreeBorder(int row, int column, int[,] treeSizes) 
+        private static bool IsTreeBorder(int row, int column, int[,] treeSizes)
         {
             int rowSize = treeSizes.GetLength(0);
             int columnSize = treeSizes.GetLength(1);
@@ -81,7 +78,7 @@ namespace AdventOfCode.Code
             bool isVisibleFromLeft = true, isVisibleFromRight = true, isVisibleFromTop = true, isVisibleFromBottom = true;
 
             // Left 
-            for(int j = column - 1; j >= 0; j--)
+            for (int j = column - 1; j >= 0; j--)
             {
                 if (treeSizes[row, j] >= treeSizes[row, column])
                 {

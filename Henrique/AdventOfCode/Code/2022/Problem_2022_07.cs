@@ -1,4 +1,4 @@
-﻿using AdventOfCode._2022.Entities;
+﻿using AdventOfCode._2022_07;
 using AdventOfCode.DataStructures;
 using System.Text.RegularExpressions;
 

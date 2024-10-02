@@ -1,4 +1,4 @@
-﻿namespace AdventOfCode._2022.Entities
+﻿namespace AdventOfCode._2022_07
 {
     internal class FileSystemItem
     {
