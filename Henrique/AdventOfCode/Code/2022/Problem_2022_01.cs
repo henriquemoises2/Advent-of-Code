@@ -8,7 +8,7 @@
 
         public override string Solve()
         {
-            List<int> elfsList = new();
+            List<int> elfsList = [];
 
             int totalCalories = 0;
 

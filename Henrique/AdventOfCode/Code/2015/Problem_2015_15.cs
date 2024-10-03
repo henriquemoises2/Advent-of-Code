@@ -4,7 +4,7 @@ using Cookie = AdventOfCode._2015_15.Cookie;
 
 namespace AdventOfCode.Code
 {
-    public class Problem_2015_15 : Problem
+    public partial class Problem_2015_15 : Problem
     {
 
         private const string IngredientPattern = @"^(?<name>\w+): capacity (?<capacity>-*\d+), durability (?<durability>-*\d+), flavor (?<flavor>-*\d+), texture (?<texture>-*\d+), calories (?<calories>-*\d+)";
@@ -18,8 +18,8 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            Regex pattern = new(IngredientPattern, RegexOptions.Compiled);
-            List<Ingredient> ingredientsList = new();
+            Regex pattern = MyRegex();
+            List<Ingredient> ingredientsList = [];
 
             foreach (string line in InputLines)
             {
@@ -44,7 +44,7 @@ namespace AdventOfCode.Code
 
             IngredientsQuantityInitializer ingredientsQuantityInitializer = new(new MinimumQuantityInitializerStrategy(), ingredientsList, TotalIngredientsQuantity);
             IEnumerable<Ingredient> weightedIngredientsList = ingredientsQuantityInitializer.Initialize();
-            IEnumerable<Cookie> possibleCookies = GenerateAllPossibleCookies(weightedIngredientsList, new List<Cookie>());
+            IEnumerable<Cookie> possibleCookies = GenerateAllPossibleCookies(weightedIngredientsList, []);
 
             string part1 = SolvePart1(possibleCookies);
             string part2 = SolvePart2(possibleCookies);
@@ -111,5 +111,8 @@ namespace AdventOfCode.Code
             }
             return null;
         }
+
+        [GeneratedRegex(IngredientPattern, RegexOptions.Compiled)]
+        private static partial Regex MyRegex();
     }
 }

@@ -2,7 +2,7 @@
 
 namespace AdventOfCode.Code
 {
-    public class Problem_2015_08 : Problem
+    public partial class Problem_2015_08 : Problem
     {
 
         private const string PatternNonLetterCharacters = @"(\\\\)|(\\"")|(\\x[0-f][0-f])|([a-z])";
@@ -18,7 +18,7 @@ namespace AdventOfCode.Code
             int totalEncodedCharacters = 0;
             int totalInMemoryCharacters = 0;
 
-            Regex regexNonLetterCharacters = new(PatternNonLetterCharacters, RegexOptions.Compiled);
+            Regex regexNonLetterCharacters = MyRegex();
             MatchCollection matchCollection;
             foreach (string line in InputLines)
             {
@@ -40,5 +40,8 @@ namespace AdventOfCode.Code
             string encodedString = decodedString.Replace(@"\", @"\\").Replace(@"""", @"\""");
             return @"""" + encodedString + @"""";
         }
+
+        [GeneratedRegex(PatternNonLetterCharacters, RegexOptions.Compiled)]
+        private static partial Regex MyRegex();
     }
 }

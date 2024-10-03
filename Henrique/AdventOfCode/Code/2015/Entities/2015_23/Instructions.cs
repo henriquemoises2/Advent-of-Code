@@ -1,23 +1,13 @@
 ﻿namespace AdventOfCode._2015_23
 {
-    internal class InstructionParameters
+    internal class InstructionParameters(string code, Register? register, char? sign1, int? value1, char? sign2, int? value2)
     {
-        internal string Code { get; set; }
-        internal Register? Register { get; set; }
-        internal char? Sign1 { get; set; }
-        internal int? Value1 { get; set; }
-        internal char? Sign2 { get; set; }
-        internal int? Value2 { get; set; }
-
-        public InstructionParameters(string code, Register? register, char? sign1, int? value1, char? sign2, int? value2)
-        {
-            Code = code;
-            Register = register;
-            Sign1 = sign1;
-            Value1 = value1;
-            Sign2 = sign2;
-            Value2 = value2;
-        }
+        internal string Code { get; set; } = code;
+        internal Register? Register { get; set; } = register;
+        internal char? Sign1 { get; set; } = sign1;
+        internal int? Value1 { get; set; } = value1;
+        internal char? Sign2 { get; set; } = sign2;
+        internal int? Value2 { get; set; } = value2;
     }
 
     internal static class InstructionsFactory

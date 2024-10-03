@@ -11,7 +11,7 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            List<int> ContainerSizes = new();
+            List<int> ContainerSizes = [];
             try
             {
                 ContainerSizes.AddRange(InputLines.Select(line => int.Parse(line)));

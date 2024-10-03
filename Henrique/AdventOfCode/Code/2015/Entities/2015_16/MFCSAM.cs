@@ -19,8 +19,8 @@
         }
         private static IEnumerable<Compound> GetResult()
         {
-            return new List<Compound>()
-            {
+            return
+            [
                 new("children", Children),
                 new("cats", Cats),
                 new("samoyeds", Samoyeds),
@@ -31,7 +31,7 @@
                 new("trees", Trees),
                 new("cars", Cars),
                 new("perfumes", Perfumes),
-            };
+            ];
         }
 
         internal MFCSAM()

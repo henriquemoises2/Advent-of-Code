@@ -1,9 +1,6 @@
 ﻿namespace AdventOfCode._2015_21
 {
-    internal class Boss : Entity
+    internal class Boss(int hitPoints, int damage, int armor) : Entity(hitPoints, damage, armor)
     {
-        public Boss(int hitPoints, int damage, int armor) : base(hitPoints, damage, armor)
-        {
-        }
     }
 }

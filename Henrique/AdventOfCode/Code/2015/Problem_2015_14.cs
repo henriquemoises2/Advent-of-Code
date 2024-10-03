@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
 {
-    public class Problem_2015_14 : Problem
+    public partial class Problem_2015_14 : Problem
     {
 
         private const string RaindeerSpeedPattern = @"^(?<name>\w+) can fly (?<speed>\d+) km/s for (?<flytime>\d+) seconds, but then must rest for (?<resttime>\d+) seconds.";
@@ -14,8 +14,8 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            Regex pattern = new(RaindeerSpeedPattern, RegexOptions.Compiled);
-            List<Raindeer> raindeerList = new();
+            Regex pattern = MyRegex();
+            List<Raindeer> raindeerList = [];
 
             foreach (string line in InputLines)
             {
@@ -78,5 +78,7 @@ namespace AdventOfCode.Code
             }
         }
 
+        [GeneratedRegex(RaindeerSpeedPattern, RegexOptions.Compiled)]
+        private static partial Regex MyRegex();
     }
 }

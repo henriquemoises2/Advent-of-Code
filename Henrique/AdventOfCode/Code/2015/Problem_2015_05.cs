@@ -2,7 +2,7 @@
 
 namespace AdventOfCode.Code
 {
-    public class Problem_2015_05 : Problem
+    public partial class Problem_2015_05 : Problem
     {
         private const string RULE_1 = @"^(.*a.*|.*e.*|.*i.*|.*o.*|.*u.*){3,}$";
         private const string RULE_2 = @$"^.*(?<letter>[a-z])\k<letter>.*$";
@@ -26,9 +26,9 @@ namespace AdventOfCode.Code
 
         private string SolvePart1()
         {
-            Regex expression1 = new(RULE_1, RegexOptions.Compiled);
-            Regex expression2 = new(RULE_2, RegexOptions.Compiled);
-            Regex expression3 = new(RULE_3, RegexOptions.Compiled);
+            Regex expression1 = MyRegex();
+            Regex expression2 = MyRegex1();
+            Regex expression3 = MyRegex2();
 
             int niceSentences = 0;
             int naughtySentences = 0;
@@ -70,5 +70,12 @@ namespace AdventOfCode.Code
 
             return niceSentences.ToString();
         }
+
+        [GeneratedRegex(RULE_1, RegexOptions.Compiled)]
+        private static partial Regex MyRegex();
+        [GeneratedRegex(RULE_2, RegexOptions.Compiled)]
+        private static partial Regex MyRegex1();
+        [GeneratedRegex(RULE_3, RegexOptions.Compiled)]
+        private static partial Regex MyRegex2();
     }
 }

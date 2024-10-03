@@ -17,15 +17,14 @@
 
         private string SolvePart1()
         {
-            byte[] zeroArray = new byte[2] { 0x00, 0x00 };
+            byte[] zeroArray = [0x00, 0x00];
             byte[] inputBytes, hashBytes;
             string input;
-            using System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create();
             for (int i = 0; i < int.MaxValue; i++)
             {
                 input = InputFirstLine + i;
                 inputBytes = System.Text.Encoding.UTF8.GetBytes(input);
-                hashBytes = md5.ComputeHash(inputBytes);
+                hashBytes = System.Security.Cryptography.MD5.HashData(inputBytes);
 
                 // Compare in hexadecimal instead of converting to string for performance reasons
                 // The first 2 bytes have to be 0x00 (which is equal to 0000 in hex)
@@ -43,15 +42,14 @@
 
         private string SolvePart2()
         {
-            byte[] zeroArray = new byte[3] { 0x00, 0x00, 0x00 };
+            byte[] zeroArray = [0x00, 0x00, 0x00];
             byte[] inputBytes, hashBytes;
             string input;
-            using System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create();
             for (int i = 0; i < int.MaxValue; i++)
             {
                 input = InputFirstLine + i;
                 inputBytes = System.Text.Encoding.UTF8.GetBytes(input);
-                hashBytes = md5.ComputeHash(inputBytes);
+                hashBytes = System.Security.Cryptography.MD5.HashData(inputBytes);
 
                 // Compare in hexadecimal instead of converting to string for performance reasons
                 // The first 3 bytes have to be 0x00 (which is equal to 000000 in hex)

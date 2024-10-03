@@ -2,7 +2,7 @@
 
 namespace AdventOfCode.Code
 {
-    public class Problem_2015_25 : Problem
+    public partial class Problem_2015_25 : Problem
     {
         private const string ManualInstructionPattern = @"^To continue, please consult the code grid in the manual.  Enter the code at row (?<row>\d+), column (?<column>\d+)\.$";
 
@@ -12,7 +12,7 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            Regex pattern = new(ManualInstructionPattern, RegexOptions.Compiled);
+            Regex pattern = MyRegex();
             int row, column;
             try
             {
@@ -73,5 +73,8 @@ namespace AdventOfCode.Code
 
             return new Tuple<int, int>(x, y);
         }
+
+        [GeneratedRegex(ManualInstructionPattern, RegexOptions.Compiled)]
+        private static partial Regex MyRegex();
     }
 }

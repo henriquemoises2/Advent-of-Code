@@ -73,12 +73,12 @@ namespace AdventOfCode.Code
 
         private static byte[] SkipInvalidCharacters(byte[] passwordAsByteArray)
         {
-            List<int> indexesOfInvalidCharacters = new()
-            {
+            List<int> indexesOfInvalidCharacters =
+            [
                 Array.IndexOf(passwordAsByteArray, ByteValueI),
                 Array.IndexOf(passwordAsByteArray, ByteValueL),
                 Array.IndexOf(passwordAsByteArray, ByteValueO)
-            };
+            ];
 
             if (!indexesOfInvalidCharacters.Any(index => index > -1))
             {

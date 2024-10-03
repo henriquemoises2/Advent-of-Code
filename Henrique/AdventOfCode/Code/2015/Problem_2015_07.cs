@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
 {
-    public class Problem_2015_07 : Problem
+    public partial class Problem_2015_07 : Problem
     {
 
         private const string PatternValue = "^(\\d+|[a-z]+) -> ([a-z]+)$";
@@ -20,9 +20,9 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            Regex regexPatterValue = new(PatternValue, RegexOptions.Compiled);
-            Regex regexPatternUnaryOperation = new(PatternUnaryOperation, RegexOptions.Compiled);
-            Regex regexPatternBinaryOperation = new(PatternBinaryOperation, RegexOptions.Compiled);
+            Regex regexPatterValue = MyRegex();
+            Regex regexPatternUnaryOperation = MyRegex1();
+            Regex regexPatternBinaryOperation = MyRegex2();
             Match match;
 
             IDictionary<string, ISource> originalCircuit = new Dictionary<string, ISource>();
@@ -129,6 +129,11 @@ namespace AdventOfCode.Code
             return circuit[CableToEvaluate].Evaluate(circuit).ToString();
         }
 
-
+        [GeneratedRegex(PatternValue, RegexOptions.Compiled)]
+        private static partial Regex MyRegex();
+        [GeneratedRegex(PatternUnaryOperation, RegexOptions.Compiled)]
+        private static partial Regex MyRegex1();
+        [GeneratedRegex(PatternBinaryOperation, RegexOptions.Compiled)]
+        private static partial Regex MyRegex2();
     }
 }

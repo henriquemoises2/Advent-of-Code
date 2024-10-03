@@ -35,7 +35,7 @@ namespace AdventOfCode.Code
 
         private static Tuple<int, int> SolveBothParts(int minimumGifts)
         {
-            Dictionary<int, int> numberHousesVisitedByEachElf = new();
+            Dictionary<int, int> numberHousesVisitedByEachElf = [];
             Tuple<int, int> combinedSolutions = new(0, 0);
             long totalGiftsFirstRun = 0, totalGiftsSecondRun = 0;
             for (int i = 1; i < MaxHousesNumber; i++)

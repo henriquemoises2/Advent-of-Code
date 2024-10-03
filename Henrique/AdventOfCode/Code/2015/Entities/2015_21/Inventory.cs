@@ -2,12 +2,13 @@
 {
     internal class Inventory : IEquatable<Inventory>
     {
-        internal List<Item> Items = new();
+        internal List<Item> Items = [];
 
         internal Inventory()
         {
-            Items = new List<Item>();
+            Items = [];
         }
+
         internal Inventory(IEnumerable<Item> items)
         {
             Items = items.ToList();

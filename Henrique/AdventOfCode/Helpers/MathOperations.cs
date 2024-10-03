@@ -4,11 +4,11 @@
     {
         static internal IEnumerable<int> GetDivisors(int number)
         {
-            List<int> result = new()
-            {
+            List<int> result =
+            [
                 1,
                 number
-            };
+            ];
 
             for (int i = 2; i <= Math.Sqrt(number); i++)
             {

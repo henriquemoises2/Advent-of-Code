@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
 {
-    public class Problem_2015_09 : Problem
+    public partial class Problem_2015_09 : Problem
     {
 
         private const string PatternDistance = @"^(\w+) to (\w+) = (\d+)$";
@@ -14,14 +14,14 @@ namespace AdventOfCode.Code
 
         public Problem_2015_09() : base()
         {
-            Distances = new List<Distance>();
-            LocationIDs = new Dictionary<string, int>();
+            Distances = [];
+            LocationIDs = [];
             _distanceMatrix = new int[0, 0];
         }
 
         public override string Solve()
         {
-            Regex pattern = new(PatternDistance, RegexOptions.Compiled);
+            Regex pattern = MyRegex();
             int locationIdsIndex = 0;
             foreach (string line in InputLines)
             {
@@ -38,14 +38,12 @@ namespace AdventOfCode.Code
                     int cost = int.Parse(match.Groups[3].Value);
 
                     // Assign unique int to each location
-                    if (!LocationIDs.ContainsKey(startingLocation))
+                    if (LocationIDs.TryAdd(startingLocation, locationIdsIndex))
                     {
-                        LocationIDs.Add(startingLocation, locationIdsIndex);
                         locationIdsIndex++;
                     }
-                    if (!LocationIDs.ContainsKey(endingLocation))
+                    if (LocationIDs.TryAdd(endingLocation, locationIdsIndex))
                     {
-                        LocationIDs.Add(endingLocation, locationIdsIndex);
                         locationIdsIndex++;
                     }
 
@@ -103,5 +101,8 @@ namespace AdventOfCode.Code
             }
             return distanceMatrix;
         }
+
+        [GeneratedRegex(PatternDistance, RegexOptions.Compiled)]
+        private static partial Regex MyRegex();
     }
 }

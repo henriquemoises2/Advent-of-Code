@@ -7,22 +7,14 @@
 
         internal Movement(char direction, int steps)
         {
-            switch (direction)
+            Direction = direction switch
             {
-                case 'L':
-                    Direction = Direction.Left;
-                    break;
-                case 'R':
-                    Direction = Direction.Right;
-                    break;
-                case 'U':
-                    Direction = Direction.Up;
-                    break;
-                case 'D':
-                    Direction = Direction.Down;
-                    break;
-                default: throw new ArgumentException();
-            }
+                'L' => Direction.Left,
+                'R' => Direction.Right,
+                'U' => Direction.Up,
+                'D' => Direction.Down,
+                _ => throw new ArgumentException(direction.GetType().Name),
+            };
             Steps = steps;
         }
     }

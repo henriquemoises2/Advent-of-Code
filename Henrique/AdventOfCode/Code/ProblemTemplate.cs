@@ -2,7 +2,7 @@
 
 namespace AdventOfCode.Code
 {
-    public class Problem_YEAR_DAY : Problem
+    public partial class Problem_YEAR_DAY : Problem
     {
 
         private const string SomeRegexPattern = @"";
@@ -12,7 +12,7 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            Regex pattern = new(SomeRegexPattern, RegexOptions.Compiled);
+            Regex pattern = MyRegex();
             foreach (string line in InputLines)
             {
                 Match match = pattern.Match(line);
@@ -41,5 +41,8 @@ namespace AdventOfCode.Code
         {
             return "";
         }
+
+        [GeneratedRegex(SomeRegexPattern, RegexOptions.Compiled)]
+        private static partial Regex MyRegex();
     }
 }

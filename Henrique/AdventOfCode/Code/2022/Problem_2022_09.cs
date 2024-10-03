@@ -4,18 +4,19 @@ using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
 {
-    public class Problem_2022_09 : Problem
+    public partial class Problem_2022_09 : Problem
     {
 
         private const string MovementRegexPattern = @"^(?<direction>\w) (?<steps>\d+)$";
+        private const int RopeLength = 10;
 
         public Problem_2022_09() : base()
         { }
 
         public override string Solve()
         {
-            Regex pattern = new(MovementRegexPattern, RegexOptions.Compiled);
-            List<Movement> movementList = new List<Movement>();
+            Regex pattern = MyRegex();
+            List<Movement> movementList = [];
 
             foreach (string line in InputLines)
             {
@@ -31,17 +32,17 @@ namespace AdventOfCode.Code
             }
 
             string part1 = SolvePart1(movementList);
-            string part2 = SolvePart2();
+            string part2 = SolvePart2(movementList);
 
             return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
         }
 
         private static string SolvePart1(List<Movement> movementList)
         {
-            Head head = new Head();
-            Tail tail = new Tail();
+            Head head = new();
+            Tail tail = new();
 
-            foreach (Movement movement in movementList) 
+            foreach (Movement movement in movementList)
             {
                 for (int i = 0; i < movement.Steps; i++)
                 {
@@ -52,9 +53,35 @@ namespace AdventOfCode.Code
             return tail.VisitedCoordinates.Count.ToString();
         }
 
-        private static string SolvePart2()
+        private static string SolvePart2(List<Movement> movementList)
         {
-            return "";
+            Head head = new();
+            List<Tail> knots = [];
+            for (int i = 0; i < RopeLength - 1; i++)
+            {
+                Tail tail = new();
+                knots.Add(tail);
+            }
+
+            foreach (Movement movement in movementList)
+            {
+                for (int i = 0; i < movement.Steps; i++)
+                {
+                    head.Move(movement.Direction);
+                    Knot previousKnot = head;
+                    for (int tailIndex = 0; tailIndex < knots.Count; tailIndex++)
+                    {
+                        Tail tail = knots[tailIndex];
+                        tail.Follow(previousKnot);
+                        previousKnot = tail;
+                    }
+                }
+            }
+            Tail lastTail = knots[RopeLength - 2];
+            return lastTail.VisitedCoordinates.Count.ToString();
         }
+
+        [GeneratedRegex(MovementRegexPattern, RegexOptions.Compiled)]
+        private static partial Regex MyRegex();
     }
 }

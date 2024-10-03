@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
 {
-    public class Problem_2015_13 : Problem
+    public partial class Problem_2015_13 : Problem
     {
 
         private const string DispositionPattern = @"^(?<person1>[A-Za-z]+) would (?<signal>[A-Za-z]+) (?<value>\d+) happiness units by sitting next to (?<person2>[A-Za-z]+).";
@@ -16,7 +16,7 @@ namespace AdventOfCode.Code
         public override string Solve()
         {
             List<DispositionChange> dispositionList = ParseDispositionList();
-            Dictionary<int, string> people = new();
+            Dictionary<int, string> people = [];
 
             string[] uniquePeople = dispositionList.Select(d => d.Person1).Distinct().ToArray();
             for (int i = 0; i < uniquePeople.Length; i++)
@@ -60,8 +60,8 @@ namespace AdventOfCode.Code
 
         private List<DispositionChange> ParseDispositionList()
         {
-            Regex regexDispositionChangeInput = new(DispositionPattern, RegexOptions.Compiled);
-            List<DispositionChange> dispositionsList = new();
+            Regex regexDispositionChangeInput = MyRegex();
+            List<DispositionChange> dispositionsList = [];
 
             foreach (var line in InputLines)
             {
@@ -111,7 +111,7 @@ namespace AdventOfCode.Code
 
         private int ComputeTotalDisposition(Dictionary<int, string> original)
         {
-            List<int> results = new();
+            List<int> results = [];
             for (int startingPerson = 0; startingPerson < original.Count; startingPerson++)
             {
                 Dictionary<int, string> people = new(original);
@@ -150,5 +150,7 @@ namespace AdventOfCode.Code
             return results.Max();
         }
 
+        [GeneratedRegex(DispositionPattern, RegexOptions.Compiled)]
+        private static partial Regex MyRegex();
     }
 }

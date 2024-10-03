@@ -96,7 +96,7 @@ namespace AdventOfCode.Code
                     throw new Exception();
 
                 }
-                if (input.ToLowerInvariant() == "debug")
+                if (input.Equals("debug", StringComparison.InvariantCultureIgnoreCase))
                 {
                     _debugMode = true;
                     Console.WriteLine("Debug mode activated.");
