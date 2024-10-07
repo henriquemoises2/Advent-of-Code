@@ -19,7 +19,17 @@
 
         public bool Equals(Item? other)
         {
-            return Name == other?.Name;
+            return Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return Equals(obj as Item);
         }
     }
 }

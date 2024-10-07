@@ -27,6 +27,11 @@
 
             return hashValue ^ hashPosition;
         }
+
+        public override bool Equals(object? obj)
+        {
+            return Equals(obj as Molecule);
+        }
     }
 
 }

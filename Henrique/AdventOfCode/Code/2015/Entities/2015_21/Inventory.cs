@@ -37,5 +37,10 @@
         {
             return Items.GetHashCode();
         }
+
+        public override bool Equals(object? obj)
+        {
+            return Equals(obj as Inventory);
+        }
     }
 }
