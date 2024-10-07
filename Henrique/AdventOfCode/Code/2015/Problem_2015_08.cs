@@ -18,7 +18,7 @@ namespace AdventOfCode.Code
             int totalEncodedCharacters = 0;
             int totalInMemoryCharacters = 0;
 
-            Regex regexNonLetterCharacters = MyRegex();
+            Regex regexNonLetterCharacters = InputRegex();
             MatchCollection matchCollection;
             foreach (string line in InputLines)
             {
@@ -42,6 +42,6 @@ namespace AdventOfCode.Code
         }
 
         [GeneratedRegex(PatternNonLetterCharacters, RegexOptions.Compiled)]
-        private static partial Regex MyRegex();
+        private static partial Regex InputRegex();
     }
 }

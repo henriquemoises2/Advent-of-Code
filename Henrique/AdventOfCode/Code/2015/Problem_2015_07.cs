@@ -20,9 +20,9 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            Regex regexPatterValue = MyRegex();
-            Regex regexPatternUnaryOperation = MyRegex1();
-            Regex regexPatternBinaryOperation = MyRegex2();
+            Regex regexPatternValue = ValueRegex();
+            Regex regexPatternUnaryOperation = UnaryOperationRegex();
+            Regex regexPatternBinaryOperation = BinaryOperationRegex();
             Match match;
 
             IDictionary<string, ISource> originalCircuit = new Dictionary<string, ISource>();
@@ -30,9 +30,9 @@ namespace AdventOfCode.Code
 
             foreach (string line in InputLines)
             {
-                if (regexPatterValue.IsMatch(line))
+                if (regexPatternValue.IsMatch(line))
                 {
-                    match = regexPatterValue.Match(line);
+                    match = regexPatternValue.Match(line);
 
                     string originValue = match.Groups[1].Value;
                     string destinationCableName = match.Groups[2].Value;
@@ -130,10 +130,10 @@ namespace AdventOfCode.Code
         }
 
         [GeneratedRegex(PatternValue, RegexOptions.Compiled)]
-        private static partial Regex MyRegex();
+        private static partial Regex ValueRegex();
         [GeneratedRegex(PatternUnaryOperation, RegexOptions.Compiled)]
-        private static partial Regex MyRegex1();
+        private static partial Regex UnaryOperationRegex();
         [GeneratedRegex(PatternBinaryOperation, RegexOptions.Compiled)]
-        private static partial Regex MyRegex2();
+        private static partial Regex BinaryOperationRegex();
     }
 }

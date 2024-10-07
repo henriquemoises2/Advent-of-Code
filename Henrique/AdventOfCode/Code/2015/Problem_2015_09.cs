@@ -21,7 +21,7 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            Regex pattern = MyRegex();
+            Regex pattern = InputRegex();
             int locationIdsIndex = 0;
             foreach (string line in InputLines)
             {
@@ -103,6 +103,6 @@ namespace AdventOfCode.Code
         }
 
         [GeneratedRegex(PatternDistance, RegexOptions.Compiled)]
-        private static partial Regex MyRegex();
+        private static partial Regex InputRegex();
     }
 }

@@ -33,7 +33,7 @@ namespace AdventOfCode.Code
 
         private string SolvePart1()
         {
-            Regex regex = MyRegex();
+            Regex regex = InputRegex();
             foreach (string line in InputLines)
             {
                 Match match = regex.Match(line);
@@ -172,6 +172,6 @@ namespace AdventOfCode.Code
         }
 
         [GeneratedRegex(Pattern, RegexOptions.Compiled)]
-        private static partial Regex MyRegex();
+        private static partial Regex InputRegex();
     }
 }

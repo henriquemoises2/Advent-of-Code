@@ -60,7 +60,7 @@ namespace AdventOfCode.Code
 
         private List<DispositionChange> ParseDispositionList()
         {
-            Regex regexDispositionChangeInput = MyRegex();
+            Regex regexDispositionChangeInput = InputRegex();
             List<DispositionChange> dispositionsList = [];
 
             foreach (var line in InputLines)
@@ -151,6 +151,6 @@ namespace AdventOfCode.Code
         }
 
         [GeneratedRegex(DispositionPattern, RegexOptions.Compiled)]
-        private static partial Regex MyRegex();
+        private static partial Regex InputRegex();
     }
 }

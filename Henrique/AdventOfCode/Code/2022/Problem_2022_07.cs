@@ -20,7 +20,7 @@ namespace AdventOfCode.Code
 
             Tree<FileSystemItem> fileSystem;
             TreeNode<FileSystemItem> startingNode;
-            Regex pattern = MyRegex();
+            Regex pattern = InputRegex();
             Match match = pattern.Match(InputFirstLine);
             if (match.Groups["cdExpression"].Success && match.Value[5] == '/')
             {
@@ -123,6 +123,6 @@ namespace AdventOfCode.Code
         }
 
         [GeneratedRegex(CommandRegexPattern, RegexOptions.Compiled)]
-        private static partial Regex MyRegex();
+        private static partial Regex InputRegex();
     }
 }

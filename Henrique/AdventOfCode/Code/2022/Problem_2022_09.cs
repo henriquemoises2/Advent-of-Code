@@ -15,7 +15,7 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            Regex pattern = MyRegex();
+            Regex pattern = InputRegex();
             List<Movement> movementList = [];
 
             foreach (string line in InputLines)
@@ -82,6 +82,6 @@ namespace AdventOfCode.Code
         }
 
         [GeneratedRegex(MovementRegexPattern, RegexOptions.Compiled)]
-        private static partial Regex MyRegex();
+        private static partial Regex InputRegex();
     }
 }

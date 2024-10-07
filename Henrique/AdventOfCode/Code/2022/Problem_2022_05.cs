@@ -40,7 +40,7 @@ namespace AdventOfCode.Code
                     }
                 }
 
-                Regex pattern = MyRegex();
+                Regex pattern = InputRegex();
                 MatchCollection match = pattern.Matches(string.Join("/n", InputLines));
 
                 for (int i = 0; i < match.Count; i++)
@@ -116,6 +116,6 @@ namespace AdventOfCode.Code
         }
 
         [GeneratedRegex(InstructionPattern, RegexOptions.Compiled)]
-        private static partial Regex MyRegex();
+        private static partial Regex InputRegex();
     }
 }

@@ -14,7 +14,7 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            Regex pattern = MyRegex();
+            Regex pattern = InputRegex();
             List<Raindeer> raindeerList = [];
 
             foreach (string line in InputLines)
@@ -79,6 +79,6 @@ namespace AdventOfCode.Code
         }
 
         [GeneratedRegex(RaindeerSpeedPattern, RegexOptions.Compiled)]
-        private static partial Regex MyRegex();
+        private static partial Regex InputRegex();
     }
 }

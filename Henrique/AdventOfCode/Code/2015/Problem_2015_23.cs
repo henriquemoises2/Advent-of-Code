@@ -13,7 +13,7 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            Regex pattern = MyRegex();
+            Regex pattern = InputRegex();
             List<IInstruction> instructions = [];
             List<Register> registers = [];
             try
@@ -91,6 +91,6 @@ namespace AdventOfCode.Code
         }
 
         [GeneratedRegex(InstructionPattern, RegexOptions.Compiled)]
-        private static partial Regex MyRegex();
+        private static partial Regex InputRegex();
     }
 }

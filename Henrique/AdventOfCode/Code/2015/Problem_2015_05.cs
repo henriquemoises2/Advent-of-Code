@@ -26,9 +26,9 @@ namespace AdventOfCode.Code
 
         private string SolvePart1()
         {
-            Regex expression1 = MyRegex();
-            Regex expression2 = MyRegex1();
-            Regex expression3 = MyRegex2();
+            Regex expression1 = Rule1Regex();
+            Regex expression2 = Rule2Regex();
+            Regex expression3 = Rule3Regex();
 
             int niceSentences = 0;
             int naughtySentences = 0;
@@ -72,10 +72,10 @@ namespace AdventOfCode.Code
         }
 
         [GeneratedRegex(RULE_1, RegexOptions.Compiled)]
-        private static partial Regex MyRegex();
+        private static partial Regex Rule1Regex();
         [GeneratedRegex(RULE_2, RegexOptions.Compiled)]
-        private static partial Regex MyRegex1();
+        private static partial Regex Rule2Regex();
         [GeneratedRegex(RULE_3, RegexOptions.Compiled)]
-        private static partial Regex MyRegex2();
+        private static partial Regex Rule3Regex();
     }
 }

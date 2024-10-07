@@ -12,7 +12,7 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            Regex pattern = MyRegex();
+            Regex pattern = InputRegex();
             foreach (string line in InputLines)
             {
                 Match match = pattern.Match(line);
@@ -43,6 +43,6 @@ namespace AdventOfCode.Code
         }
 
         [GeneratedRegex(SomeRegexPattern, RegexOptions.Compiled)]
-        private static partial Regex MyRegex();
+        private static partial Regex InputRegex();
     }
 }

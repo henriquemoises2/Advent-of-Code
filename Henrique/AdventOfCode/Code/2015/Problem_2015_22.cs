@@ -23,7 +23,7 @@ namespace AdventOfCode.Code
             Boss boss;
             MagicPlayerCharacter pc = new(PlayerHitpoints, PlayerMana);
 
-            Regex pattern = MyRegex();
+            Regex pattern = InputRegex();
             try
             {
                 Match match = pattern.Match(string.Join("\n", InputLines));
@@ -358,6 +358,6 @@ namespace AdventOfCode.Code
         }
 
         [GeneratedRegex(BossAttributesPattern, RegexOptions.Compiled)]
-        private static partial Regex MyRegex();
+        private static partial Regex InputRegex();
     }
 }

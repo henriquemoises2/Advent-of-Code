@@ -12,7 +12,7 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            Regex pattern = MyRegex();
+            Regex pattern = InputRegex();
             int row, column;
             try
             {
@@ -75,6 +75,6 @@ namespace AdventOfCode.Code
         }
 
         [GeneratedRegex(ManualInstructionPattern, RegexOptions.Compiled)]
-        private static partial Regex MyRegex();
+        private static partial Regex InputRegex();
     }
 }

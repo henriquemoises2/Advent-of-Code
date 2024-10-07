@@ -20,7 +20,7 @@ namespace AdventOfCode.Code
             List<Transformation> moleculeTransformations = [];
             string initialMedicineMolecule;
 
-            Regex pattern = MyRegex();
+            Regex pattern = TransformationRegex();
             try
             {
                 foreach (string line in InputLines)
@@ -129,7 +129,7 @@ namespace AdventOfCode.Code
 
         private static List<Molecule> ExtractMoleculesFromString(string medicineMolecule)
         {
-            Regex pattern = MyRegex1();
+            Regex pattern = MoleculeRegex();
             List<string> capturedMolecules = pattern.Match(medicineMolecule).Groups[1].Captures.Select(capt => capt.Value).ToList();
 
             List<Molecule> extractedMolecules = [];
@@ -152,8 +152,8 @@ namespace AdventOfCode.Code
         }
 
         [GeneratedRegex(TransformationPattern, RegexOptions.Compiled)]
-        private static partial Regex MyRegex();
+        private static partial Regex TransformationRegex();
         [GeneratedRegex(MoleculePattern, RegexOptions.Compiled)]
-        private static partial Regex MyRegex1();
+        private static partial Regex MoleculeRegex();
     }
 }

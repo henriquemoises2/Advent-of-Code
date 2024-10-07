@@ -17,7 +17,7 @@ namespace AdventOfCode.Code
 
             try
             {
-                Regex pattern = MyRegex();
+                Regex pattern = InputRegex();
                 // TODO: Uniformise between the use of Match or Matches
                 MatchCollection match = pattern.Matches(string.Join("/n", InputLines));
                 for (int i = 0; i < match.Count; i++)
@@ -99,6 +99,6 @@ namespace AdventOfCode.Code
         }
 
         [GeneratedRegex(ElfsSectionsPattern, RegexOptions.Compiled)]
-        private static partial Regex MyRegex();
+        private static partial Regex InputRegex();
     }
 }

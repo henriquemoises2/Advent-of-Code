@@ -18,7 +18,7 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            Regex pattern = MyRegex();
+            Regex pattern = InputRegex();
             List<Ingredient> ingredientsList = [];
 
             foreach (string line in InputLines)
@@ -113,6 +113,6 @@ namespace AdventOfCode.Code
         }
 
         [GeneratedRegex(IngredientPattern, RegexOptions.Compiled)]
-        private static partial Regex MyRegex();
+        private static partial Regex InputRegex();
     }
 }
