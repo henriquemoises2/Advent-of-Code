@@ -46,5 +46,11 @@ namespace AdventOfCode.Tests
         {
             Assert.Equal(string.Format(Messages.ProblemSolutionFormat, 1477771, 3579501), new Problem_2022_07().Solve());
         }
+
+        [Fact]
+        public void Test_2022_08()
+        {
+            Assert.Equal(string.Format(Messages.ProblemSolutionFormat, 1690, 535680), new Problem_2022_08().Solve());
+        }
     }
 }
