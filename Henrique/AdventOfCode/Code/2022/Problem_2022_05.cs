@@ -2,7 +2,7 @@
 
 namespace AdventOfCode.Code
 {
-    public class Problem_2022_05 : Problem
+    public partial class Problem_2022_05 : Problem
     {
 
         private const string InstructionPattern = @"move (?<nCrates>\d+) from (?<from>\d+) to (?<to>\d+)";
@@ -13,8 +13,8 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            Dictionary<int, IEnumerable<char>> stacks = new();
-            List<Tuple<int, int, int>> instructions = new();
+            Dictionary<int, IEnumerable<char>> stacks = [];
+            List<Tuple<int, int, int>> instructions = [];
 
             try
             {
@@ -28,7 +28,7 @@ namespace AdventOfCode.Code
                     if (stackNumbers[i] != ' ')
                     {
                         int stackNumber = stackNumbers[i] - '0';
-                        List<char> crates = new();
+                        List<char> crates = [];
                         for (int j = maxColumnHeight - 1; j >= 0; j--)
                         {
                             if (inputLinesAsArray[j][i] != ' ' && inputLinesAsArray[j][i] != '[' && inputLinesAsArray[j][i] != ']')
@@ -40,7 +40,7 @@ namespace AdventOfCode.Code
                     }
                 }
 
-                Regex pattern = new(InstructionPattern, RegexOptions.Compiled);
+                Regex pattern = InputRegex();
                 MatchCollection match = pattern.Matches(string.Join("/n", InputLines));
 
                 for (int i = 0; i < match.Count; i++)
@@ -115,5 +115,7 @@ namespace AdventOfCode.Code
             }
         }
 
+        [GeneratedRegex(InstructionPattern, RegexOptions.Compiled)]
+        private static partial Regex InputRegex();
     }
 }

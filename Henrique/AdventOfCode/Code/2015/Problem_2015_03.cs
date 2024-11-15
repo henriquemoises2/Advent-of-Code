@@ -15,7 +15,7 @@
 
         public Problem_2015_03() : base()
         {
-            visitedHouses = new List<Tuple<int, int>>();
+            visitedHouses = [];
             SantaLastVisitedHouse = Tuple.Create(0, 0);
             RoboSantaLastVisitedHouse = Tuple.Create(0, 0);
         }
@@ -31,10 +31,10 @@
         private string SolvePart1()
         {
             SantaLastVisitedHouse = new Tuple<int, int>(0, 0);
-            visitedHouses = new List<Tuple<int, int>>
-            {
+            visitedHouses =
+            [
                SantaLastVisitedHouse
-            };
+            ];
             totalVisitedUniqueHouses = 1;
 
             MoveTurn moveTurn = MoveTurn.Santa;
@@ -68,10 +68,10 @@
         {
             SantaLastVisitedHouse = new Tuple<int, int>(0, 0);
             RoboSantaLastVisitedHouse = new Tuple<int, int>(0, 0);
-            visitedHouses = new List<Tuple<int, int>>
-            {
+            visitedHouses =
+            [
                SantaLastVisitedHouse
-            };
+            ];
             totalVisitedUniqueHouses = 1;
             for (int i = 0; i < InputFirstLine.Length; i++)
             {

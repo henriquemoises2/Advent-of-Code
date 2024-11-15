@@ -15,14 +15,14 @@ namespace AdventOfCode.Algorithms
             _distanceMatrix = distanceMatrix;
             _startingNode = startingNode;
             _returnToOrigin = returnToOrigin;
-            _costLookup = new Dictionary<string, int>();
+            _costLookup = [];
         }
 
         internal int GetShortestPathCost()
         {
-            List<int> totalNodes = new();
-            List<int> subsetsResult = new();
-            List<int> currentSubsets = new();
+            List<int> totalNodes = [];
+            List<int> subsetsResult = [];
+            List<int> currentSubsets = [];
 
             int numberOfNodes = _distanceMatrix.GetLength(0) - 1;
             totalNodes = ComputePathCostsToOrigin(numberOfNodes);
@@ -110,9 +110,9 @@ namespace AdventOfCode.Algorithms
 
         internal int GetLongestPathCost()
         {
-            List<int> totalNodes = new();
-            List<int> subsetsResult = new();
-            List<int> currentSubsets = new();
+            List<int> totalNodes = [];
+            List<int> subsetsResult = [];
+            List<int> currentSubsets = [];
 
             int numberOfNodes = _distanceMatrix.GetLength(0) - 1;
             totalNodes = ComputePathCostsToOrigin(numberOfNodes);
@@ -202,7 +202,7 @@ namespace AdventOfCode.Algorithms
 
         private List<int> ComputePathCostsToOrigin(int numberOfNodes)
         {
-            List<int> totalNodes = new();
+            List<int> totalNodes = [];
 
             for (int i = 1; i <= numberOfNodes + 1; i++)
             {

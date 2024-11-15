@@ -6,8 +6,8 @@
         {
             get
             {
-                return new List<Item>
-                {
+                return
+                [
                     new("Dagger", ItemType.Weapon, 8, 4, 0),
                     new("Shortsword", ItemType.Weapon, 10, 5, 0),
                     new("Warhammer", ItemType.Weapon, 25, 6, 0),
@@ -26,7 +26,7 @@
                     new("Defense+1", ItemType.Ring, 20, 0, 1),
                     new("Defense+2", ItemType.Ring, 40, 0, 2),
                     new("Defense+3", ItemType.Ring, 80, 0, 3)
-                };
+                ];
             }
 
         }

@@ -2,14 +2,10 @@
 
 namespace AdventOfCode._2015_22
 {
-    internal class MagicPlayerCharacter : PlayerCharacter
+    internal class MagicPlayerCharacter(int hitPoints, int mana) : PlayerCharacter(hitPoints)
     {
-        internal int Mana { get; set; }
+        internal int Mana { get; set; } = mana;
 
-        public MagicPlayerCharacter(int hitPoints, int mana) : base(hitPoints)
-        {
-            Mana = mana;
-        }
         internal int GetMana()
         {
             return Mana;

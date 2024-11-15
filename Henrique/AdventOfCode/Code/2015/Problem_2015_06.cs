@@ -2,7 +2,7 @@
 
 namespace AdventOfCode.Code
 {
-    public class Problem_2015_06 : Problem
+    public partial class Problem_2015_06 : Problem
     {
         const string Pattern = @"^(.*) (\d+),(\d+) through (\d+),(\d+)$";
         const int GridSize = 1000;
@@ -33,7 +33,7 @@ namespace AdventOfCode.Code
 
         private string SolvePart1()
         {
-            Regex regex = new(Pattern, RegexOptions.Compiled);
+            Regex regex = InputRegex();
             foreach (string line in InputLines)
             {
                 Match match = regex.Match(line);
@@ -171,5 +171,7 @@ namespace AdventOfCode.Code
             return total;
         }
 
+        [GeneratedRegex(Pattern, RegexOptions.Compiled)]
+        private static partial Regex InputRegex();
     }
 }

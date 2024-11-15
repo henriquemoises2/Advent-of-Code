@@ -1,10 +1,10 @@
-﻿using AdventOfCode._2022.Entities;
+﻿using AdventOfCode._2022_07;
 using AdventOfCode.DataStructures;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
 {
-    public class Problem_2022_07 : Problem
+    public partial class Problem_2022_07 : Problem
     {
 
         private const string CommandRegexPattern = @"(?<cdExpression>\$ cd (\w+|\/|\.\.))|(?<lsExpression>\$ ls)|(?<dirExpression>dir \w+)|(?<fileExpression>\d+ \w+\.*\w*)";
@@ -20,7 +20,7 @@ namespace AdventOfCode.Code
 
             Tree<FileSystemItem> fileSystem;
             TreeNode<FileSystemItem> startingNode;
-            Regex pattern = new(CommandRegexPattern, RegexOptions.Compiled);
+            Regex pattern = InputRegex();
             Match match = pattern.Match(InputFirstLine);
             if (match.Groups["cdExpression"].Success && match.Value[5] == '/')
             {
@@ -121,5 +121,8 @@ namespace AdventOfCode.Code
 
             return filteredFileSystem.Min(folder => folder.NodeValue).ToString();
         }
+
+        [GeneratedRegex(CommandRegexPattern, RegexOptions.Compiled)]
+        private static partial Regex InputRegex();
     }
 }

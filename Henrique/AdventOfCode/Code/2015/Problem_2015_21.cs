@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
 {
-    public class Problem_2015_21 : Problem
+    public partial class Problem_2015_21 : Problem
     {
         private const string BossAttributesPattern = @"^Hit Points: (?<hitPoints>\d+)\nDamage: (?<damage>\d+)\nArmor: (?<armor>\d+)";
 
@@ -17,7 +17,7 @@ namespace AdventOfCode.Code
             Boss boss;
             PlayerCharacter pc = new();
 
-            Regex pattern = new(BossAttributesPattern, RegexOptions.Compiled);
+            Regex pattern = InputRegex();
             try
             {
                 Match match = pattern.Match(string.Join("\n", InputLines));
@@ -103,18 +103,18 @@ namespace AdventOfCode.Code
 
             Inventory newInventory = new();
 
-            HashSet<Inventory> allCombinationsWithWeapons = new();
-            HashSet<Inventory> allCombinationsWithArmor = new();
-            HashSet<Inventory> allCombinationsWithRings = new();
+            HashSet<Inventory> allCombinationsWithWeapons = [];
+            HashSet<Inventory> allCombinationsWithArmor = [];
+            HashSet<Inventory> allCombinationsWithRings = [];
 
-            allCombinationsWithWeapons.UnionWith(GenerateWeaponCombinations(newInventory).ToList());
+            allCombinationsWithWeapons.UnionWith([.. GenerateWeaponCombinations(newInventory)]);
 
             foreach (var weapon in allCombinationsWithWeapons)
             {
-                allCombinationsWithArmor.UnionWith(GenerateArmorCombinations(weapon).ToList());
+                allCombinationsWithArmor.UnionWith([.. GenerateArmorCombinations(weapon)]);
                 foreach (var armor in allCombinationsWithArmor)
                 {
-                    allCombinationsWithRings.UnionWith(GenerateRingCombinations(armor).ToList());
+                    allCombinationsWithRings.UnionWith([.. GenerateRingCombinations(armor)]);
                 }
             }
             return allCombinationsWithRings;
@@ -137,10 +137,10 @@ namespace AdventOfCode.Code
 
         private static HashSet<Inventory> GenerateCombinations(int minItems, int maxItems, ItemType itemType, Inventory originalInvontory)
         {
-            HashSet<Inventory> generatedInventories = new();
+            HashSet<Inventory> generatedInventories = [];
             Inventory newInventory;
             List<Item> newInventoryItem;
-            List<IEnumerable<Item>> allRingCombinations = new();
+            List<IEnumerable<Item>> allRingCombinations = [];
             allRingCombinations = SetsGenerator<Item>.GenerateAllSets(minItems, maxItems, ItemsStore.AvailableItems.Where(item => item.Type == itemType)).ToList();
 
             if (minItems == 0)
@@ -161,6 +161,7 @@ namespace AdventOfCode.Code
             return generatedInventories;
         }
 
-
+        [GeneratedRegex(BossAttributesPattern, RegexOptions.Compiled)]
+        private static partial Regex InputRegex();
     }
 }

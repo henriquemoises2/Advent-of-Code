@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
 {
-    public class Problem_2015_23 : Problem
+    public partial class Problem_2015_23 : Problem
     {
         private const string InstructionPattern = @"^(?<instruction>\w+) (?<register>\w+)*(, (?<sign1>[+-])(?<value1>\d+))*((?<sign2>[+-])(?<value2>\d+))*$";
 
@@ -13,9 +13,9 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            Regex pattern = new(InstructionPattern, RegexOptions.Compiled);
-            List<IInstruction> instructions = new();
-            List<Register> registers = new();
+            Regex pattern = InputRegex();
+            List<IInstruction> instructions = [];
+            List<Register> registers = [];
             try
             {
 
@@ -89,5 +89,8 @@ namespace AdventOfCode.Code
 
             return SolvePart1(instructions, registers);
         }
+
+        [GeneratedRegex(InstructionPattern, RegexOptions.Compiled)]
+        private static partial Regex InputRegex();
     }
 }

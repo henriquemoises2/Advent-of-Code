@@ -79,7 +79,7 @@
         {
             int numberOfSurroundingLightsOn = 0;
             char[] surroundingLights =
-            {
+            [
                 GetLightState(i-1,j-1,lightsGrid),
                 GetLightState(i,j-1,lightsGrid),
                 GetLightState(i+1,j-1,lightsGrid),
@@ -90,7 +90,7 @@
                 GetLightState(i-1,j+1,lightsGrid),
                 GetLightState(i,j+1,lightsGrid),
                 GetLightState(i+1,j+1,lightsGrid)
-            };
+            ];
 
             numberOfSurroundingLightsOn = surroundingLights.Count(light => light == LightOn);
 

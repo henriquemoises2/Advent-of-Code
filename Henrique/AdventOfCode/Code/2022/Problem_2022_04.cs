@@ -2,7 +2,7 @@
 
 namespace AdventOfCode.Code
 {
-    public class Problem_2022_04 : Problem
+    public partial class Problem_2022_04 : Problem
     {
         private const string ElfsSectionsPattern = @"(?<elf1sectionstart>\d+)-(?<elf1sectionend>\d+),(?<elf2sectionstart>\d+)-(?<elf2sectionend>\d+)";
 
@@ -13,11 +13,11 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            List<Tuple<Tuple<int, int>, Tuple<int, int>>> elfSections = new();
+            List<Tuple<Tuple<int, int>, Tuple<int, int>>> elfSections = [];
 
             try
             {
-                Regex pattern = new(ElfsSectionsPattern, RegexOptions.Compiled);
+                Regex pattern = InputRegex();
                 // TODO: Uniformise between the use of Match or Matches
                 MatchCollection match = pattern.Matches(string.Join("/n", InputLines));
                 for (int i = 0; i < match.Count; i++)
@@ -98,5 +98,7 @@ namespace AdventOfCode.Code
             }
         }
 
+        [GeneratedRegex(ElfsSectionsPattern, RegexOptions.Compiled)]
+        private static partial Regex InputRegex();
     }
 }

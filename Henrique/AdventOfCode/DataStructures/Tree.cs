@@ -28,7 +28,7 @@
         internal TreeNode<T>? Parent { get; set; }
         internal T Value { get; set; }
         internal double NodeValue { get; set; }
-        internal List<TreeNode<T>> Children { get; set; } = new();
+        internal List<TreeNode<T>> Children { get; set; } = [];
 
         internal TreeNode(TreeNode<T>? parent, T value)
         {

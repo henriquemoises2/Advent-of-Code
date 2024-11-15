@@ -22,7 +22,7 @@
                 int totalValue = 0;
                 foreach (string line in InputLines)
                 {
-                    Dictionary<char, int> itemsCountTracker = new();
+                    Dictionary<char, int> itemsCountTracker = [];
                     char? commonItem = null;
                     foreach (char character in line.Take(line.Length / 2))
                     {
@@ -60,14 +60,14 @@
             {
                 int totalValue = 0;
                 int elfNumber = 1;
-                Dictionary<char, int> itemsCountTracker = new();
+                Dictionary<char, int> itemsCountTracker = [];
                 char? commonItem = null;
                 foreach (string line in InputLines)
                 {
 
                     if (elfNumber > 3)
                     {
-                        itemsCountTracker = new Dictionary<char, int>();
+                        itemsCountTracker = [];
                         commonItem = null;
                         elfNumber = 1;
                     }

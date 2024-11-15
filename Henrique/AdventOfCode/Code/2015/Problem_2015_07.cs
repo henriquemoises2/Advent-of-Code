@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
 {
-    public class Problem_2015_07 : Problem
+    public partial class Problem_2015_07 : Problem
     {
 
         private const string PatternValue = "^(\\d+|[a-z]+) -> ([a-z]+)$";
@@ -20,9 +20,9 @@ namespace AdventOfCode.Code
 
         public override string Solve()
         {
-            Regex regexPatterValue = new(PatternValue, RegexOptions.Compiled);
-            Regex regexPatternUnaryOperation = new(PatternUnaryOperation, RegexOptions.Compiled);
-            Regex regexPatternBinaryOperation = new(PatternBinaryOperation, RegexOptions.Compiled);
+            Regex regexPatternValue = ValueRegex();
+            Regex regexPatternUnaryOperation = UnaryOperationRegex();
+            Regex regexPatternBinaryOperation = BinaryOperationRegex();
             Match match;
 
             IDictionary<string, ISource> originalCircuit = new Dictionary<string, ISource>();
@@ -30,9 +30,9 @@ namespace AdventOfCode.Code
 
             foreach (string line in InputLines)
             {
-                if (regexPatterValue.IsMatch(line))
+                if (regexPatternValue.IsMatch(line))
                 {
-                    match = regexPatterValue.Match(line);
+                    match = regexPatternValue.Match(line);
 
                     string originValue = match.Groups[1].Value;
                     string destinationCableName = match.Groups[2].Value;
@@ -129,6 +129,11 @@ namespace AdventOfCode.Code
             return circuit[CableToEvaluate].Evaluate(circuit).ToString();
         }
 
-
+        [GeneratedRegex(PatternValue, RegexOptions.Compiled)]
+        private static partial Regex ValueRegex();
+        [GeneratedRegex(PatternUnaryOperation, RegexOptions.Compiled)]
+        private static partial Regex UnaryOperationRegex();
+        [GeneratedRegex(PatternBinaryOperation, RegexOptions.Compiled)]
+        private static partial Regex BinaryOperationRegex();
     }
 }
