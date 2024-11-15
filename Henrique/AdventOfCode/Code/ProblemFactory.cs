@@ -46,6 +46,7 @@
                     7 => new Problem_2022_07(),
                     8 => new Problem_2022_08(),
                     9 => new Problem_2022_09(),
+                    10 => new Problem_2022_10(),
                     _ => null,
                 },
                 _ => null,

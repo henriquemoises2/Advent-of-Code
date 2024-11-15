@@ -50,8 +50,8 @@ namespace AdventOfCode.Code
 
         private string SolvePart2()
         {
-            Regex expression4 = new(RULE_4, RegexOptions.Compiled);
-            Regex expression5 = new(RULE_5, RegexOptions.Compiled);
+            Regex expression4 = Rule4Regex();
+            Regex expression5 = Rule5Regex();
 
             int niceSentences = 0;
             int naughtySentences = 0;
@@ -77,5 +77,9 @@ namespace AdventOfCode.Code
         private static partial Regex Rule2Regex();
         [GeneratedRegex(RULE_3, RegexOptions.Compiled)]
         private static partial Regex Rule3Regex();
+        [GeneratedRegex(RULE_4, RegexOptions.Compiled)]
+        private static partial Regex Rule4Regex();
+        [GeneratedRegex(RULE_5, RegexOptions.Compiled)]
+        private static partial Regex Rule5Regex();
     }
 }
