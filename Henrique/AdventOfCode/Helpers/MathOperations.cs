@@ -82,7 +82,7 @@ namespace AdventOfCode.Helpers
             List<string> parts = new List<string>();
             for (int i = multiplier.Length - 1; i >= 0; i--)
             {
-                int multiplierDigitValue = multiplier[i];
+                int multiplierDigitValue = multiplier[i] - '0';
                 if (multiplierDigitValue == 0)
                 {
 
@@ -96,9 +96,13 @@ namespace AdventOfCode.Helpers
                 }
                 for (int j = multiplicand.Length - 1; j >= 0; j--)
                 {
-                    int result = (multiplier[i] * multiplicand[j]) + carry;
+                    int result = ((multiplier[i] - '0') * (multiplicand[j] - '0')) + carry;
                     productResultForMultiplierDigit.Append(result % 10);
                     carry = result >= 10 ? result / 10 : 0;
+                }
+                if(carry > 0)
+                {
+                    productResultForMultiplierDigit.Append(carry);
                 }
                 parts.Add(new(productResultForMultiplierDigit.ToString().Reverse().ToArray()));
             }

@@ -109,7 +109,7 @@ namespace AdventOfCode.Code
 
         private static string SolvePart2(List<Monkey> monkeys)
         {
-            return MathOperations.MultiplyStrings("123", "10");
+            return MathOperations.MultiplyStrings("81859701759876", "98657891250567");
             //return PlayKeepAway(MaxRoundsPart2, monkeys, false);
         }
 
