@@ -85,7 +85,7 @@ namespace AdventOfCode.Helpers
                 int multiplierDigitValue = multiplier[i] - '0';
                 if (multiplierDigitValue == 0)
                 {
-
+                    continue;
                 }
 
                 int carry = 0;
@@ -100,7 +100,7 @@ namespace AdventOfCode.Helpers
                     productResultForMultiplierDigit.Append(result % 10);
                     carry = result >= 10 ? result / 10 : 0;
                 }
-                if(carry > 0)
+                if (carry > 0)
                 {
                     productResultForMultiplierDigit.Append(carry);
                 }
@@ -118,6 +118,24 @@ namespace AdventOfCode.Helpers
                 productResult = SumStrings(productResult, parts[i]);
             }
             return productResult;
+
+        }
+
+        static internal int ModuloOfString(string dividend, int moduloValue)
+        {
+            if (string.IsNullOrWhiteSpace(dividend))
+            {
+                throw new ArgumentException(nameof(dividend));
+            }
+
+            int result = 0;
+            for (int i = 0; i < dividend.Length; i++)
+            {
+                int digit = dividend[i] - '0';
+                result = (result * 10 + digit) % moduloValue;
+            }
+
+            return result;
 
         }
     }
