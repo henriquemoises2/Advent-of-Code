@@ -14,6 +14,8 @@ namespace AdventOfCode.Code
 
         private const int NumRoundsPart1 = 20;
         private const int NumRoundsPart2 = 10000;
+        private const int NumMostActiveMonkeys = 2;
+
 
         public Problem_2022_11() : base()
         { }
@@ -22,14 +24,7 @@ namespace AdventOfCode.Code
         {
             List<Monkey> monkeys = [];
             List<Monkey> monkeyClones = [];
-            int currentMonkey = 0;
-            List<long> currentMonkeyInitialItems = [];
-            char currentMonkeyOperation = new();
-            string currentMonkeyOperationValue = "";
-            int currentMonkeyTest = 0;
-            string currentMonkeyConditionValue = "";
-            int currentMonkeyConditionReceiverMonkeyTrue = 0;
-            int currentMonkeyConditionReceiverMonkeyFalse = 0;
+            MonkeyInputParameters monkeyInputParameters = new();
 
             foreach (string line in InputLines)
             {
@@ -37,16 +32,10 @@ namespace AdventOfCode.Code
                 {
                     if (string.IsNullOrWhiteSpace(line))
                     {
-                        monkeys.Add(new Monkey(currentMonkey, currentMonkeyInitialItems, currentMonkeyOperation, currentMonkeyOperationValue, currentMonkeyTest, currentMonkeyConditionReceiverMonkeyTrue, currentMonkeyConditionReceiverMonkeyFalse));
-                        monkeyClones.Add(new Monkey(currentMonkey, currentMonkeyInitialItems, currentMonkeyOperation, currentMonkeyOperationValue, currentMonkeyTest, currentMonkeyConditionReceiverMonkeyTrue, currentMonkeyConditionReceiverMonkeyFalse));
+                        monkeys.Add(new Monkey(monkeyInputParameters.Number, monkeyInputParameters.Items, monkeyInputParameters.Operation, monkeyInputParameters.OperationValue, monkeyInputParameters.ConditionTest, monkeyInputParameters.ConditionMonkeyReceiverIfTrue, monkeyInputParameters.ConditionMonkeyReceiverIfFalse));
+                        monkeyClones.Add(new Monkey(monkeyInputParameters.Number, monkeyInputParameters.Items, monkeyInputParameters.Operation, monkeyInputParameters.OperationValue, monkeyInputParameters.ConditionTest, monkeyInputParameters.ConditionMonkeyReceiverIfTrue, monkeyInputParameters.ConditionMonkeyReceiverIfFalse));
 
-                        currentMonkeyInitialItems = [];
-                        currentMonkeyOperation = new();
-                        currentMonkeyOperationValue = "";
-                        currentMonkeyTest = 0;
-                        currentMonkeyConditionValue = "";
-                        currentMonkeyConditionReceiverMonkeyTrue = 0;
-                        currentMonkeyConditionReceiverMonkeyFalse = 0;
+                        monkeyInputParameters.Reset();
                     }
 
                     Regex monkeyNumberRegexPattern = MonkeyNumberRegex();
@@ -58,7 +47,7 @@ namespace AdventOfCode.Code
                     Match match = monkeyNumberRegexPattern.Match(line);
                     if (match.Success)
                     {
-                        currentMonkey = int.Parse(match.Groups["monkey"].Value);
+                        monkeyInputParameters.Number = int.Parse(match.Groups["monkey"].Value);
                     }
 
                     match = startingItemsRegexPattern.Match(line);
@@ -66,34 +55,34 @@ namespace AdventOfCode.Code
                     {
                         foreach (long value in match.Groups["value"].Captures.Select(x => long.Parse(x.Value)))
                         {
-                            currentMonkeyInitialItems.Add(value);
+                            monkeyInputParameters.Items.Add(value);
                         }
                     }
 
                     match = operationRegexPattern.Match(line);
                     if (match.Success)
                     {
-                        currentMonkeyOperation = char.Parse(match.Groups["operation"].Value);
-                        currentMonkeyOperationValue = match.Groups["value"].Value;
+                        monkeyInputParameters.Operation = char.Parse(match.Groups["operation"].Value);
+                        monkeyInputParameters.OperationValue = match.Groups["value"].Value;
                     }
 
                     match = testRegexPattern.Match(line);
                     if (match.Success)
                     {
-                        currentMonkeyTest = int.Parse(match.Groups["value"].Value);
+                        monkeyInputParameters.ConditionTest = int.Parse(match.Groups["value"].Value);
                     }
 
                     match = conditionRegexPattern.Match(line);
                     if (match.Success)
                     {
-                        currentMonkeyConditionValue = match.Groups["condition"].Value;
-                        if (bool.Parse(currentMonkeyConditionValue))
+                        monkeyInputParameters.ConditionValue = match.Groups["condition"].Value;
+                        if (bool.Parse(monkeyInputParameters.ConditionValue))
                         {
-                            currentMonkeyConditionReceiverMonkeyTrue = int.Parse(match.Groups["monkey"].Value);
+                            monkeyInputParameters.ConditionMonkeyReceiverIfTrue = int.Parse(match.Groups["monkey"].Value);
                         }
-                        if (!bool.Parse(currentMonkeyConditionValue))
+                        if (!bool.Parse(monkeyInputParameters.ConditionValue))
                         {
-                            currentMonkeyConditionReceiverMonkeyFalse = int.Parse(match.Groups["monkey"].Value);
+                            monkeyInputParameters.ConditionMonkeyReceiverIfFalse = int.Parse(match.Groups["monkey"].Value);
                         }
                     }
                 }
@@ -107,7 +96,6 @@ namespace AdventOfCode.Code
             string part2 = SolvePart2(monkeyClones);
 
             return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
-
         }
 
         private static string SolvePart1(List<Monkey> monkeys)
@@ -115,63 +103,73 @@ namespace AdventOfCode.Code
             return PlayKeepAway(NumRoundsPart1, monkeys, true);
         }
 
-
         private static string SolvePart2(List<Monkey> monkeys)
         {
             return PlayKeepAway(NumRoundsPart2, monkeys, false);
         }
 
-        private static string PlayKeepAway(int numberOfRounds, List<Monkey> monkeys, bool decreaseWorryLevelAfterOperation)
+        private static string PlayKeepAway(int numberOfRounds, List<Monkey> monkeys, bool decreaseWorryValueAfterOperation)
         {
-            for (int i = 0; i < numberOfRounds; i++)
+            // Compute LCM (Least Common Multiple) to be used bellow if worry values do not decrease after each operation
+            int lcm = 9699690;
+
+            for (int roundNumber = 0; roundNumber < numberOfRounds; roundNumber++)
             {
                 foreach (Monkey monkey in monkeys)
                 {
-                    int monkeyTotalItems = monkey.CurrentItems.Count;
-                    for (int j = 0; j < monkeyTotalItems; j++)
+                    int monkeyTotalItems = monkey.Items.Count;
+                    for (int monkeyItemNumber = 0; monkeyItemNumber < monkeyTotalItems; monkeyItemNumber++)
                     {
                         monkey.InspectionsCount++;
-                        long itemBeforeOperation = monkey.CurrentItems.First();
+                        long itemBeforeOperation = monkey.Items.First();
                         long newItemValue;
-                        newItemValue = monkey.ApplyOperation(monkey.CurrentItems.First());
-                        if (decreaseWorryLevelAfterOperation)
+                        newItemValue = monkey.ApplyOperation(monkey.Items.First());
+                        if (decreaseWorryValueAfterOperation)
                         {
-                            newItemValue = monkey.DecreaseWorryLevelByDivision(newItemValue);
+                            newItemValue = Monkey.DecreaseWorryValue(newItemValue);
                         }
 
-                        monkey.CurrentItems.RemoveAt(0);
-                        if (monkey.Test(newItemValue))
-                        {
-                            monkeys.Single(m => m.Number == monkey.ReceiverMonkeyIfTestTrue).CurrentItems.Add(newItemValue);
-                        }
-                        else
-                        {
-                            monkeys.Single(m => m.Number == monkey.ReceiverMonkeyIfTestFalse).CurrentItems.Add(newItemValue);
-                        }
+                        monkey.Items.RemoveAt(0);
+
+                        bool monkeySelectionPredicate(Monkey m) => monkey.Test(newItemValue) ?
+                            m.Number == monkey.ReceiverMonkeyIfTestTrue :
+                            m.Number == monkey.ReceiverMonkeyIfTestFalse;
+
+                        monkeys.Single(monkeySelectionPredicate).Items.Add(newItemValue);
                     }
                 }
 
-                foreach (Monkey monkey in monkeys)
+                // Update all item values after each round, making sure that they are at the most the LCM (Least Common Multiple)
+                // between all the monkey divisors. This guarantees that the worry values do not increase exponentially.
+                if (!decreaseWorryValueAfterOperation)
                 {
-                    List<Tuple<int, string, int, List<int>>> newValues = [];
-                    for (int j = 0; j < monkey.CurrentItems.Count; j++)
+                    foreach (Monkey monkey in monkeys)
                     {
-                        var item = monkey.CurrentItems[j];
-                        long itemValue = item % 9699690;
-                        monkey.CurrentItems[j] = itemValue;
+                        for (int j = 0; j < monkey.Items.Count; j++)
+                        {
+                            var worryValue = monkey.Items[j];
+                            long newWorryValue = worryValue % lcm;
+                            monkey.Items[j] = newWorryValue;
+                        }
                     }
                 }
             }
 
-            IEnumerable<Monkey> mostActiveMonkeys = monkeys.OrderByDescending(m => m.InspectionsCount).Take(2);
+            long monkeyBusinessValue = ComputeMonkeyBusinessValue(monkeys);
+            return monkeyBusinessValue.ToString();
+        }
+
+        private static long ComputeMonkeyBusinessValue(List<Monkey> monkeys)
+        {
+            IEnumerable<Monkey> mostActiveMonkeys = monkeys.OrderByDescending(m => m.InspectionsCount).Take(NumMostActiveMonkeys);
             long monkeyBusinessValue = 1;
             foreach (Monkey monkey in mostActiveMonkeys)
             {
                 monkeyBusinessValue *= monkey.InspectionsCount;
             }
-            return monkeyBusinessValue.ToString();
-        }
 
+            return monkeyBusinessValue;
+        }
 
         [GeneratedRegex(MonkeyNumberRegexPattern, RegexOptions.Compiled)]
         private static partial Regex MonkeyNumberRegex();

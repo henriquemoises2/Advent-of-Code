@@ -42,11 +42,11 @@ namespace AdventOfCode.Helpers
         {
             if (string.IsNullOrWhiteSpace(number1))
             {
-                throw new ArgumentException(nameof(number1));
+                throw new ArgumentException(number1.GetType().Name);
             }
             if (string.IsNullOrWhiteSpace(number2))
             {
-                throw new ArgumentException(nameof(number2));
+                throw new ArgumentException(number2.GetType().Name);
             }
 
             int number1Index = number1.Length - 1;
@@ -72,14 +72,14 @@ namespace AdventOfCode.Helpers
         {
             if (string.IsNullOrWhiteSpace(multiplicand))
             {
-                throw new ArgumentException(nameof(multiplicand));
+                throw new ArgumentException(multiplicand.GetType().Name);
             }
             if (string.IsNullOrWhiteSpace(multiplier))
             {
-                throw new ArgumentException(nameof(multiplier));
+                throw new ArgumentException(multiplier.GetType().Name);
             }
 
-            List<string> parts = new List<string>();
+            List<string> parts = [];
             for (int i = multiplier.Length - 1; i >= 0; i--)
             {
                 int multiplierDigitValue = multiplier[i] - '0';
@@ -89,7 +89,7 @@ namespace AdventOfCode.Helpers
                 }
 
                 int carry = 0;
-                StringBuilder productResultForMultiplierDigit = new StringBuilder();
+                StringBuilder productResultForMultiplierDigit = new();
                 for (int zIndex = 0; zIndex < multiplier.Length - 1 - i; zIndex++)
                 {
                     productResultForMultiplierDigit.Append('0');
@@ -125,7 +125,7 @@ namespace AdventOfCode.Helpers
         {
             if (string.IsNullOrWhiteSpace(dividend))
             {
-                throw new ArgumentException(nameof(dividend));
+                throw new ArgumentException(dividend.GetType().Name);
             }
 
             int result = 0;

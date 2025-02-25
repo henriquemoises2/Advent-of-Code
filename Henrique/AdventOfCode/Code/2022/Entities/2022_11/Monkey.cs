@@ -3,26 +3,37 @@
     internal class Monkey
     {
         internal int Number { get; set; }
-        internal List<long> CurrentItems { get; set; } = [];
+        internal List<long> Items { get; set; } = [];
         internal Func<long, long> Operation { get; set; }
         internal Func<long, bool> Test { get; set; }
         internal int ReceiverMonkeyIfTestTrue { get; set; }
         internal int ReceiverMonkeyIfTestFalse { get; set; }
         internal int InspectionsCount { get; set; }
 
-        internal Monkey(int number, List<long> initialItems, char operation, string operationValue, int testValue, int receiverMonkeyIfTestTrue, int receiverMonkeyIfTestFalse)
+        internal Monkey(int? number, List<long> initialItems, char? operation, string? operationValue, int? testValue, int? receiverMonkeyIfTestTrue, int? receiverMonkeyIfTestFalse)
         {
-            Number = number;
-            CurrentItems = initialItems;
-            Operation = operation switch
+            if (number == null ||
+                operation == null ||
+                string.IsNullOrWhiteSpace(operationValue) ||
+                testValue == null ||
+                receiverMonkeyIfTestTrue == null ||
+                receiverMonkeyIfTestFalse == null
+                )
+            {
+                throw new Exception("Invalid line in input.");
+            }
+
+            Number = number.Value;
+            Items = new List<long>(initialItems);
+            Operation = operation.Value switch
             {
                 '+' => (value) => value + (operationValue == "old" ? value : long.Parse(operationValue)),
                 '*' => (value) => value * (operationValue == "old" ? value : long.Parse(operationValue)),
                 _ => throw new Exception("Invalid line in input.")
             };
-            Test = (value) => value % testValue == 0;
-            ReceiverMonkeyIfTestTrue = receiverMonkeyIfTestTrue;
-            ReceiverMonkeyIfTestFalse = receiverMonkeyIfTestFalse;
+            Test = (value) => value % testValue.Value == 0;
+            ReceiverMonkeyIfTestTrue = receiverMonkeyIfTestTrue.Value;
+            ReceiverMonkeyIfTestFalse = receiverMonkeyIfTestFalse.Value;
         }
 
         internal long ApplyOperation(long value)
@@ -31,7 +42,7 @@
             return value;
         }
 
-        internal long DecreaseWorryLevelByDivision(long value)
+        internal static long DecreaseWorryValue(long value)
         {
             value = (long)Math.Floor((decimal)value / 3);
             return value;
