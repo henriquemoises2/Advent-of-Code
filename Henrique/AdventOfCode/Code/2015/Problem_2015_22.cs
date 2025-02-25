@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
 {
+    // Very hard!
     public partial class Problem_2015_22 : Problem
     {
         private const string BossAttributesPattern = @"^Hit Points: (?<hitPoints>\d+)\nDamage: (?<damage>\d+)";

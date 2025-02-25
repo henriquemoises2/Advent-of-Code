@@ -23,7 +23,7 @@
                     "inc" => new Increment(instructionParameters.Register),
                     "jie" => new JumpIfEven(instructionParameters.Register, (instructionParameters.Sign1 == '+' ? 1 : -1) * instructionParameters.Value1.GetValueOrDefault()),
                     "jio" => new JumpIfOne(instructionParameters.Register, (instructionParameters.Sign1 == '+' ? 1 : -1) * instructionParameters.Value1.GetValueOrDefault()),
-                    _ => throw new ArgumentException(nameof(instructionParameters.Code)),
+                    _ => throw new ArgumentException(instructionParameters.Code.GetType().Name),
                 };
             }
             else
@@ -31,7 +31,7 @@
                 return instructionParameters.Code switch
                 {
                     "jmp" => new Jump((instructionParameters.Sign2 == '+' ? 1 : -1) * instructionParameters.Value2.GetValueOrDefault()),
-                    _ => throw new ArgumentException(nameof(instructionParameters.Code)),
+                    _ => throw new ArgumentException(instructionParameters.Code.GetType().Name),
                 };
             }
 
