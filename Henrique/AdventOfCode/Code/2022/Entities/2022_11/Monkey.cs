@@ -9,6 +9,7 @@
         internal int ReceiverMonkeyIfTestTrue { get; set; }
         internal int ReceiverMonkeyIfTestFalse { get; set; }
         internal int InspectionsCount { get; set; }
+        internal int TestValue { get; set; }
 
         internal Monkey(int? number, List<long> initialItems, char? operation, string? operationValue, int? testValue, int? receiverMonkeyIfTestTrue, int? receiverMonkeyIfTestFalse)
         {
@@ -31,7 +32,8 @@
                 '*' => (value) => value * (operationValue == "old" ? value : long.Parse(operationValue)),
                 _ => throw new Exception("Invalid line in input.")
             };
-            Test = (value) => value % testValue.Value == 0;
+            TestValue = testValue.Value;
+            Test = (value) => value % TestValue == 0;
             ReceiverMonkeyIfTestTrue = receiverMonkeyIfTestTrue.Value;
             ReceiverMonkeyIfTestFalse = receiverMonkeyIfTestFalse.Value;
         }

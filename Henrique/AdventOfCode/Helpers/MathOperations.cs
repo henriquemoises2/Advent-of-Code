@@ -138,5 +138,68 @@ namespace AdventOfCode.Helpers
             return result;
 
         }
+
+        static internal int GCD(int[] numbers)
+        {
+            if (numbers.Length < 2)
+            {
+                throw new ArgumentException("Value cannot have less than 2 elements.", numbers.GetType().Name);
+            }
+            int[] numbersAux = numbers;
+            int gcd = numbers[0];
+            for (int i = 0; i < numbers.Length - 1; i++)
+            {
+                gcd = GCD(gcd, numbersAux[1]);
+                numbersAux = numbersAux.Skip(1).ToArray();
+            }
+            return gcd;
+        }
+
+        static internal int GCD(int a, int b)
+        {
+            if (a == 0)
+            {
+                throw new ArgumentException("Value cannot be zero.", a.GetType().Name);
+            }
+            if (b == 0)
+            {
+                throw new ArgumentException("Value cannot be zero.", b.GetType().Name);
+            }
+            do
+            {
+                int smallerNumber = a;
+                int largerNumber = b;
+                a = Math.Min(smallerNumber, largerNumber);
+                b = Math.Max(smallerNumber, largerNumber);
+
+                b %= a;
+            }
+            while (b != 0);
+            return a;
+
+        }
+
+        static internal int LCM(int[] numbers)
+        {
+            if (numbers.Length < 2)
+            {
+                throw new ArgumentException("Value cannot have less than 2 elements.", numbers.GetType().Name);
+            }
+            int[] numbersAux = numbers;
+            int lcm = numbers[0];
+            for (int i = 0; i < numbers.Length - 1; i++)
+            {
+                lcm = LCM(lcm, numbersAux[1]);
+                numbersAux = numbersAux.Skip(1).ToArray();
+            }
+            return lcm;
+        }
+
+        static internal int LCM(int a, int b)
+        {
+            int gcd = GCD(a, b);
+            return Math.Abs(a * b) / gcd;
+        }
+
     }
 }

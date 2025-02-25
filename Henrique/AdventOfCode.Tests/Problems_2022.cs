@@ -89,5 +89,13 @@ namespace AdventOfCode.Tests
                 Assert.True(string.Format(Messages.ProblemSolutionFormat, 17380, "FGCUZREC") == new Problem_2022_10().Solve(),
                     Constants.IncorrectResultMessage));
         }
+
+        [Fact(Timeout = Constants.TestTimeoutMs)]
+        public void Test_2022_11()
+        {
+            Extensions.RunAndValidateExecutionTime(() =>
+                Assert.True(string.Format(Messages.ProblemSolutionFormat, 66124, 19309892877) == new Problem_2022_11().Solve(),
+                    Constants.IncorrectResultMessage));
+        }
     }
 }

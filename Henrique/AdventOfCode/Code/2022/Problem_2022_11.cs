@@ -1,8 +1,10 @@
 ﻿using AdventOfCode.Code._2022.Entities._2022_11;
+using AdventOfCode.Helpers;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
 {
+    // Very hard!
     public partial class Problem_2022_11 : Problem
     {
 
@@ -111,7 +113,11 @@ namespace AdventOfCode.Code
         private static string PlayKeepAway(int numberOfRounds, List<Monkey> monkeys, bool decreaseWorryValueAfterOperation)
         {
             // Compute LCM (Least Common Multiple) to be used bellow if worry values do not decrease after each operation
-            int lcm = 9699690;
+            int lcm = 1;
+            if (!decreaseWorryValueAfterOperation)
+            {
+                lcm = MathOperations.LCM(monkeys.Select(m => m.TestValue).ToArray());
+            }
 
             for (int roundNumber = 0; roundNumber < numberOfRounds; roundNumber++)
             {
