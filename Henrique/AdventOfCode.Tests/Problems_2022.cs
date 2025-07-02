@@ -97,5 +97,13 @@ namespace AdventOfCode.Tests
                 Assert.True(string.Format(Messages.ProblemSolutionFormat, 66124, 19309892877) == new Problem_2022_11().Solve(),
                     Constants.IncorrectResultMessage));
         }
+
+         [Fact]
+        public void Test_2022_12()
+        {
+            Extensions.RunAndValidateExecutionTime(() =>
+                Assert.True(string.Format(Messages.ProblemSolutionFormat, 504, 500) == new Problem_2022_12().Solve(),
+                    Constants.IncorrectResultMessage));
+        }
     }
 }

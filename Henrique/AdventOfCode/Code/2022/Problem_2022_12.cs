@@ -19,7 +19,8 @@ public partial class Problem_2022_12 : Problem
         List<AStarNode<Square>> nodes = BuildAStarGraph();
 
         string part1 = SolvePart1(nodes);
-        string part2 = SolvePart2();
+        ResetAStarNodes(nodes);
+        string part2 = SolvePart2(nodes);
 
         return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
     }
@@ -28,7 +29,19 @@ public partial class Problem_2022_12 : Problem
     {
         AStarNode<Square> start = nodes.First(x => x.Item.Elevation == StartElevation);
         AStarNode<Square> goal = nodes.First(x => x.Item.Elevation == GoalElevation);
-        AStarAlgorithm<Square> aStarAlgorithm = new(start, goal, GetHeuristicFunction());
+        AStarAlgorithm<Square> aStarAlgorithm = new(start, goal, GetHeuristicFunctionForConcreteGoal());
+        return SolveCommon(aStarAlgorithm);
+    }
+
+    private string SolvePart2(List<AStarNode<Square>> nodes)
+    {
+        AStarNode<Square> start = nodes.First(x => x.Item.Elevation == StartElevation);
+        AStarAlgorithm<Square> aStarAlgorithm = new(start, GetHeuristicFunctionForGenericGoal());
+        return SolveCommon(aStarAlgorithm);
+    }
+
+    private string SolveCommon(AStarAlgorithm<Square> aStarAlgorithm)
+    {
         List<AStarNode<Square>>? solutionPath = aStarAlgorithm.ComputeShortestPath();
 
         if (solutionPath == null)
@@ -41,14 +54,10 @@ public partial class Problem_2022_12 : Problem
             // Prevent stopwatch from counting map drawing time
             StopWatch.Stop();
             DrawMapAndSolutionPath(solutionPath);
+            StopWatch.Start();
         }
 
         return (solutionPath.Count - 1).ToString();
-    }
-
-    private static string SolvePart2()
-    {
-        return "";
     }
 
     private List<AStarNode<Square>> BuildAStarGraph()
@@ -124,12 +133,21 @@ public partial class Problem_2022_12 : Problem
         }
     }
 
-    private static Func<AStarNode<Square>, AStarNode<Square>, double> GetHeuristicFunction()
+    private static Func<AStarNode<Square>, AStarNode<Square>?, double> GetHeuristicFunctionForConcreteGoal()
     {
         return (currentNode, goal) =>
         {
             // Manhattan distance
-            return Math.Abs(goal.Item.X - currentNode.Item.X) + Math.Abs(goal.Item.Y - currentNode.Item.Y);
+            return Math.Abs(goal!.Item.X - currentNode.Item.X) + Math.Abs(goal.Item.Y - currentNode.Item.Y);
+        };
+    }
+
+    private static Func<AStarNode<Square>,AStarNode<Square>?, double> GetHeuristicFunctionForGenericGoal()
+    {
+        return (currentNode, _) =>
+        {
+            // Distance to left edge of the map
+            return Math.Abs(currentNode.Item.X);
         };
     }
 
@@ -148,6 +166,17 @@ public partial class Problem_2022_12 : Problem
                 Console.Write(charToPrint);
             }
             Console.WriteLine();
+        }
+        Console.WriteLine();
+    }
+
+    private static void ResetAStarNodes(List<AStarNode<Square>> nodes)
+    {
+        foreach (AStarNode<Square> node in nodes)
+        {
+            node.AccummulatedCost = 0;
+            node.HeuristicCost = 0;
+            node.ComesFrom = null;
         }
     }
 

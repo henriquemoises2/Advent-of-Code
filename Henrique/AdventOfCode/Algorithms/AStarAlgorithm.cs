@@ -3,13 +3,19 @@ namespace AdventOfCode.Algorithms;
 internal class AStarAlgorithm<T>
 {
     private AStarNode<T> StartNode { get; set; }
-    private AStarNode<T> GoalNode { get; set; }
-    private Func<AStarNode<T>, AStarNode<T>, double> HeuristicFunction { get; set; }
+    private AStarNode<T>? GoalNode { get; set; }
+    private Func<AStarNode<T>, AStarNode<T>?, double> HeuristicFunction { get; set; }
 
-    internal AStarAlgorithm(AStarNode<T> start, AStarNode<T> goal, Func<AStarNode<T>, AStarNode<T>, double> heuristicFunction)
+    internal AStarAlgorithm(AStarNode<T> start, AStarNode<T> goal, Func<AStarNode<T>, AStarNode<T>?, double> heuristicFunction)
     {
         StartNode = start;
         GoalNode = goal;
+        HeuristicFunction = heuristicFunction;
+    }
+
+    internal AStarAlgorithm(AStarNode<T> start, Func<AStarNode<T>, AStarNode<T>?, double> heuristicFunction)
+    {
+        StartNode = start;
         HeuristicFunction = heuristicFunction;
     }
 
@@ -26,7 +32,7 @@ internal class AStarAlgorithm<T>
             AStarNode<T> currentNode = openNodes.Dequeue();
 
             // Check if we've reached the goal
-            if (currentNode == GoalNode)
+            if (IsGoalNode(currentNode))
             {
                 return ReconstructPath(currentNode);
             }
@@ -63,4 +69,21 @@ internal class AStarAlgorithm<T>
         return path;
     }
 
+    private bool IsGoalNode(AStarNode<T> node)
+    {
+        if (node == StartNode)
+        {
+            return false;
+        }
+        
+        // If a goal node is defined, check if the current node is the goal
+        if (GoalNode != null)
+        {
+            return node == GoalNode;
+        }
+        else
+        {
+            return node.HeuristicCost == 0;
+        }
+    }
 }
