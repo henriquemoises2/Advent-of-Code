@@ -116,7 +116,7 @@ namespace AdventOfCode.Code
             int lcm = 1;
             if (!decreaseWorryValueAfterOperation)
             {
-                lcm = MathOperations.LCM(monkeys.Select(m => m.TestValue).ToArray());
+                lcm = MathOperations.LCM([.. monkeys.Select(m => m.TestValue)]);
             }
 
             for (int roundNumber = 0; roundNumber < numberOfRounds; roundNumber++)

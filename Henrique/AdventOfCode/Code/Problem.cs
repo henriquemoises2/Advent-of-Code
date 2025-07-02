@@ -34,6 +34,7 @@ namespace AdventOfCode.Code
             }
         }
         internal readonly Stopwatch StopWatch = new();
+        protected bool IsDebugActive { get; set; }
 
         internal Problem()
         {
@@ -73,8 +74,9 @@ namespace AdventOfCode.Code
             return File.ReadAllLines($"Problems/{Year}/Day{DayNumber:00}_Input.txt");
         }
 
-        internal string SolveWithStopWatch()
+        internal string SolveInDebugMode()
         {
+            IsDebugActive = true;
             StopWatch.Start();
             string result = Solve();
             StopWatch.Stop();
@@ -82,7 +84,6 @@ namespace AdventOfCode.Code
         }
 
         public abstract string Solve();
-
 
     }
 }

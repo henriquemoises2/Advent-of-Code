@@ -18,7 +18,7 @@ namespace AdventOfCode.Code
 
             try
             {
-                string[] inputLinesAsArray = InputLines.ToArray();
+                string[] inputLinesAsArray = [.. InputLines];
                 int stackNumberIndex = InputLines.ToList().FindIndex(line => string.IsNullOrWhiteSpace(line)) - 1;
                 int maxColumnHeight = stackNumberIndex;
                 string stackNumbers = inputLinesAsArray[stackNumberIndex];

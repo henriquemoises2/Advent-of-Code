@@ -35,14 +35,14 @@ namespace AdventOfCode.Algorithms
                 foreach (var node in totalNodes)
                 {
                     // Generate subsets of size subsetSize where the current node does not appear
-                    IEnumerable<IEnumerable<int>> subsets = SetsGenerator<int>.GenerateSets(subsetSize, totalNodes.Where(n => n != node).ToList());
+                    IEnumerable<IEnumerable<int>> subsets = SetsGenerator<int>.GenerateSets(subsetSize, [.. totalNodes.Where(n => n != node)]);
                     foreach (var subset in subsets)
                     {
                         // Compute value of going to node passing through subset , i.e. g(node, {subset})
-                        currentSubsets.Add(ComputeShortestCostValue(node, subset.ToList()));
+                        currentSubsets.Add(ComputeShortestCostValue(node, [.. subset]));
                     }
                 }
-                subsetsResult = new List<int>(currentSubsets);
+                subsetsResult = [.. currentSubsets];
                 currentSubsets.Clear();
             }
             // Also add the cost of going back to the origin
@@ -125,14 +125,14 @@ namespace AdventOfCode.Algorithms
                 foreach (var node in totalNodes)
                 {
                     // Generate subsets of size subsetSize where the current node does not appear
-                    IEnumerable<IEnumerable<int>> subsets = SetsGenerator<int>.GenerateSets(subsetSize, totalNodes.Where(n => n != node).ToList());
+                    IEnumerable<IEnumerable<int>> subsets = SetsGenerator<int>.GenerateSets(subsetSize, [.. totalNodes.Where(n => n != node)]);
                     foreach (var subset in subsets)
                     {
                         // Compute value of going to node passing through subset , i.e. g(node, {subset})
-                        currentSubsets.Add(ComputeLongestCostValue(node, subset.ToList()));
+                        currentSubsets.Add(ComputeLongestCostValue(node, [.. subset]));
                     }
                 }
-                subsetsResult = new List<int>(currentSubsets);
+                subsetsResult = [.. currentSubsets];
                 currentSubsets.Clear();
             }
             // Also add the cost of going back to the origin

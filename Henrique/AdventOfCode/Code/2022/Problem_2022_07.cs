@@ -100,7 +100,7 @@ namespace AdventOfCode.Code
 
         private static string SolvePart1(Tree<FileSystemItem> fileSystem)
         {
-            double totalSize = fileSystem.Root.ComputeNodeValue((FileSystemItem a) =>
+            double totalSize = fileSystem.Root.ComputeNodeValue(a =>
             {
                 return a.Size;
             });

@@ -65,7 +65,7 @@ namespace AdventOfCode.Helpers
                 number1Index--;
                 number2Index--;
             }
-            return new(newNumberStringBuilder.ToString().Reverse().ToArray());
+            return new([.. newNumberStringBuilder.ToString().Reverse()]);
         }
 
         static internal string MultiplyStrings(string multiplicand, string multiplier)
@@ -104,7 +104,7 @@ namespace AdventOfCode.Helpers
                 {
                     productResultForMultiplierDigit.Append(carry);
                 }
-                parts.Add(new(productResultForMultiplierDigit.ToString().Reverse().ToArray()));
+                parts.Add(new([.. productResultForMultiplierDigit.ToString().Reverse()]));
             }
 
             if (parts.Count == 1)
@@ -150,7 +150,7 @@ namespace AdventOfCode.Helpers
             for (int i = 0; i < numbers.Length - 1; i++)
             {
                 gcd = GCD(gcd, numbersAux[1]);
-                numbersAux = numbersAux.Skip(1).ToArray();
+                numbersAux = [.. numbersAux.Skip(1)];
             }
             return gcd;
         }
@@ -190,7 +190,7 @@ namespace AdventOfCode.Helpers
             for (int i = 0; i < numbers.Length - 1; i++)
             {
                 lcm = LCM(lcm, numbersAux[1]);
-                numbersAux = numbersAux.Skip(1).ToArray();
+                numbersAux = [.. numbersAux.Skip(1)];
             }
             return lcm;
         }

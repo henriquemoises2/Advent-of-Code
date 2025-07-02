@@ -25,7 +25,7 @@
             }
 
             Number = number.Value;
-            Items = new List<long>(initialItems);
+            Items = [.. initialItems];
             Operation = operation.Value switch
             {
                 '+' => (value) => value + (operationValue == "old" ? value : long.Parse(operationValue)),

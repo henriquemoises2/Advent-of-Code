@@ -74,7 +74,7 @@ namespace AdventOfCode.Code
                 int totalQuantity = ingredientsList.Sum(ing => ing.Quantity);
                 if (TotalIngredientsQuantity == totalQuantity)
                 {
-                    Cookie cookie = new(new List<Ingredient>(((List<Ingredient>)ingredientsList).ConvertAll(ing => ing.Clone())));
+                    Cookie cookie = new([.. ((List<Ingredient>)ingredientsList).ConvertAll(ing => ing.Clone())]);
                     possibleCookies.Add(cookie);
                 }
             }

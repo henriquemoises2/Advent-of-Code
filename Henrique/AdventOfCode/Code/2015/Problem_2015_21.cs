@@ -141,19 +141,18 @@ namespace AdventOfCode.Code
             Inventory newInventory;
             List<Item> newInventoryItem;
             List<IEnumerable<Item>> allRingCombinations = [];
-            allRingCombinations = SetsGenerator<Item>.GenerateAllSets(minItems, maxItems, ItemsStore.AvailableItems.Where(item => item.Type == itemType)).ToList();
+            allRingCombinations = [.. SetsGenerator<Item>.GenerateAllSets(minItems, maxItems, ItemsStore.AvailableItems.Where(item => item.Type == itemType))];
 
             if (minItems == 0)
             {
-                newInventoryItem = new List<Item>(originalInvontory.Items);
+                newInventoryItem = [.. originalInvontory.Items];
                 newInventory = new Inventory(newInventoryItem);
                 generatedInventories.Add(newInventory);
             }
 
             foreach (var combination in allRingCombinations)
             {
-                newInventoryItem = new List<Item>(originalInvontory.Items);
-                newInventoryItem.AddRange(combination);
+                newInventoryItem = [.. originalInvontory.Items, .. combination];
                 newInventory = new Inventory(newInventoryItem);
                 generatedInventories.Add(newInventory);
             }

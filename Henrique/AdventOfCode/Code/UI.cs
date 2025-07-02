@@ -4,25 +4,34 @@ namespace AdventOfCode.Code
 {
     internal class UI
     {
-        private static bool _debugMode = false;
-        private static int _selectedYear = -1;
+        private static bool IsDebugMode = false;        
 
         internal static void ShowDialogueCycle()
         {
             string? input;
+            int SelectedYear = -1;
+            
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("----------------------------------------------");
+            Console.WriteLine("Welcome to the Advent of Code problems solver!");
+            Console.WriteLine("----------------------------------------------");
+
+            Console.ResetColor();
+            Console.WriteLine("Select a year and day to solve the associated problem. Type 'back' to return or 'debug' to toggle debug mode.");
+            Console.WriteLine("");
 
             while (true)
             {
-                if (_selectedYear == -1)
+                if (SelectedYear == -1)
                 {
-                    _selectedYear = SelectYear();
-                    if (_selectedYear == -1)
+                    SelectedYear = SelectYear();
+                    if (SelectedYear == -1)
                     {
                         continue;
                     }
                 }
 
-                Console.WriteLine("Please select the day (1-25) (or type \"back\" to return to year selection):");
+                Console.WriteLine("Please select the day (1-25):");
 
                 input = Console.ReadLine();
                 int dayNumber;
@@ -30,8 +39,12 @@ namespace AdventOfCode.Code
                 {
                     if (input != null && input.Equals("back", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        _selectedYear = -1;
+                        SelectedYear = -1;
                         Console.WriteLine();
+                        continue;
+                    }
+                    if (CheckDebugMode(input))
+                    {
                         continue;
                     }
                     dayNumber = Convert.ToInt16(input);
@@ -48,10 +61,10 @@ namespace AdventOfCode.Code
                 }
 
 
-                Problem? problem = ProblemFactory.GetProblem(_selectedYear, dayNumber);
+                Problem? problem = ProblemFactory.GetProblem(SelectedYear, dayNumber);
                 if (problem == null)
                 {
-                    Console.WriteLine($"No problem found for day {dayNumber} in {_selectedYear}.");
+                    Console.WriteLine($"No problem found for day {dayNumber} in {SelectedYear}.");
                     Console.WriteLine();
                     continue;
                 }
@@ -63,7 +76,15 @@ namespace AdventOfCode.Code
                 Console.WriteLine("The solution for this problem is:");
                 try
                 {
-                    string solution = problem.SolveWithStopWatch();
+                    string solution;
+                    if (IsDebugMode)
+                    {
+                        solution = problem.SolveInDebugMode();
+                    }
+                    else
+                    {
+                        solution = problem.Solve();
+                    }
                     Console.WriteLine(solution);
                     Console.WriteLine();
                 }
@@ -72,7 +93,7 @@ namespace AdventOfCode.Code
                     Console.WriteLine(ex.Message);
                 }
 
-                if (_debugMode)
+                if (IsDebugMode)
                 {
                     Console.WriteLine("Time elapsed:");
                     Console.WriteLine($"{problem.StopWatch.ElapsedMilliseconds} ms");
@@ -80,14 +101,13 @@ namespace AdventOfCode.Code
 
                 Console.WriteLine();
                 Console.ReadLine();
-
             }
         }
 
         private static int SelectYear()
         {
 
-            Console.WriteLine("Welcome to Advent of Code. Please select the year (2015-2022):");
+            Console.WriteLine("Please select the year (2015-2022):");
             string? input = Console.ReadLine();
             try
             {
@@ -96,10 +116,8 @@ namespace AdventOfCode.Code
                     throw new Exception();
 
                 }
-                if (input.Equals("debug", StringComparison.InvariantCultureIgnoreCase))
+                if (CheckDebugMode(input))
                 {
-                    _debugMode = true;
-                    Console.WriteLine("Debug mode activated.");
                     return -1;
                 }
 
@@ -117,5 +135,30 @@ namespace AdventOfCode.Code
                 return -1;
             }
         }
+
+        private static bool CheckDebugMode(string? input)
+        {
+            if (input != null)
+            {
+                if (input.Equals("debug", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    IsDebugMode = !IsDebugMode;
+
+                    if (IsDebugMode)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Debug mode activated.");
+                    }
+                    else
+                    {
+                        Console.ResetColor();
+                        Console.WriteLine("Debug mode deactivated.");
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
 }

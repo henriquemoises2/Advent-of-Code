@@ -84,7 +84,7 @@ namespace AdventOfCode.Code
             HashSet<string> distinctGeneratedMedicineMolecules = [];
 
             // Filter transformations, i.e. eliminate transformations whose Initial component does not exist in the initial molecule
-            moleculeTransformations = moleculeTransformations.Where(trans => initialMedicineMolecules.Select(molecule => molecule.Value).Contains(trans.InitialMolecule)).ToList();
+            moleculeTransformations = [.. moleculeTransformations.Where(trans => initialMedicineMolecules.Select(molecule => molecule.Value).Contains(trans.InitialMolecule))];
 
             foreach (Transformation transformation in moleculeTransformations)
             {
@@ -105,7 +105,7 @@ namespace AdventOfCode.Code
             HashSet<string> distinctGeneratedMedicineMolecules = [];
 
             // Filter transformations, i.e. eliminate transformations whose final component does not exist in the initial molecule
-            moleculeTransformations = moleculeTransformations.Where(trans => molecule.Contains(trans.FinalMolecule)).ToList();
+            moleculeTransformations = [.. moleculeTransformations.Where(trans => molecule.Contains(trans.FinalMolecule))];
 
             foreach (Transformation transformation in moleculeTransformations)
             {
@@ -124,13 +124,13 @@ namespace AdventOfCode.Code
         private static HashSet<string> SelectBestCandidates(HashSet<string> generatedMolecules, int topElements)
         {
             var sortedCandidates = generatedMolecules.OrderBy(molecule => molecule.Length).Take(topElements);
-            return sortedCandidates.ToHashSet();
+            return [.. sortedCandidates];
         }
 
         private static List<Molecule> ExtractMoleculesFromString(string medicineMolecule)
         {
             Regex pattern = MoleculeRegex();
-            List<string> capturedMolecules = pattern.Match(medicineMolecule).Groups[1].Captures.Select(capt => capt.Value).ToList();
+            List<string> capturedMolecules = [.. pattern.Match(medicineMolecule).Groups[1].Captures.Select(capt => capt.Value)];
 
             List<Molecule> extractedMolecules = [];
             for (int i = 0; i < capturedMolecules.Count; i++)

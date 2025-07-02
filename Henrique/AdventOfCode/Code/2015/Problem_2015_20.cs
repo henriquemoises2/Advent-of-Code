@@ -49,7 +49,7 @@ namespace AdventOfCode.Code
 
                 if (combinedSolutions.Item2 == 0)
                 {
-                    List<int> filteredDivisors = divisors.ToList();
+                    List<int> filteredDivisors = [.. divisors];
                     foreach (int divisor in divisors)
                     {
                         if (!numberHousesVisitedByEachElf.TryAdd(divisor, 1))

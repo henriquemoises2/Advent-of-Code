@@ -18,7 +18,7 @@ namespace AdventOfCode.Code
             List<DispositionChange> dispositionList = ParseDispositionList();
             Dictionary<int, string> people = [];
 
-            string[] uniquePeople = dispositionList.Select(d => d.Person1).Distinct().ToArray();
+            string[] uniquePeople = [.. dispositionList.Select(d => d.Person1).Distinct()];
             for (int i = 0; i < uniquePeople.Length; i++)
             {
                 people.Add(i, uniquePeople[i]);

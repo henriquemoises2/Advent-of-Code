@@ -11,7 +11,7 @@
 
         internal Inventory(IEnumerable<Item> items)
         {
-            Items = items.ToList();
+            Items = [.. items];
         }
 
         internal int GetInventoryValue()
