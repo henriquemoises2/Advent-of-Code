@@ -22,7 +22,7 @@ public partial class Problem_2022_12 : Problem
         ResetAStarNodes(nodes);
         string part2 = SolvePart2(nodes);
 
-        return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+        return string.Format(SolutionFormat, part1, part2);
     }
 
     private string SolvePart1(List<AStarNode<Square>> nodes)
@@ -142,7 +142,7 @@ public partial class Problem_2022_12 : Problem
         };
     }
 
-    private static Func<AStarNode<Square>,AStarNode<Square>?, double> GetHeuristicFunctionForGenericGoal()
+    private static Func<AStarNode<Square>, AStarNode<Square>?, double> GetHeuristicFunctionForGenericGoal()
     {
         return (currentNode, _) =>
         {

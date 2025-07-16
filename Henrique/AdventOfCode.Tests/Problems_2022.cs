@@ -98,7 +98,7 @@ namespace AdventOfCode.Tests
                     Constants.IncorrectResultMessage));
         }
 
-         [Fact]
+        [Fact]
         public void Test_2022_12()
         {
             Extensions.RunAndValidateExecutionTime(() =>

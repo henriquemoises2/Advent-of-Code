@@ -1,4 +1,6 @@
-﻿namespace AdventOfCode.Code
+﻿using System.IO;
+
+namespace AdventOfCode.Code
 {
     public class Problem_2015_02 : Problem
     {
@@ -8,7 +10,7 @@
 
         public override string Solve()
         {
-            int totalArea = 0, totalRibbon = 0;
+            int part1 = 0, part2 = 0;
             // Process each file line
             foreach (string line in GetProblemInputAllLines())
             {
@@ -21,10 +23,10 @@
                 {
                     throw new Exception("Invalid line in input file.");
                 }
-                totalArea += CalculateArea(length, width, height);
-                totalRibbon += CalculateRibbon(length, width, height);
+                part1 += CalculateArea(length, width, height);
+                part2 += CalculateRibbon(length, width, height);
             }
-            return $"Part 1 solution: {totalArea}\nPart 2 solution: {totalRibbon}";
+            return string.Format(SolutionFormat, part1, part2);
         }
 
         /// <summary>

@@ -16,8 +16,7 @@ namespace AdventOfCode.Code
             string part1 = SolvePart1();
             string part2 = SolvePart2(part1);
 
-            return $"Part 1 solution: " + part1.Length.ToString() + "\n"
-                + "Part 2 solution: " + part2.Length.ToString();
+            return string.Format(SolutionFormat, part1.Length, part2.Length);
         }
 
         private string SolvePart1()

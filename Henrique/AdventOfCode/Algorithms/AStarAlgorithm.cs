@@ -75,7 +75,7 @@ internal class AStarAlgorithm<T>
         {
             return false;
         }
-        
+
         // If a goal node is defined, check if the current node is the goal
         if (GoalNode != null)
         {

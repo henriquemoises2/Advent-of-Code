@@ -97,7 +97,7 @@ namespace AdventOfCode.Code
             string part1 = SolvePart1(monkeys);
             string part2 = SolvePart2(monkeyClones);
 
-            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+            return string.Format(SolutionFormat, part1, part2);
         }
 
         private static string SolvePart1(List<Monkey> monkeys)

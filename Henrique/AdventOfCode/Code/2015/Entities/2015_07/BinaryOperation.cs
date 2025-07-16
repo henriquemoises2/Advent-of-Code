@@ -29,19 +29,19 @@
                 case BinaryOperationType.And:
                     {
                         return (ushort)(_value1.Evaluate(circuit) & _value2.Evaluate(circuit));
-                    };
+                    }
                 case BinaryOperationType.Or:
                     {
                         return (ushort)(_value1.Evaluate(circuit) | _value2.Evaluate(circuit));
-                    };
+                    }
                 case BinaryOperationType.LShift:
                     {
                         return (ushort)(_value1.Evaluate(circuit) << _value2.Evaluate(circuit));
-                    };
+                    }
                 case BinaryOperationType.RShift:
                     {
                         return (ushort)(_value1.Evaluate(circuit) >> _value2.Evaluate(circuit));
-                    };
+                    }
                 default:
                     throw new Exception("Invalid operation.");
             }

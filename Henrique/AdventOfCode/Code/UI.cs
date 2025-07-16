@@ -4,13 +4,13 @@ namespace AdventOfCode.Code
 {
     internal class UI
     {
-        private static bool IsDebugMode = false;        
+        private static bool IsDebugMode = false;
 
         internal static void ShowDialogueCycle()
         {
             string? input;
             int SelectedYear = -1;
-            
+
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("----------------------------------------------");
             Console.WriteLine("Welcome to the Advent of Code problems solver!");

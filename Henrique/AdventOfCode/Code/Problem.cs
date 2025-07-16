@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using AdventOfCode.Constants;
 
 namespace AdventOfCode.Code
 {
@@ -35,6 +36,8 @@ namespace AdventOfCode.Code
         }
         internal readonly Stopwatch StopWatch = new();
         protected bool IsDebugActive { get; set; }
+        protected const string SolutionFormat = Messages.ProblemSolutionFormat;
+
 
         internal Problem()
         {
