@@ -43,7 +43,7 @@ namespace AdventOfCode.Code
             string part1 = SolvePart1(elfSections);
             string part2 = SolvePart2(elfSections);
 
-            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+            return string.Format(SolutionFormat, part1, part2);
 
         }
 

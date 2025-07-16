@@ -18,7 +18,7 @@ namespace AdventOfCode.Code
             List<DispositionChange> dispositionList = ParseDispositionList();
             Dictionary<int, string> people = [];
 
-            string[] uniquePeople = dispositionList.Select(d => d.Person1).Distinct().ToArray();
+            string[] uniquePeople = [.. dispositionList.Select(d => d.Person1).Distinct()];
             for (int i = 0; i < uniquePeople.Length; i++)
             {
                 people.Add(i, uniquePeople[i]);
@@ -30,7 +30,7 @@ namespace AdventOfCode.Code
             IncludeMyself(dispositionList, people);
             string part2 = SolvePart2(people);
 
-            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+            return string.Format(SolutionFormat, part1, part2);
 
         }
 

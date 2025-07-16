@@ -23,7 +23,7 @@
                 case UnaryOperationType.Not:
                     {
                         return (ushort)~_value.Evaluate(circuit);
-                    };
+                    }
                 default:
                     throw new Exception("Invalid operation.");
             }

@@ -64,7 +64,7 @@ namespace AdventOfCode.Code
             string part1 = SolvePart1(fileSystem);
             string part2 = SolvePart2(fileSystem);
 
-            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+            return string.Format(SolutionFormat, part1, part2);
 
         }
 
@@ -100,7 +100,7 @@ namespace AdventOfCode.Code
 
         private static string SolvePart1(Tree<FileSystemItem> fileSystem)
         {
-            double totalSize = fileSystem.Root.ComputeNodeValue((FileSystemItem a) =>
+            double totalSize = fileSystem.Root.ComputeNodeValue(a =>
             {
                 return a.Size;
             });

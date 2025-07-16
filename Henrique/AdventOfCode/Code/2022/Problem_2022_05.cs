@@ -18,7 +18,7 @@ namespace AdventOfCode.Code
 
             try
             {
-                string[] inputLinesAsArray = InputLines.ToArray();
+                string[] inputLinesAsArray = [.. InputLines];
                 int stackNumberIndex = InputLines.ToList().FindIndex(line => string.IsNullOrWhiteSpace(line)) - 1;
                 int maxColumnHeight = stackNumberIndex;
                 string stackNumbers = inputLinesAsArray[stackNumberIndex];
@@ -62,7 +62,7 @@ namespace AdventOfCode.Code
             string part1 = SolvePart1(stacks.ToDictionary(entry => entry.Key, entry => new Stack<char>(entry.Value)), instructions);
             string part2 = SolvePart2(stacks.ToDictionary(entry => entry.Key, entry => new List<char>(entry.Value)), instructions);
 
-            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+            return string.Format(SolutionFormat, part1, part2);
 
         }
 

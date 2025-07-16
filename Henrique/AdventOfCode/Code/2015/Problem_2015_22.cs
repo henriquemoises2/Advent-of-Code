@@ -41,7 +41,7 @@ namespace AdventOfCode.Code
             string part1 = SolvePart1(pc, boss);
             string part2 = SolvePart2(pc, boss);
 
-            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+            return string.Format(SolutionFormat, part1, part2);
 
         }
 
@@ -152,7 +152,7 @@ namespace AdventOfCode.Code
         private static List<SpellsLineup> GenerateFirstGeneration(int numberOfSpells, IEnumerable<SpellType> availableOptions, int nChromossomes)
         {
             List<SpellsLineup> result = [];
-            List<SpellType> spellTypes = availableOptions.ToList();
+            List<SpellType> spellTypes = [.. availableOptions];
             Random random = new();
 
             for (int i = 0, generatedLineups = 0; generatedLineups < nChromossomes; i++)
@@ -172,8 +172,8 @@ namespace AdventOfCode.Code
         private static List<SpellsLineup> GenerateNextGeneration(IEnumerable<SpellsLineup> spellsLineups, IEnumerable<SpellType> availableOptions, int nChromossomes)
         {
             List<SpellsLineup> result = [];
-            List<SpellsLineup> spellsLineupsList = spellsLineups.ToList();
-            List<SpellType> spellTypes = availableOptions.ToList();
+            List<SpellsLineup> spellsLineupsList = [.. spellsLineups];
+            List<SpellType> spellTypes = [.. availableOptions];
 
             Random randomGenerator = new();
 

@@ -4,7 +4,7 @@ namespace AdventOfCode.Tests
 {
     public class Problems_2022
     {
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2022_01()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -15,7 +15,7 @@ namespace AdventOfCode.Tests
             );
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2022_02()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -25,7 +25,7 @@ namespace AdventOfCode.Tests
             );
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2022_03()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -34,7 +34,7 @@ namespace AdventOfCode.Tests
         }
 
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2022_04()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -42,7 +42,7 @@ namespace AdventOfCode.Tests
                     Constants.IncorrectResultMessage));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2022_05()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -50,7 +50,7 @@ namespace AdventOfCode.Tests
                     Constants.IncorrectResultMessage));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2022_06()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -58,7 +58,7 @@ namespace AdventOfCode.Tests
                     Constants.IncorrectResultMessage));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2022_07()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -66,7 +66,7 @@ namespace AdventOfCode.Tests
                     Constants.IncorrectResultMessage));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2022_08()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -74,7 +74,7 @@ namespace AdventOfCode.Tests
                     Constants.IncorrectResultMessage));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2022_09()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -82,7 +82,7 @@ namespace AdventOfCode.Tests
                     Constants.IncorrectResultMessage));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2022_10()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -90,11 +90,19 @@ namespace AdventOfCode.Tests
                     Constants.IncorrectResultMessage));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2022_11()
         {
             Extensions.RunAndValidateExecutionTime(() =>
                 Assert.True(string.Format(Messages.ProblemSolutionFormat, 66124, 19309892877) == new Problem_2022_11().Solve(),
+                    Constants.IncorrectResultMessage));
+        }
+
+        [Fact]
+        public void Test_2022_12()
+        {
+            Extensions.RunAndValidateExecutionTime(() =>
+                Assert.True(string.Format(Messages.ProblemSolutionFormat, 504, 500) == new Problem_2022_12().Solve(),
                     Constants.IncorrectResultMessage));
         }
     }

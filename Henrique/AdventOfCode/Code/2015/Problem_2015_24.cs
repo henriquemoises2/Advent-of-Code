@@ -24,7 +24,7 @@ namespace AdventOfCode.Code
             string part1 = SolvePart1(packagesWeights);
             string part2 = SolvePart2(packagesWeights);
 
-            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+            return string.Format(SolutionFormat, part1, part2);
 
         }
 

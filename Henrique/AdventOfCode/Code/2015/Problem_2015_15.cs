@@ -49,7 +49,7 @@ namespace AdventOfCode.Code
             string part1 = SolvePart1(possibleCookies);
             string part2 = SolvePart2(possibleCookies);
 
-            return $"Part 1 solution: {part1}\nPart 2 solution: {part2}";
+            return string.Format(SolutionFormat, part1, part2);
 
         }
 
@@ -74,7 +74,7 @@ namespace AdventOfCode.Code
                 int totalQuantity = ingredientsList.Sum(ing => ing.Quantity);
                 if (TotalIngredientsQuantity == totalQuantity)
                 {
-                    Cookie cookie = new(new List<Ingredient>(((List<Ingredient>)ingredientsList).ConvertAll(ing => ing.Clone())));
+                    Cookie cookie = new([.. ((List<Ingredient>)ingredientsList).ConvertAll(ing => ing.Clone())]);
                     possibleCookies.Add(cookie);
                 }
             }

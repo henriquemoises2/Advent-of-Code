@@ -4,7 +4,7 @@ namespace AdventOfCode.Tests
 {
     public class Problems_2015
     {
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_01()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -13,7 +13,7 @@ namespace AdventOfCode.Tests
                     ));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_02()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -22,7 +22,7 @@ namespace AdventOfCode.Tests
                     ));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_03()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -31,7 +31,7 @@ namespace AdventOfCode.Tests
                     ));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_04()
         {
 
@@ -41,7 +41,7 @@ namespace AdventOfCode.Tests
                     ));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_05()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -50,7 +50,7 @@ namespace AdventOfCode.Tests
                     ));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_06()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -59,7 +59,7 @@ namespace AdventOfCode.Tests
                     ));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_07()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -68,7 +68,7 @@ namespace AdventOfCode.Tests
                     ));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_08()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -77,7 +77,7 @@ namespace AdventOfCode.Tests
                     ));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_09()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -86,7 +86,7 @@ namespace AdventOfCode.Tests
                     ));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_10()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -95,7 +95,7 @@ namespace AdventOfCode.Tests
                     ));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_11()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -104,7 +104,7 @@ namespace AdventOfCode.Tests
                     ));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_12()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -113,7 +113,7 @@ namespace AdventOfCode.Tests
                     ));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_13()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -122,7 +122,7 @@ namespace AdventOfCode.Tests
                     ));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_14()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -131,7 +131,7 @@ namespace AdventOfCode.Tests
                     ));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_15()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -140,7 +140,7 @@ namespace AdventOfCode.Tests
                     ));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_16()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -149,7 +149,7 @@ namespace AdventOfCode.Tests
                     ));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_17()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -158,7 +158,7 @@ namespace AdventOfCode.Tests
                     ));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_18()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -167,7 +167,7 @@ namespace AdventOfCode.Tests
                     ));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_19()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -176,7 +176,7 @@ namespace AdventOfCode.Tests
                     ));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_20()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -185,7 +185,7 @@ namespace AdventOfCode.Tests
                     ));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_21()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -194,7 +194,7 @@ namespace AdventOfCode.Tests
                     ));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_22()
         {
             // Due to usage of genetic algorithm, the solution might sometimes be wrong due to the fact that genetic algorithms do not guarantee the optimal solution.
@@ -205,7 +205,7 @@ namespace AdventOfCode.Tests
                     ));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_23()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -214,7 +214,7 @@ namespace AdventOfCode.Tests
                     ));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_24()
         {
             Extensions.RunAndValidateExecutionTime(() =>
@@ -223,7 +223,7 @@ namespace AdventOfCode.Tests
                     ));
         }
 
-        [Fact(Timeout = Constants.TestTimeoutMs)]
+        [Fact]
         public void Test_2015_25()
         {
             Extensions.RunAndValidateExecutionTime(() =>

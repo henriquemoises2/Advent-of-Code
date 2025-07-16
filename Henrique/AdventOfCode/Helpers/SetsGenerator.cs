@@ -35,8 +35,8 @@
                     {
                         for (int i = 0; i < elem.Item2.Count; i++)
                         {
-                            List<T> newList = new(elem.Item1);
-                            List<T> newRemainderList = new(elem.Item2);
+                            List<T> newList = [.. elem.Item1];
+                            List<T> newRemainderList = [.. elem.Item2];
 
                             newList.Add(elem.Item2[i]);
                             newRemainderList.RemoveRange(0, i + 1);
@@ -51,7 +51,7 @@
                 tempResults = iterationResults;
             }
 
-            results = tempResults.Select(r => r.Item1).ToList();
+            results = [.. tempResults.Select(r => r.Item1)];
             return results;
         }
 
@@ -60,7 +60,7 @@
             List<IEnumerable<T>> sets = [];
             for (int i = minSubsetSize; i <= maxSubsetSize; i++)
             {
-                sets.AddRange(SetsGenerator<T>.GenerateSets(i, valuesList.ToList()));
+                sets.AddRange(SetsGenerator<T>.GenerateSets(i, [.. valuesList]));
             }
             return sets;
         }
@@ -80,7 +80,7 @@
                 }
                 else
                 {
-                    sets.AddRange(SetsGenerator<int>.GenerateSets(i, valuesList.ToList()));
+                    sets.AddRange(SetsGenerator<int>.GenerateSets(i, [.. valuesList]));
                 }
 
             }
@@ -89,7 +89,7 @@
 
         internal static IEnumerable<IEnumerable<int>> GenerateIntSetsWithLimit(int subsetSize, IEnumerable<int> valuesList, int limit = 0)
         {
-            List<IEnumerable<int>> sets = SetsGenerator<int>.GenerateSets(subsetSize, valuesList.ToList()).ToList();
+            List<IEnumerable<int>> sets = [.. SetsGenerator<int>.GenerateSets(subsetSize, [.. valuesList])];
             return sets.Where(set => set.Sum() <= limit);
         }
 
@@ -102,7 +102,7 @@
         internal static IEnumerable<List<T>> GeneratePermutationsWithRepetition(int combinationSize, IEnumerable<T> valuesList)
         {
             Dictionary<string, T> codifiedValues = [];
-            List<T> inputValues = valuesList.ToList();
+            List<T> inputValues = [.. valuesList];
             for (int i = 1; i <= inputValues.Count; i++)
             {
                 codifiedValues.Add(i.ToString(), inputValues.ElementAt(i - 1));
@@ -132,7 +132,7 @@
         internal static IEnumerable<IEnumerable<T>> GeneratePermutationsWithoutRepetition(int combinationSize, IEnumerable<T> valuesList)
         {
             Dictionary<string, T> codifiedValues = [];
-            List<T> inputValues = valuesList.ToList();
+            List<T> inputValues = [.. valuesList];
             for (int i = 1; i <= inputValues.Count; i++)
             {
                 codifiedValues.Add(((char)(64 + i)).ToString(), inputValues.ElementAt(i - 1));
@@ -168,7 +168,7 @@
             List<List<T>> totalResults = [];
 
             // Call the recursive function
-            CombinationsWithRepetitionRecursive(chosen, valuesList.ToArray(), 0, combinationSize, 0, n - 1, totalResults);
+            CombinationsWithRepetitionRecursive(chosen, [.. valuesList], 0, combinationSize, 0, n - 1, totalResults);
 
             return totalResults;
         }
