@@ -1,5 +1,6 @@
-using AdventOfCode.Algorithms;
+using AdventOfCode.Code._2022.Entities._2022_13;
 using System.Text.RegularExpressions;
+using ValueType = AdventOfCode.Code._2022.Entities._2022_13.ValueType;
 
 namespace AdventOfCode.Code;
 
@@ -26,10 +27,8 @@ public partial class Problem_2022_13 : Problem
         {
             string first = inputLines[i];
             string second = inputLines[i + 1];
-            for (int j = 0; j < Math.Max(first.Length, second.Length); j++)
-            {
-                string nextValue = GrabNextValue(first);
-            }
+            NextValue nextFirstValue = GrabNextValue(first);
+            NextValue nextSecondValue = GrabNextValue(second);
         }
         return "";
     }
@@ -39,7 +38,7 @@ public partial class Problem_2022_13 : Problem
         return "";
     }
 
-    private static string GrabNextValue(string input)
+    private static NextValue GrabNextValue(string input)
     {
         Match matches = InputRegex().Match(input);
         if (!matches.Success)
@@ -50,25 +49,39 @@ public partial class Problem_2022_13 : Problem
         {
             if (matches.Groups["number"].Success)
             {
-                return matches.Groups["number"].Value;
+                return BuildNextValue(ValueType.Number, matches.Groups["number"].Value);
             }
             else if (matches.Groups["listofnumbers"].Success)
             {
-                return matches.Groups["listofnumbers"].Value;
+                return BuildNextValue(ValueType.ListOfNumbers, RemoveOutermostBrackets(matches.Groups["listofnumbers"].Value));
             }
             else if (matches.Groups["emptylist"].Success)
             {
-                return matches.Groups["emptylist"].Value;
+                return BuildNextValue(ValueType.EmptyList, matches.Groups["emptylist"].Value);
             }
             else if (matches.Groups["listoflists"].Success)
             {
-                return matches.Groups["listoflists"].Value;
+                return BuildNextValue(ValueType.ListOfLists, RemoveOutermostBrackets(matches.Groups["listoflists"].Value));
             }
             else
             {
                 throw new Exception("Invalid input format.");
             }
         }
+    }
+
+    private static string RemoveOutermostBrackets(string input)
+    {
+        if (input[0] == '[' && input[^1] == ']')
+        {
+            input = input[1..^1];
+        }
+        return input;
+    }
+
+    private static NextValue BuildNextValue(ValueType valueType, string value)
+    {
+        return new NextValue(valueType, value);
     }
 
     [GeneratedRegex(InputRegexPattern, RegexOptions.Compiled)]
