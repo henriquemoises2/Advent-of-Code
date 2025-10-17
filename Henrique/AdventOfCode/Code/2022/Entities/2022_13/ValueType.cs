@@ -5,5 +5,6 @@ internal enum ValueType
     Number,
     ListOfNumbers,
     EmptyList,
-    ListOfLists
+    ListOfLists,
+    Empty
 }
