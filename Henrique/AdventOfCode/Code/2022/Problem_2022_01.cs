@@ -1,4 +1,6 @@
-﻿namespace AdventOfCode.Code
+﻿using AdventOfCode.Constants;
+
+namespace AdventOfCode.Code
 {
     public class Problem_2022_01 : Problem
     {
@@ -30,7 +32,7 @@
             }
             catch
             {
-                throw new Exception("Invalid line in input.");
+                throw new Exception(Messages.InvalidInputErrorMessage);
             }
 
             string part1 = SolvePart1(elfsList);

@@ -110,7 +110,7 @@ namespace AdventOfCode.Tests
         public void Test_2022_13()
         {
             Extensions.RunAndValidateExecutionTime(() =>
-                Assert.True(string.Format(Messages.ProblemSolutionFormat, 6484, "") == new Problem_2022_13().Solve(),
+                Assert.True(string.Format(Messages.ProblemSolutionFormat, 6484, 19305) == new Problem_2022_13().Solve(),
                     Constants.IncorrectResultMessage));
         }
     }

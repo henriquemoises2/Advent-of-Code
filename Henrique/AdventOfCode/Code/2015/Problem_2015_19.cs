@@ -1,4 +1,5 @@
 ﻿using AdventOfCode._2015_19;
+using AdventOfCode.Constants;
 using AdventOfCode.Helpers;
 using System.Text.RegularExpressions;
 
@@ -36,7 +37,7 @@ namespace AdventOfCode.Code
             }
             catch
             {
-                throw new Exception("Invalid line in input.");
+                throw new Exception(Messages.InvalidInputErrorMessage);
             }
 
             string part1 = SolvePart1(initialMedicineMolecule, moleculeTransformations);
@@ -148,7 +149,7 @@ namespace AdventOfCode.Code
 
         private static string MoleculeReplace(string molecule, int index, string replacementInitial, string replacementFinal)
         {
-            return StringOperations.ReplaceAtIndex(molecule, index, replacementInitial, replacementFinal);
+            return molecule.ReplaceAtIndex(index, replacementInitial, replacementFinal);
         }
 
         [GeneratedRegex(TransformationPattern, RegexOptions.Compiled)]

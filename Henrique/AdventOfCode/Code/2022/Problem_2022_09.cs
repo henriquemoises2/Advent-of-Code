@@ -1,5 +1,6 @@
 ﻿using AdventOfCode._2022_09;
 using AdventOfCode.Code._2022.Entities._2022_09;
+using AdventOfCode.Constants;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
@@ -23,7 +24,7 @@ namespace AdventOfCode.Code
                 Match match = pattern.Match(line);
                 if (!match.Success)
                 {
-                    throw new Exception("Invalid line in input.");
+                    throw new Exception(Messages.InvalidInputErrorMessage);
                 }
                 else
                 {

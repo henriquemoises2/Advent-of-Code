@@ -1,4 +1,6 @@
-﻿namespace AdventOfCode.Code._2022.Entities._2022_11
+﻿using AdventOfCode.Constants;
+
+namespace AdventOfCode.Code._2022.Entities._2022_11
 {
     internal class Monkey
     {
@@ -21,7 +23,7 @@
                 receiverMonkeyIfTestFalse == null
                 )
             {
-                throw new Exception("Invalid line in input.");
+                throw new Exception(Messages.InvalidInputErrorMessage);
             }
 
             Number = number.Value;
@@ -30,7 +32,7 @@
             {
                 '+' => (value) => value + (operationValue == "old" ? value : long.Parse(operationValue)),
                 '*' => (value) => value * (operationValue == "old" ? value : long.Parse(operationValue)),
-                _ => throw new Exception("Invalid line in input.")
+                _ => throw new Exception(Messages.InvalidInputErrorMessage)
             };
             TestValue = testValue.Value;
             Test = (value) => value % TestValue == 0;

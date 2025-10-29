@@ -1,4 +1,5 @@
 ﻿using AdventOfCode._2015_13;
+using AdventOfCode.Constants;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
@@ -84,13 +85,13 @@ namespace AdventOfCode.Code
                 }
                 else
                 {
-                    throw new Exception("Invalid line in input.");
+                    throw new Exception(Messages.InvalidInputErrorMessage);
                 }
 
                 // Parse value
                 if (!int.TryParse(valueAsString, out int value))
                 {
-                    throw new Exception("Invalid line in input.");
+                    throw new Exception(Messages.InvalidInputErrorMessage);
                 }
 
                 dispositionsList.Add(new DispositionChange(person1, person2, signal, value));
