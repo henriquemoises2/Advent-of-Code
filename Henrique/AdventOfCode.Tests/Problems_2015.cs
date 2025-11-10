@@ -159,28 +159,45 @@ public class Problems_2015 : ProblemsBase
     [Fact]
     public void Test_2015_11()
     {
-        Extensions.RunAndValidateExecutionTime(() =>
-        Assert.True(string.Format(Messages.ProblemSolutionFormat, "cqjxxyzz", "cqkaabcc") == new Problem_2015_11().Solve(),
-                Constants.IncorrectResultMessage
-                ));
+        List<string> expectedExampleSolutions =
+        [
+            string.Format(Messages.ProblemSolutionFormat, "abcdffaa", "abcdffbb"),
+            string.Format(Messages.ProblemSolutionFormat, "ghjaabcc", "ghjbbcdd")
+
+        ];
+        string expectedSolution = string.Format(Messages.ProblemSolutionFormat, "cqjxxyzz", "cqkaabcc");
+
+        Problem problemSolver = new Problem_2015_11();
+        RunAndValidateAll(problemSolver, expectedExampleSolutions, expectedSolution);
     }
 
     [Fact]
     public void Test_2015_12()
     {
-        Extensions.RunAndValidateExecutionTime(() =>
-        Assert.True(string.Format(Messages.ProblemSolutionFormat, 119433, 68466) == new Problem_2015_12().Solve(),
-                Constants.IncorrectResultMessage
-                ));
+        List<string> expectedExampleSolutions =
+        [
+            string.Format(Messages.ProblemSolutionFormat, 6, 6),
+            string.Format(Messages.ProblemSolutionFormat, 6, 4),
+            string.Format(Messages.ProblemSolutionFormat, 15, 0),
+            string.Format(Messages.ProblemSolutionFormat, 6, 6)
+        ];
+        string expectedSolution = string.Format(Messages.ProblemSolutionFormat, 119433,68466 );
+
+        Problem problemSolver = new Problem_2015_12();
+        RunAndValidateAll(problemSolver, expectedExampleSolutions, expectedSolution);
     }
 
     [Fact]
     public void Test_2015_13()
     {
-        Extensions.RunAndValidateExecutionTime(() =>
-        Assert.True(string.Format(Messages.ProblemSolutionFormat, 709, 668) == new Problem_2015_13().Solve(),
-                Constants.IncorrectResultMessage
-                ));
+        List<string> expectedExampleSolutions =
+        [
+            string.Format(Messages.ProblemSolutionFormat, 330, 286)
+        ];
+        string expectedSolution = string.Format(Messages.ProblemSolutionFormat, 709, 668);
+
+        Problem problemSolver = new Problem_2015_13();
+        RunAndValidateAll(problemSolver, expectedExampleSolutions, expectedSolution);
     }
 
     [Fact]
