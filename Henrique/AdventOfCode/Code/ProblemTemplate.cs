@@ -1,49 +1,48 @@
 ﻿using System.Text.RegularExpressions;
 using AdventOfCode.Constants;
 
-namespace AdventOfCode.Code
+namespace AdventOfCode.Code;
+
+public partial class Problem_YEAR_DAY : Problem
 {
-    public partial class Problem_YEAR_DAY : Problem
+
+    private const string SomeRegexPattern = @"";
+
+    public Problem_YEAR_DAY() : base()
+    { }
+
+    public override string Solve()
     {
-
-        private const string SomeRegexPattern = @"";
-
-        public Problem_YEAR_DAY() : base()
-        { }
-
-        public override string Solve()
+        Regex pattern = InputRegex();
+        foreach (string line in InputLines)
         {
-            Regex pattern = InputRegex();
-            foreach (string line in InputLines)
+            Match match = pattern.Match(line);
+            if (!match.Success)
             {
-                Match match = pattern.Match(line);
-                if (!match.Success)
-                {
-                    throw new Exception(Messages.InvalidInputErrorMessage);
-                }
-                else
-                {
-                }
+                throw new Exception(Messages.InvalidInputErrorMessage);
             }
-
-            string part1 = SolvePart1();
-            string part2 = SolvePart2();
-
-            return string.Format(SolutionFormat, part1, part2);
-
+            else
+            {
+            }
         }
 
-        private static string SolvePart1()
-        {
-            return "";
-        }
+        string part1 = SolvePart1();
+        string part2 = SolvePart2();
 
-        private static string SolvePart2()
-        {
-            return "";
-        }
+        return string.Format(SolutionFormat, part1, part2);
 
-        [GeneratedRegex(SomeRegexPattern, RegexOptions.Compiled)]
-        private static partial Regex InputRegex();
     }
+
+    private static string SolvePart1()
+    {
+        return "";
+    }
+
+    private static string SolvePart2()
+    {
+        return "";
+    }
+
+    [GeneratedRegex(SomeRegexPattern, RegexOptions.Compiled)]
+    private static partial Regex InputRegex();
 }

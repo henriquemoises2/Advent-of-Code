@@ -12,10 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Problems\2015\*.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Problems\2022\*.txt">
+    <None Update="Problems\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

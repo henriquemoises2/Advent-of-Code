@@ -1,32 +1,31 @@
-﻿namespace AdventOfCode._2015_21
+﻿namespace AdventOfCode._2015_21;
+
+internal class PlayerCharacter : Entity
 {
-    internal class PlayerCharacter : Entity
+    private const int InitialHitPoints = 100;
+
+    internal Inventory Inventory { get; set; } = new Inventory();
+
+    internal PlayerCharacter(int hitPoints = InitialHitPoints) : base(hitPoints, 0, 0)
     {
-        private const int InitialHitPoints = 100;
+    }
 
-        internal Inventory Inventory { get; set; } = new Inventory();
+    internal PlayerCharacter(int hitPoints, int damage, int armor) : base(hitPoints, damage, armor)
+    {
+    }
 
-        internal PlayerCharacter(int hitPoints = InitialHitPoints) : base(hitPoints, 0, 0)
-        {
-        }
+    internal override int GetHitPoints()
+    {
+        return HitPoints;
+    }
 
-        internal PlayerCharacter(int hitPoints, int damage, int armor) : base(hitPoints, damage, armor)
-        {
-        }
+    internal override int GetDamage()
+    {
+        return Damage + Inventory.GetDamage();
+    }
 
-        internal override int GetHitPoints()
-        {
-            return HitPoints;
-        }
-
-        internal override int GetDamage()
-        {
-            return Damage + Inventory.GetDamage();
-        }
-
-        internal override int GetArmor()
-        {
-            return Armor + Inventory.GetArmor();
-        }
+    internal override int GetArmor()
+    {
+        return Armor + Inventory.GetArmor();
     }
 }

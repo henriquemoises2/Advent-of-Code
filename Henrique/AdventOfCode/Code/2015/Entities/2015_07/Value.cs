@@ -1,17 +1,16 @@
-﻿namespace AdventOfCode._2015_7
+﻿namespace AdventOfCode._2015_7;
+
+internal class Value : ISource
 {
-    internal class Value : ISource
+    private readonly ushort _signal;
+
+    internal Value(ushort value)
     {
-        private readonly ushort _signal;
+        _signal = value;
+    }
 
-        internal Value(ushort value)
-        {
-            _signal = value;
-        }
-
-        ushort ISource.Evaluate(IDictionary<string, ISource> circuit)
-        {
-            return _signal;
-        }
+    ushort ISource.Evaluate(IDictionary<string, ISource> circuit)
+    {
+        return _signal;
     }
 }

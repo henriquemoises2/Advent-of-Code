@@ -1,230 +1,229 @@
 ﻿using AdventOfCode.Helpers;
 
-namespace AdventOfCode.Algorithms
+namespace AdventOfCode.Algorithms;
+
+internal class HeldKarpAlgorithm
 {
-    internal class HeldKarpAlgorithm
+    private readonly int[,] _distanceMatrix;
+    private readonly int? _startingNode;
+    private readonly bool _returnToOrigin;
+
+    private readonly Dictionary<string, int> _costLookup;
+
+    internal HeldKarpAlgorithm(int[,] distanceMatrix, int? startingNode, bool returnToOrigin = true)
     {
-        private readonly int[,] _distanceMatrix;
-        private readonly int? _startingNode;
-        private readonly bool _returnToOrigin;
+        _distanceMatrix = distanceMatrix;
+        _startingNode = startingNode;
+        _returnToOrigin = returnToOrigin;
+        _costLookup = [];
+    }
 
-        private readonly Dictionary<string, int> _costLookup;
+    internal int GetShortestPathCost()
+    {
+        List<int> totalNodes = [];
+        List<int> subsetsResult = [];
+        List<int> currentSubsets = [];
 
-        internal HeldKarpAlgorithm(int[,] distanceMatrix, int? startingNode, bool returnToOrigin = true)
+        int numberOfNodes = _distanceMatrix.GetLength(0) - 1;
+        totalNodes = ComputePathCostsToOrigin(numberOfNodes);
+
+        // If we have a starting node the algorithm should not run the last iteration
+        int numberOfIterations = numberOfNodes + (_startingNode.HasValue ? 0 : 1);
+
+        for (int subsetSize = 1; subsetSize < numberOfIterations; subsetSize++)
         {
-            _distanceMatrix = distanceMatrix;
-            _startingNode = startingNode;
-            _returnToOrigin = returnToOrigin;
-            _costLookup = [];
-        }
-
-        internal int GetShortestPathCost()
-        {
-            List<int> totalNodes = [];
-            List<int> subsetsResult = [];
-            List<int> currentSubsets = [];
-
-            int numberOfNodes = _distanceMatrix.GetLength(0) - 1;
-            totalNodes = ComputePathCostsToOrigin(numberOfNodes);
-
-            // If we have a starting node the algorithm should not run the last iteration
-            int numberOfIterations = numberOfNodes + (_startingNode.HasValue ? 0 : 1);
-
-            for (int subsetSize = 1; subsetSize < numberOfIterations; subsetSize++)
+            foreach (var node in totalNodes)
             {
-                foreach (var node in totalNodes)
+                // Generate subsets of size subsetSize where the current node does not appear
+                IEnumerable<IEnumerable<int>> subsets = SetsGenerator<int>.GenerateSets(subsetSize, [.. totalNodes.Where(n => n != node)]);
+                foreach (var subset in subsets)
                 {
-                    // Generate subsets of size subsetSize where the current node does not appear
-                    IEnumerable<IEnumerable<int>> subsets = SetsGenerator<int>.GenerateSets(subsetSize, [.. totalNodes.Where(n => n != node)]);
-                    foreach (var subset in subsets)
-                    {
-                        // Compute value of going to node passing through subset , i.e. g(node, {subset})
-                        currentSubsets.Add(ComputeShortestCostValue(node, [.. subset]));
-                    }
+                    // Compute value of going to node passing through subset , i.e. g(node, {subset})
+                    currentSubsets.Add(ComputeShortestCostValue(node, [.. subset]));
                 }
-                subsetsResult = [.. currentSubsets];
-                currentSubsets.Clear();
             }
-            // Also add the cost of going back to the origin
-            if (_returnToOrigin && _startingNode.HasValue)
-            {
-                return ComputeShortestCostValue(_startingNode.Value, totalNodes);
-            }
-            return subsetsResult.Min();
+            subsetsResult = [.. currentSubsets];
+            currentSubsets.Clear();
         }
-
-        private int ComputeShortestCostValue(int x, List<int> set)
+        // Also add the cost of going back to the origin
+        if (_returnToOrigin && _startingNode.HasValue)
         {
-            int minResult = int.MaxValue;
-            int result = 0;
+            return ComputeShortestCostValue(_startingNode.Value, totalNodes);
+        }
+        return subsetsResult.Min();
+    }
 
-            // cost(xi, S) = min{cost(xj,S\{xi}) + Dji}
-            if (set.Count == 1)
+    private int ComputeShortestCostValue(int x, List<int> set)
+    {
+        int minResult = int.MaxValue;
+        int result = 0;
+
+        // cost(xi, S) = min{cost(xj,S\{xi}) + Dji}
+        if (set.Count == 1)
+        {
+            var lookupValue = _costLookup[$"g({set[0]},{{O}})"];
+
+            // Handles infinity
+            if (_distanceMatrix[set[0] - 1, x - 1] == int.MaxValue || lookupValue == int.MaxValue)
             {
-                var lookupValue = _costLookup[$"g({set[0]},{{O}})"];
+                result = int.MaxValue;
+            }
+            else
+            {
+                result = _distanceMatrix[set[0] - 1, x - 1] + lookupValue;
+            }
+            if (!_costLookup.ContainsKey($"g({x},{{{set[0]}}})"))
+            {
+                _costLookup.Add($"g({x},{{{set[0]}}})", result);
+            }
+            minResult = result;
+        }
+        else
+        {
+            foreach (int value in set)
+            {
+                var lookupValue = _costLookup[$"g({value},{{{string.Join(",", set.Where(e => e != value))}}})"];
 
-                // Handles infinity
-                if (_distanceMatrix[set[0] - 1, x - 1] == int.MaxValue || lookupValue == int.MaxValue)
+                // Handles Infinity
+                if (_distanceMatrix[value - 1, x - 1] == int.MaxValue || lookupValue == int.MaxValue)
                 {
                     result = int.MaxValue;
                 }
                 else
                 {
-                    result = _distanceMatrix[set[0] - 1, x - 1] + lookupValue;
+                    result = _distanceMatrix[value - 1, x - 1] + lookupValue;
+
                 }
-                if (!_costLookup.ContainsKey($"g({x},{{{set[0]}}})"))
+                if (result < minResult)
                 {
-                    _costLookup.Add($"g({x},{{{set[0]}}})", result);
+                    minResult = result;
                 }
-                minResult = result;
+            }
+            if (!_costLookup.ContainsKey($"g({x},{{{string.Join(",", set)}}})"))
+            {
+                _costLookup.Add($"g({x},{{{string.Join(",", set)}}})", minResult);
+            }
+
+        }
+        return minResult;
+    }
+
+    internal int GetLongestPathCost()
+    {
+        List<int> totalNodes = [];
+        List<int> subsetsResult = [];
+        List<int> currentSubsets = [];
+
+        int numberOfNodes = _distanceMatrix.GetLength(0) - 1;
+        totalNodes = ComputePathCostsToOrigin(numberOfNodes);
+
+        // If we have a starting node the algorithm should not run the last iteration
+        int numberOfIterations = numberOfNodes + (_startingNode.HasValue ? 0 : 1);
+
+        for (int subsetSize = 1; subsetSize < numberOfIterations; subsetSize++)
+        {
+            foreach (var node in totalNodes)
+            {
+                // Generate subsets of size subsetSize where the current node does not appear
+                IEnumerable<IEnumerable<int>> subsets = SetsGenerator<int>.GenerateSets(subsetSize, [.. totalNodes.Where(n => n != node)]);
+                foreach (var subset in subsets)
+                {
+                    // Compute value of going to node passing through subset , i.e. g(node, {subset})
+                    currentSubsets.Add(ComputeLongestCostValue(node, [.. subset]));
+                }
+            }
+            subsetsResult = [.. currentSubsets];
+            currentSubsets.Clear();
+        }
+        // Also add the cost of going back to the origin
+        if (_returnToOrigin && _startingNode.HasValue)
+        {
+            return ComputeLongestCostValue(_startingNode.Value, totalNodes);
+        }
+        return subsetsResult.Max();
+    }
+
+    private int ComputeLongestCostValue(int x, List<int> set)
+    {
+        int maxResult = int.MinValue;
+        int result = 0;
+
+        // cost(xi, S) = min{cost(xj,S\{xi}) + Dji}
+
+        if (set.Count == 1)
+        {
+            var lookupValue = _costLookup[$"g({set[0]},{{O}})"];
+
+            // Handles infinity
+            if (_distanceMatrix[set[0] - 1, x - 1] == int.MinValue || lookupValue == int.MinValue)
+            {
+                result = int.MinValue;
             }
             else
             {
-                foreach (int value in set)
-                {
-                    var lookupValue = _costLookup[$"g({value},{{{string.Join(",", set.Where(e => e != value))}}})"];
-
-                    // Handles Infinity
-                    if (_distanceMatrix[value - 1, x - 1] == int.MaxValue || lookupValue == int.MaxValue)
-                    {
-                        result = int.MaxValue;
-                    }
-                    else
-                    {
-                        result = _distanceMatrix[value - 1, x - 1] + lookupValue;
-
-                    }
-                    if (result < minResult)
-                    {
-                        minResult = result;
-                    }
-                }
-                if (!_costLookup.ContainsKey($"g({x},{{{string.Join(",", set)}}})"))
-                {
-                    _costLookup.Add($"g({x},{{{string.Join(",", set)}}})", minResult);
-                }
-
+                result = _distanceMatrix[set[0] - 1, x - 1] + lookupValue;
             }
-            return minResult;
+            if (!_costLookup.ContainsKey($"g({x},{{{set[0]}}})"))
+            {
+                _costLookup.Add($"g({x},{{{set[0]}}})", result);
+            }
+            maxResult = result;
         }
-
-        internal int GetLongestPathCost()
+        else
         {
-            List<int> totalNodes = [];
-            List<int> subsetsResult = [];
-            List<int> currentSubsets = [];
-
-            int numberOfNodes = _distanceMatrix.GetLength(0) - 1;
-            totalNodes = ComputePathCostsToOrigin(numberOfNodes);
-
-            // If we have a starting node the algorithm should not run the last iteration
-            int numberOfIterations = numberOfNodes + (_startingNode.HasValue ? 0 : 1);
-
-            for (int subsetSize = 1; subsetSize < numberOfIterations; subsetSize++)
+            foreach (int value in set)
             {
-                foreach (var node in totalNodes)
-                {
-                    // Generate subsets of size subsetSize where the current node does not appear
-                    IEnumerable<IEnumerable<int>> subsets = SetsGenerator<int>.GenerateSets(subsetSize, [.. totalNodes.Where(n => n != node)]);
-                    foreach (var subset in subsets)
-                    {
-                        // Compute value of going to node passing through subset , i.e. g(node, {subset})
-                        currentSubsets.Add(ComputeLongestCostValue(node, [.. subset]));
-                    }
-                }
-                subsetsResult = [.. currentSubsets];
-                currentSubsets.Clear();
-            }
-            // Also add the cost of going back to the origin
-            if (_returnToOrigin && _startingNode.HasValue)
-            {
-                return ComputeLongestCostValue(_startingNode.Value, totalNodes);
-            }
-            return subsetsResult.Max();
-        }
+                var lookupValue = _costLookup[$"g({value},{{{string.Join(",", set.Where(e => e != value))}}})"];
 
-        private int ComputeLongestCostValue(int x, List<int> set)
-        {
-            int maxResult = int.MinValue;
-            int result = 0;
-
-            // cost(xi, S) = min{cost(xj,S\{xi}) + Dji}
-
-            if (set.Count == 1)
-            {
-                var lookupValue = _costLookup[$"g({set[0]},{{O}})"];
-
-                // Handles infinity
-                if (_distanceMatrix[set[0] - 1, x - 1] == int.MinValue || lookupValue == int.MinValue)
+                // Handles Infinity
+                if (_distanceMatrix[value - 1, x - 1] == int.MinValue || lookupValue == int.MinValue)
                 {
                     result = int.MinValue;
                 }
                 else
                 {
-                    result = _distanceMatrix[set[0] - 1, x - 1] + lookupValue;
+                    result = _distanceMatrix[value - 1, x - 1] + lookupValue;
+
                 }
-                if (!_costLookup.ContainsKey($"g({x},{{{set[0]}}})"))
+                if (result > maxResult)
                 {
-                    _costLookup.Add($"g({x},{{{set[0]}}})", result);
+                    maxResult = result;
                 }
-                maxResult = result;
             }
-            else
+            if (!_costLookup.ContainsKey($"g({x},{{{string.Join(",", set)}}})"))
             {
-                foreach (int value in set)
-                {
-                    var lookupValue = _costLookup[$"g({value},{{{string.Join(",", set.Where(e => e != value))}}})"];
-
-                    // Handles Infinity
-                    if (_distanceMatrix[value - 1, x - 1] == int.MinValue || lookupValue == int.MinValue)
-                    {
-                        result = int.MinValue;
-                    }
-                    else
-                    {
-                        result = _distanceMatrix[value - 1, x - 1] + lookupValue;
-
-                    }
-                    if (result > maxResult)
-                    {
-                        maxResult = result;
-                    }
-                }
-                if (!_costLookup.ContainsKey($"g({x},{{{string.Join(",", set)}}})"))
-                {
-                    _costLookup.Add($"g({x},{{{string.Join(",", set)}}})", maxResult);
-                }
-
+                _costLookup.Add($"g({x},{{{string.Join(",", set)}}})", maxResult);
             }
-            return maxResult;
+
         }
+        return maxResult;
+    }
 
 
-        private List<int> ComputePathCostsToOrigin(int numberOfNodes)
+    private List<int> ComputePathCostsToOrigin(int numberOfNodes)
+    {
+        List<int> totalNodes = [];
+
+        for (int i = 1; i <= numberOfNodes + 1; i++)
         {
-            List<int> totalNodes = [];
-
-            for (int i = 1; i <= numberOfNodes + 1; i++)
+            if (!_startingNode.HasValue)
             {
-                if (!_startingNode.HasValue)
-                {
-                    // Insert all nodes except the starting one into a list
-                    totalNodes.Add(i);
+                // Insert all nodes except the starting one into a list
+                totalNodes.Add(i);
 
-                    // Compute the cost of going from starting position into current position
-                    _costLookup.Add($"g({i},{{O}})", 0);
-                }
-                else if (i != _startingNode)
-                {
-                    // Insert all nodes except the starting one into a list
-                    totalNodes.Add(i);
-
-                    // Compute the cost of going from starting position into current position
-                    _costLookup.Add($"g({i},{{O}})", _distanceMatrix[_startingNode.Value - 1, i - 1]);
-                }
+                // Compute the cost of going from starting position into current position
+                _costLookup.Add($"g({i},{{O}})", 0);
             }
+            else if (i != _startingNode)
+            {
+                // Insert all nodes except the starting one into a list
+                totalNodes.Add(i);
 
-            return totalNodes;
+                // Compute the cost of going from starting position into current position
+                _costLookup.Add($"g({i},{{O}})", _distanceMatrix[_startingNode.Value - 1, i - 1]);
+            }
         }
+
+        return totalNodes;
     }
 }
