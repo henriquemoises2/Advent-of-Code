@@ -1,4 +1,4 @@
 abcdefgh
-
+<END_OF_EXAMPLE>
 ghijklmn
-
+<END_OF_EXAMPLE>

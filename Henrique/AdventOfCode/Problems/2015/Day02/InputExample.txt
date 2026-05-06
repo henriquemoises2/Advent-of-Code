@@ -1,4 +1,4 @@
 ﻿2x3x4
-
+<END_OF_EXAMPLE>
 1x1x10
-
+<END_OF_EXAMPLE>

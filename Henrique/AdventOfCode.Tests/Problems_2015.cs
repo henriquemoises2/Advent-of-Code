@@ -203,64 +203,93 @@ public class Problems_2015 : ProblemsBase
     [Fact]
     public void Test_2015_14()
     {
-        Extensions.RunAndValidateExecutionTime(() =>
-        Assert.True(string.Format(Messages.ProblemSolutionFormat, 2640, 1102) == new Problem_2015_14().Solve(),
-                Constants.IncorrectResultMessage
-                ));
+        List<string> expectedExampleSolutions =
+        [
+            string.Format(Messages.ProblemSolutionFormat, 1120, 689)
+        ];
+        string expectedSolution = string.Format(Messages.ProblemSolutionFormat, 2640, 1102);
+
+        Problem problemSolver = new Problem_2015_14();
+        RunAndValidateAll(problemSolver, expectedExampleSolutions, expectedSolution);
     }
 
     [Fact]
     public void Test_2015_15()
     {
-        Extensions.RunAndValidateExecutionTime(() =>
-        Assert.True(string.Format(Messages.ProblemSolutionFormat, 222870, 117936) == new Problem_2015_15().Solve(),
-                Constants.IncorrectResultMessage
-                ));
+        List<string> expectedExampleSolutions =
+        [
+            string.Format(Messages.ProblemSolutionFormat, 62842880 , 57600000)
+        ];
+        string expectedSolution = string.Format(Messages.ProblemSolutionFormat, 222870, 117936);
+
+        Problem problemSolver = new Problem_2015_15();
+        RunAndValidateAll(problemSolver, expectedExampleSolutions, expectedSolution);
     }
 
     [Fact]
     public void Test_2015_16()
     {
-        Extensions.RunAndValidateExecutionTime(() =>
-        Assert.True(string.Format(Messages.ProblemSolutionFormat, 40, 241) == new Problem_2015_16().Solve(),
-                Constants.IncorrectResultMessage
-                ));
+        List<string> expectedExampleSolutions =
+        [
+        ];
+        string expectedSolution = string.Format(Messages.ProblemSolutionFormat, 40, 241);
+
+        Problem problemSolver = new Problem_2015_16();
+        RunAndValidateAll(problemSolver, expectedExampleSolutions, expectedSolution);
     }
 
     [Fact]
     public void Test_2015_17()
     {
-        Extensions.RunAndValidateExecutionTime(() =>
-        Assert.True(string.Format(Messages.ProblemSolutionFormat, 1638, 17) == new Problem_2015_17().Solve(),
-                Constants.IncorrectResultMessage
-                ));
+        List<string> expectedExampleSolutions =
+        [
+            string.Format(Messages.ProblemSolutionFormat, 4, 3)
+        ];
+        string expectedSolution = string.Format(Messages.ProblemSolutionFormat, 1638, 17);
+
+        Problem problemSolver = new Problem_2015_17();
+        RunAndValidateAll(problemSolver, expectedExampleSolutions, expectedSolution);
     }
 
     [Fact]
     public void Test_2015_18()
     {
-        Extensions.RunAndValidateExecutionTime(() =>
-        Assert.True(string.Format(Messages.ProblemSolutionFormat, 1061, 1006) == new Problem_2015_18().Solve(),
-                Constants.IncorrectResultMessage
-                ));
+        List<string> expectedExampleSolutions =
+        [
+            string.Format(Messages.ProblemSolutionFormat, 4, 17)
+        ];
+        string expectedSolution = string.Format(Messages.ProblemSolutionFormat, 1061, 1006);
+
+        Problem problemSolver = new Problem_2015_18();
+        RunAndValidateAll(problemSolver, expectedExampleSolutions, expectedSolution);
     }
 
     [Fact]
     public void Test_2015_19()
     {
-        Extensions.RunAndValidateExecutionTime(() =>
-        Assert.True(string.Format(Messages.ProblemSolutionFormat, 535, 212) == new Problem_2015_19().Solve(),
-                Constants.IncorrectResultMessage
-                ));
+        List<string> expectedExampleSolutions =
+        [
+            string.Format(Messages.ProblemSolutionFormat, 7, 6)
+        ];
+        string expectedSolution = string.Format(Messages.ProblemSolutionFormat, 535, 212);
+
+        Problem problemSolver = new Problem_2015_19();
+        RunAndValidateAll(problemSolver, expectedExampleSolutions, expectedSolution);
     }
 
     [Fact]
     public void Test_2015_20()
     {
-        Extensions.RunAndValidateExecutionTime(() =>
-        Assert.True(string.Format(Messages.ProblemSolutionFormat, 665280, 705600) == new Problem_2015_20().Solve(),
-                Constants.IncorrectResultMessage
-                ));
+
+        List<string> expectedExampleSolutions =
+        [
+            string.Format(Messages.ProblemSolutionFormat, 1, 1),
+            string.Format(Messages.ProblemSolutionFormat, 4, 4)
+        ];
+        string expectedSolution = string.Format(Messages.ProblemSolutionFormat, 665280, 705600);
+
+        Problem problemSolver = new Problem_2015_20();
+        RunAndValidateAll(problemSolver, expectedExampleSolutions, expectedSolution);
     }
 
     [Fact]

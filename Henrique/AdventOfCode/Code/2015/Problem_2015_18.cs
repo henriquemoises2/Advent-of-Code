@@ -4,20 +4,25 @@ namespace AdventOfCode.Code;
 
 public class Problem_2015_18 : Problem
 {
-    private readonly int GridSize;
-    private readonly char[,] LightsGrid;
+    private int GridSize = ProblemNumberOfSteps;
+    private char[,] LightsGrid = new char[ProblemNumberOfSteps, ProblemNumberOfSteps];
     private readonly char LightOff = '.';
     private readonly char LightOn = '#';
+    private const int ProblemNumberOfSteps = 100;
+    private const int ExampleNumberOfSteps = 4;
+    private static int NumberOfSteps = ProblemNumberOfSteps;
+
 
 
     public Problem_2015_18() : base()
     {
-        GridSize = InputFirstLine.Length;
-        LightsGrid = new char[GridSize, GridSize];
     }
 
     public override string Solve()
     {
+        GridSize = InputFirstLine.Length;
+        LightsGrid = new char[GridSize, GridSize];
+
         int i = 0;
         foreach (string line in InputLines)
         {
@@ -39,10 +44,19 @@ public class Problem_2015_18 : Problem
 
     }
 
+    public override List<string> SolveExamples()
+    {
+        NumberOfSteps = ExampleNumberOfSteps;
+        List<string> result = base.SolveExamples();
+        NumberOfSteps = ProblemNumberOfSteps;
+        
+        return result;
+    }
+
     private string SolvePart1()
     {
         char[,] newLightsGrid = (char[,])LightsGrid.Clone();
-        newLightsGrid = AnimateLightsForNSteps(100, newLightsGrid, false);
+        newLightsGrid = AnimateLightsForNSteps(NumberOfSteps, newLightsGrid, false);
 
         return newLightsGrid.Cast<char>().Count(light => light == LightOn).ToString();
     }
@@ -51,7 +65,7 @@ public class Problem_2015_18 : Problem
     {
         char[,] newLightsGrid = (char[,])LightsGrid.Clone();
         newLightsGrid = UpdateLightsGridCorners(newLightsGrid);
-        newLightsGrid = AnimateLightsForNSteps(100, newLightsGrid, true);
+        newLightsGrid = AnimateLightsForNSteps(NumberOfSteps, newLightsGrid, true);
 
         return newLightsGrid.Cast<char>().Count(light => light == LightOn).ToString();
     }

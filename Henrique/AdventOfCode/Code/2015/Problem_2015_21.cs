@@ -42,6 +42,18 @@ public partial class Problem_2015_21 : Problem
 
     }
 
+    public override List<string> SolveExamples()
+    {
+        CableToEvaluate = ExampleCableToEvaluate;
+        CableToOverride = ExampleCableToOverride;
+
+        List<string> result = base.SolveExamples();
+
+        CableToEvaluate = ProblemCableToEvaluate;
+        CableToOverride = ProblemCableToOverride;
+        return result;
+    }
+
     private static string SolvePart1(PlayerCharacter pc, Boss boss, HashSet<Inventory> inventoryCombinations)
     {
 

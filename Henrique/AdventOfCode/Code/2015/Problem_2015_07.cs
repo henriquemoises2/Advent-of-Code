@@ -10,8 +10,12 @@ public partial class Problem_2015_07 : Problem
     private const string PatternUnaryOperation = "^([A-Z]+) (\\d+|[a-z]+) -> ([a-z]+)$";
     private const string PatternBinaryOperation = "^(\\d+|[a-z]+) ([A-Z]+) (\\d+|[a-z]+) -> ([a-z]+)$";
 
-    private const string CableToEvaluate = "a";
-    private const string CableToOverride = "b";
+    private const string ProblemCableToEvaluate = "a";
+    private const string ExampleCableToEvaluate = "f";
+    private static string CableToEvaluate = ProblemCableToEvaluate;
+    private const string ProblemCableToOverride = "b";
+    private const string ExampleCableToOverride = "x";
+    private static string CableToOverride = ProblemCableToOverride;
 
     public Problem_2015_07() : base()
     {
@@ -116,6 +120,18 @@ public partial class Problem_2015_07 : Problem
 
         return string.Format(SolutionFormat, part1, part2);
 
+    }
+
+    public override List<string> SolveExamples()
+    {
+        CableToEvaluate = ExampleCableToEvaluate;
+        CableToOverride = ExampleCableToOverride;
+
+        List<string> result = base.SolveExamples();
+
+        CableToEvaluate = ProblemCableToEvaluate;
+        CableToOverride = ProblemCableToOverride;
+        return result;
     }
 
     private static string SolvePart1(IDictionary<string, ISource> circuit)

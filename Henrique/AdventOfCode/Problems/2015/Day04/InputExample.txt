@@ -1,4 +1,4 @@
 abcdef
-
+<END_OF_EXAMPLE>
 pqrstuv
-
+<END_OF_EXAMPLE>

@@ -1,9 +1,9 @@
-123 -> b
+123 -> x
 456 -> y
-b AND y -> d
-b OR y -> e
-b LSHIFT 2 -> a
+x AND y -> d
+x OR y -> e
+x LSHIFT 2 -> f
 y RSHIFT 2 -> g
-NOT b -> h
+NOT x -> h
 NOT y -> i
-
+<END_OF_EXAMPLE>

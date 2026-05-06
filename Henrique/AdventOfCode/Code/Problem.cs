@@ -99,7 +99,7 @@ public abstract class Problem
 
     public abstract string Solve();
 
-    public List<string> SolveExamples()
+    public virtual List<string> SolveExamples()
     {
         List<string> solutions = [];
         List<string> exampleInput = [];
@@ -108,7 +108,7 @@ public abstract class Problem
         InputLines = [];
         foreach (string line in ExampleInputLines)
         {
-            if (line == "")
+            if (line == "<END_OF_EXAMPLE>")
             {
                 InputLines = exampleInput;
                 solutions.Add(Solve());

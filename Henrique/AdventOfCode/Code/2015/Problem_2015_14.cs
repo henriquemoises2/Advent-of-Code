@@ -8,7 +8,10 @@ public partial class Problem_2015_14 : Problem
 {
 
     private const string RaindeerSpeedPattern = @"^(?<name>\w+) can fly (?<speed>\d+) km/s for (?<flytime>\d+) seconds, but then must rest for (?<resttime>\d+) seconds.";
-    private const int RaceTime = 2503;
+    private const int ProblemRaceTime = 2503;
+    private const int ExampleRaceTime = 1000;
+    private static int RaceTime = ProblemRaceTime;
+
 
     public Problem_2015_14() : base()
     { }
@@ -42,6 +45,14 @@ public partial class Problem_2015_14 : Problem
 
         return string.Format(SolutionFormat, part1, part2);
 
+    }
+
+    public override List<string> SolveExamples()
+    {
+        RaceTime = ExampleRaceTime;
+        List<string> result = base.SolveExamples();
+        RaceTime = ProblemRaceTime;
+        return result;
     }
 
     private static string SolvePart1(IEnumerable<Raindeer> raindeerList)

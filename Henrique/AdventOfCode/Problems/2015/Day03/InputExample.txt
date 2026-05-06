@@ -1,8 +1,8 @@
 ﻿>
-
+<END_OF_EXAMPLE>
 ^>v<
-
+<END_OF_EXAMPLE>
 ^v^v^v^v^v
-
+<END_OF_EXAMPLE>
 ^v
-
+<END_OF_EXAMPLE>

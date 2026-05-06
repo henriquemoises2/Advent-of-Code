@@ -1,8 +1,8 @@
 [1,2,3]
-
+<END_OF_EXAMPLE>
 [1,{"c":"red","b":2},3]
-
+<END_OF_EXAMPLE>
 {"d":"red","e":[1,2,3,4],"f":5}
-
+<END_OF_EXAMPLE>
 [1,"red",5]
-
+<END_OF_EXAMPLE>
