@@ -1,5 +1,6 @@
 ﻿using AdventOfCode._2015_21;
 using AdventOfCode._2015_22;
+using AdventOfCode.Constants;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
@@ -35,7 +36,7 @@ namespace AdventOfCode.Code
             }
             catch
             {
-                throw new Exception("Invalid line in input.");
+                throw new Exception(Messages.InvalidInputErrorMessage);
             }
 
             string part1 = SolvePart1(pc, boss);

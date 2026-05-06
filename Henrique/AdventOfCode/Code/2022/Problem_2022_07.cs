@@ -1,4 +1,5 @@
 ﻿using AdventOfCode._2022_07;
+using AdventOfCode.Constants;
 using AdventOfCode.DataStructures;
 using System.Text.RegularExpressions;
 
@@ -30,7 +31,7 @@ namespace AdventOfCode.Code
             }
             else
             {
-                throw new Exception("Invalid line in input.");
+                throw new Exception(Messages.InvalidInputErrorMessage);
             }
 
             foreach (string line in InputLines.Skip(1))
@@ -54,7 +55,7 @@ namespace AdventOfCode.Code
                 }
                 else
                 {
-                    throw new Exception("Invalid line in input.");
+                    throw new Exception(Messages.InvalidInputErrorMessage);
                 }
             }
 

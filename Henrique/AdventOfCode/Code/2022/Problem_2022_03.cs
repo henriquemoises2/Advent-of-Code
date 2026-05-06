@@ -1,4 +1,6 @@
-﻿namespace AdventOfCode.Code
+﻿using AdventOfCode.Constants;
+
+namespace AdventOfCode.Code
 {
     public class Problem_2022_03 : Problem
     {
@@ -49,7 +51,7 @@
             }
             catch
             {
-                throw new Exception("Invalid line in input.");
+                throw new Exception(Messages.InvalidInputErrorMessage);
             }
         }
 
@@ -107,7 +109,7 @@
             }
             catch
             {
-                throw new Exception("Invalid line in input.");
+                throw new Exception(Messages.InvalidInputErrorMessage);
             }
         }
 

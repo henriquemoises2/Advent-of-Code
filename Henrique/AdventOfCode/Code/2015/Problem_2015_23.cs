@@ -1,4 +1,5 @@
 ﻿using AdventOfCode._2015_23;
+using AdventOfCode.Constants;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code
@@ -31,7 +32,7 @@ namespace AdventOfCode.Code
                     bool parsedRegister = char.TryParse(match.Groups["register"].Value, out char registerId);
                     if (!parsedSign1 && !parsedValue1 && !parsedSign2 && !parsedValue2 && !parsedRegister)
                     {
-                        throw new Exception("Invalid line in input.");
+                        throw new Exception(Messages.InvalidInputErrorMessage);
                     }
                     if (parsedRegister)
                     {
@@ -50,7 +51,7 @@ namespace AdventOfCode.Code
             }
             catch (Exception)
             {
-                throw new Exception("Invalid line in input.");
+                throw new Exception(Messages.InvalidInputErrorMessage);
             }
 
             string part1 = SolvePart1(instructions, registers);

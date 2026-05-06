@@ -1,4 +1,6 @@
-﻿namespace AdventOfCode.Code._2022.Entities._2022_10
+﻿using AdventOfCode.Constants;
+
+namespace AdventOfCode.Code._2022.Entities._2022_10
 {
     internal class Operation
     {
@@ -12,14 +14,14 @@
             {
                 "noop" => OperationType.Noop,
                 "addx" => OperationType.Addx,
-                _ => throw new Exception("Invalid line in input.")
+                _ => throw new Exception(Messages.InvalidInputErrorMessage)
             };
             Value = value;
             PendingCycles = operationName switch
             {
                 "noop" => 1,
                 "addx" => 2,
-                _ => throw new Exception("Invalid line in input.")
+                _ => throw new Exception(Messages.InvalidInputErrorMessage)
             };
         }
     }

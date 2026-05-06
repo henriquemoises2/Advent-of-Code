@@ -1,4 +1,5 @@
-﻿using AdventOfCode.Helpers;
+﻿using AdventOfCode.Constants;
+using AdventOfCode.Helpers;
 
 namespace AdventOfCode.Code
 {
@@ -21,7 +22,7 @@ namespace AdventOfCode.Code
             }
             catch
             {
-                throw new Exception("Invalid line in input.");
+                throw new Exception(Messages.InvalidInputErrorMessage);
             }
 
             Tuple<int, int> combinedSolutions = SolveBothParts(minimumGifts);

@@ -1,4 +1,5 @@
 ﻿using AdventOfCode._2015_15;
+using AdventOfCode.Constants;
 using System.Text.RegularExpressions;
 using Cookie = AdventOfCode._2015_15.Cookie;
 
@@ -26,7 +27,7 @@ namespace AdventOfCode.Code
                 Match match = pattern.Match(line);
                 if (!match.Success)
                 {
-                    throw new Exception("Invalid line in input.");
+                    throw new Exception(Messages.InvalidInputErrorMessage);
                 }
                 else
                 {

@@ -1,4 +1,6 @@
-﻿namespace AdventOfCode.Code
+﻿using AdventOfCode.Constants;
+
+namespace AdventOfCode.Code
 {
     public class Problem_2015_18 : Problem
     {
@@ -21,7 +23,7 @@
             {
                 if (line.Length != GridSize)
                 {
-                    throw new Exception("Invalid line in input.");
+                    throw new Exception(Messages.InvalidInputErrorMessage);
                 }
                 else
                 {

@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using AdventOfCode.Constants;
 
 namespace AdventOfCode.Code
 {
@@ -18,7 +19,7 @@ namespace AdventOfCode.Code
                 Match match = pattern.Match(line);
                 if (!match.Success)
                 {
-                    throw new Exception("Invalid line in input.");
+                    throw new Exception(Messages.InvalidInputErrorMessage);
                 }
                 else
                 {

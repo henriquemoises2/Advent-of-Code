@@ -1,4 +1,5 @@
 ﻿using AdventOfCode.Code._2022.Entities._2022_11;
+using AdventOfCode.Constants;
 using AdventOfCode.Helpers;
 using System.Text.RegularExpressions;
 
@@ -90,7 +91,7 @@ namespace AdventOfCode.Code
                 }
                 catch
                 {
-                    throw new Exception("Invalid line in input.");
+                    throw new Exception(Messages.InvalidInputErrorMessage);
                 }
             }
 

@@ -1,4 +1,5 @@
 ﻿using AdventOfCode._2015_21;
+using AdventOfCode.Constants;
 using AdventOfCode.Helpers;
 using System.Text.RegularExpressions;
 
@@ -29,7 +30,7 @@ namespace AdventOfCode.Code
             }
             catch
             {
-                throw new Exception("Invalid line in input.");
+                throw new Exception(Messages.InvalidInputErrorMessage);
             }
 
             HashSet<Inventory> allGeneratedInventoryCombinations = GenerateAllInventoryCombinations();
