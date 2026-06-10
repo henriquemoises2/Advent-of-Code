@@ -1,19 +1,18 @@
-﻿namespace AdventOfCode._2015_7
+﻿namespace AdventOfCode._2015_7;
+
+internal class Cable : ISource
 {
-    internal class Cable : ISource
+    private readonly string _cableName;
+
+    internal Cable(string cableName)
     {
-        private readonly string _cableName;
+        _cableName = cableName;
+    }
 
-        internal Cable(string cableName)
-        {
-            _cableName = cableName;
-        }
-
-        ushort ISource.Evaluate(IDictionary<string, ISource> circuit)
-        {
-            ushort result = circuit[_cableName].Evaluate(circuit);
-            circuit[_cableName] = new Value(result);
-            return result;
-        }
+    ushort ISource.Evaluate(IDictionary<string, ISource> circuit)
+    {
+        ushort result = circuit[_cableName].Evaluate(circuit);
+        circuit[_cableName] = new Value(result);
+        return result;
     }
 }
