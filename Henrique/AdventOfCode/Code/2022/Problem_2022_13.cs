@@ -1,7 +1,7 @@
-using System.Text.RegularExpressions;
 using AdventOfCode.Code._2022.Entities._2022_13;
 using AdventOfCode.Constants;
 using AdventOfCode.Helpers;
+using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Code;
 

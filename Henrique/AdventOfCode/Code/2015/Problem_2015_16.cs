@@ -2,71 +2,70 @@
 using AdventOfCode.Constants;
 using System.Text.RegularExpressions;
 
-namespace AdventOfCode.Code
+namespace AdventOfCode.Code;
+
+public partial class Problem_2015_16 : Problem
 {
-    public partial class Problem_2015_16 : Problem
+
+    private const string AuntSuePattern = @"^Sue (?<auntSueNumber>\d+): ((?<compoundName>\w+): (?<compoundQuantity>\d+)(, )*)+";
+    private readonly List<AuntSue> auntsSue = [];
+
+    public Problem_2015_16() : base()
+    { }
+
+    public override string Solve()
     {
-
-        private const string AuntSuePattern = @"^Sue (?<auntSueNumber>\d+): ((?<compoundName>\w+): (?<compoundQuantity>\d+)(, )*)+";
-        private readonly List<AuntSue> auntsSue = [];
-
-        public Problem_2015_16() : base()
-        { }
-
-        public override string Solve()
+        Regex pattern = InputRegex();
+        foreach (string line in InputLines)
         {
-            Regex pattern = InputRegex();
-            foreach (string line in InputLines)
+            Match match = pattern.Match(line);
+            if (!match.Success)
             {
-                Match match = pattern.Match(line);
-                if (!match.Success)
+                throw new Exception(Messages.InvalidInputErrorMessage);
+            }
+            else
+            {
+
+                try
+                {
+                    List<Compound> compounds = [];
+                    int auntNumber = int.Parse(match.Groups["auntSueNumber"].Value);
+                    for (int i = 0; i < match.Groups["compoundName"].Captures.Count; i++)
+                    {
+                        string compoundName = match.Groups["compoundName"].Captures[i].Value;
+                        int compoundQuantity = int.Parse(match.Groups["compoundQuantity"].Captures[i].Value);
+
+                        compounds.Add(new Compound(compoundName, compoundQuantity));
+                    }
+                    auntsSue.Add(new AuntSue(auntNumber, compounds));
+                }
+                catch
                 {
                     throw new Exception(Messages.InvalidInputErrorMessage);
                 }
-                else
-                {
-
-                    try
-                    {
-                        List<Compound> compounds = [];
-                        int auntNumber = int.Parse(match.Groups["auntSueNumber"].Value);
-                        for (int i = 0; i < match.Groups["compoundName"].Captures.Count; i++)
-                        {
-                            string compoundName = match.Groups["compoundName"].Captures[i].Value;
-                            int compoundQuantity = int.Parse(match.Groups["compoundQuantity"].Captures[i].Value);
-
-                            compounds.Add(new Compound(compoundName, compoundQuantity));
-                        }
-                        auntsSue.Add(new AuntSue(auntNumber, compounds));
-                    }
-                    catch
-                    {
-                        throw new Exception(Messages.InvalidInputErrorMessage);
-                    }
-                }
             }
-
-            MFCSAM mfcsam = new();
-            string part1 = SolvePart1(mfcsam);
-            string part2 = SolvePart2(mfcsam);
-
-            return string.Format(SolutionFormat, part1, part2);
-
         }
 
-        private string SolvePart1(MFCSAM mfcsam)
-        {
-            AuntSue? validSamples = auntsSue.SingleOrDefault(aunt => mfcsam.ValidateSample(aunt));
-            return validSamples == null ? throw new Exception("Inconclusive MFCSAM result!") : validSamples.Number.ToString();
-        }
+        MFCSAM mfcsam = new();
+        string part1 = SolvePart1(mfcsam);
+        string part2 = SolvePart2(mfcsam);
 
-        private string SolvePart2(MFCSAM mfcsam)
-        {
-            AuntSue? validSamples = auntsSue.SingleOrDefault(aunt => mfcsam.ValidateSampleWithOutdatedRetroencabulator(aunt));
-            return validSamples == null ? throw new Exception("Inconclusive MFCSAM result!") : validSamples.Number.ToString();
-        }
+        return string.Format(SolutionFormat, part1, part2);
 
-        [GeneratedRegex(AuntSuePattern, RegexOptions.Compiled)]
-        private static partial Regex InputRegex();
     }
+
+    private string SolvePart1(MFCSAM mfcsam)
+    {
+        AuntSue? validSamples = auntsSue.SingleOrDefault(aunt => mfcsam.ValidateSample(aunt));
+        return validSamples == null ? throw new Exception("Inconclusive MFCSAM result!") : validSamples.Number.ToString();
+    }
+
+    private string SolvePart2(MFCSAM mfcsam)
+    {
+        AuntSue? validSamples = auntsSue.SingleOrDefault(aunt => mfcsam.ValidateSampleWithOutdatedRetroencabulator(aunt));
+        return validSamples == null ? throw new Exception("Inconclusive MFCSAM result!") : validSamples.Number.ToString();
+    }
+
+    [GeneratedRegex(AuntSuePattern, RegexOptions.Compiled)]
+    private static partial Regex InputRegex();
 }

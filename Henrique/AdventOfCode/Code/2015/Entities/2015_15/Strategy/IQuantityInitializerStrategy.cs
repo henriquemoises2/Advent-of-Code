@@ -1,7 +1,6 @@
-﻿namespace AdventOfCode._2015_15
+﻿namespace AdventOfCode._2015_15;
+
+internal interface IQuantityInitializerStrategy
 {
-    internal interface IQuantityInitializerStrategy
-    {
-        internal IEnumerable<Ingredient> Initialize(IEnumerable<Ingredient> ingredients, int totalQuantity);
-    }
+    internal IEnumerable<Ingredient> Initialize(IEnumerable<Ingredient> ingredients, int totalQuantity);
 }
