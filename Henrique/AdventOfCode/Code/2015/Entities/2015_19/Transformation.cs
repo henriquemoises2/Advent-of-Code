@@ -1,15 +1,14 @@
-﻿namespace AdventOfCode._2015_19
+﻿namespace AdventOfCode._2015_19;
+
+internal class Transformation
 {
-    internal class Transformation
+    internal string InitialMolecule { get; set; }
+    internal string FinalMolecule { get; set; }
+
+    internal Transformation(string initialMolecule, string finalMolecule)
     {
-        internal string InitialMolecule { get; set; }
-        internal string FinalMolecule { get; set; }
-
-        internal Transformation(string initialMolecule, string finalMolecule)
-        {
-            InitialMolecule = initialMolecule;
-            FinalMolecule = finalMolecule;
-        }
-
+        InitialMolecule = initialMolecule;
+        FinalMolecule = finalMolecule;
     }
+
 }

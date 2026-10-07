@@ -5,7 +5,6 @@ namespace AdventOfCode.Code;
 
 public partial class Problem_2022_12 : Problem
 {
-
     private const char StartElevation = 'E';
     private const char GoFromStartElevation = 'y';
     private const char GoalElevation = 'S';
@@ -71,7 +70,7 @@ public partial class Problem_2022_12 : Problem
             {
                 nodes.Add(new AStarNode<Square>()
                 {
-                    Item = new Square(x, y, InputLines.ElementAt(y)[x])
+                    Item = new Square(new(x, y), InputLines.ElementAt(y)[x])
                 });
             }
         }
@@ -87,15 +86,15 @@ public partial class Problem_2022_12 : Problem
     {
         List<AStarNode<Square>> neighbours = [];
         Square currentSquareNode = currentNode.Item;
-        int upX = currentSquareNode.X, upY = currentSquareNode.Y + 1;
-        int rightX = currentSquareNode.X + 1, rightY = currentSquareNode.Y;
-        int downX = currentSquareNode.X, downY = currentSquareNode.Y - 1;
-        int leftX = currentSquareNode.X - 1, leftY = currentSquareNode.Y;
+        int upX = currentSquareNode.Position.X, upY = currentSquareNode.Position.Y + 1;
+        int rightX = currentSquareNode.Position.X + 1, rightY = currentSquareNode.Position.Y;
+        int downX = currentSquareNode.Position.X, downY = currentSquareNode.Position.Y - 1;
+        int leftX = currentSquareNode.Position.X - 1, leftY = currentSquareNode.Position.Y;
 
-        AStarNode<Square>? upNode = nodes.SingleOrDefault(node => node.Item?.X == upX && node.Item?.Y == upY);
-        AStarNode<Square>? rightNode = nodes.SingleOrDefault(node => node.Item?.X == rightX && node.Item?.Y == rightY);
-        AStarNode<Square>? downNode = nodes.SingleOrDefault(node => node.Item?.X == downX && node.Item?.Y == downY);
-        AStarNode<Square>? leftNode = nodes.SingleOrDefault(node => node.Item?.X == leftX && node.Item?.Y == leftY);
+        AStarNode<Square>? upNode = nodes.SingleOrDefault(node => node.Item?.Position.X == upX && node.Item?.Position.Y == upY);
+        AStarNode<Square>? rightNode = nodes.SingleOrDefault(node => node.Item?.Position.X == rightX && node.Item?.Position.Y == rightY);
+        AStarNode<Square>? downNode = nodes.SingleOrDefault(node => node.Item?.Position.X == downX && node.Item?.Position.Y == downY);
+        AStarNode<Square>? leftNode = nodes.SingleOrDefault(node => node.Item?.Position.X == leftX && node.Item?.Position.Y == leftY);
 
         ValidateAndAddNeighbourNode(neighbours, currentSquareNode, upNode);
         ValidateAndAddNeighbourNode(neighbours, currentSquareNode, rightNode);
@@ -138,7 +137,7 @@ public partial class Problem_2022_12 : Problem
         return (currentNode, goal) =>
         {
             // Manhattan distance
-            return Math.Abs(goal!.Item.X - currentNode.Item.X) + Math.Abs(goal.Item.Y - currentNode.Item.Y);
+            return Math.Abs(goal!.Item.Position.X - currentNode.Item.Position.X) + Math.Abs(goal.Item.Position.Y - currentNode.Item.Position.Y);
         };
     }
 
@@ -147,7 +146,7 @@ public partial class Problem_2022_12 : Problem
         return (currentNode, _) =>
         {
             // Distance to left edge of the map
-            return Math.Abs(currentNode.Item.X);
+            return Math.Abs(currentNode.Item.Position.X);
         };
     }
 
@@ -162,7 +161,7 @@ public partial class Problem_2022_12 : Problem
                 // Required for drawing the map correctly
                 int invertedY = InputLines.Count() - y - 1;
 
-                char charToPrint = solutionPath?.FirstOrDefault(node => node.Item.X == x && node.Item.Y == invertedY)?.Item.Elevation.ToString().ToUpper()[0] != null ? '.' : InputLines.ElementAt(invertedY)[x];
+                char charToPrint = solutionPath?.FirstOrDefault(node => node.Item.Position.X == x && node.Item.Position.Y == invertedY)?.Item.Elevation.ToString().ToUpper()[0] != null ? '.' : InputLines.ElementAt(invertedY)[x];
                 Console.Write(charToPrint);
             }
             Console.WriteLine();

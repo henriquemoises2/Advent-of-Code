@@ -3,117 +3,116 @@ using AdventOfCode.Constants;
 using System.Text.RegularExpressions;
 using Cookie = AdventOfCode._2015_15.Cookie;
 
-namespace AdventOfCode.Code
+namespace AdventOfCode.Code;
+
+public partial class Problem_2015_15 : Problem
 {
-    public partial class Problem_2015_15 : Problem
+
+    private const string IngredientPattern = @"^(?<name>\w+): capacity (?<capacity>-*\d+), durability (?<durability>-*\d+), flavor (?<flavor>-*\d+), texture (?<texture>-*\d+), calories (?<calories>-*\d+)";
+    private const int TotalIngredientsQuantity = 100;
+    private const int WantedCalories = 500;
+    private int TotalQuantityPerIngredient;
+
+
+    public Problem_2015_15() : base()
+    { }
+
+    public override string Solve()
     {
+        Regex pattern = InputRegex();
+        List<Ingredient> ingredientsList = [];
 
-        private const string IngredientPattern = @"^(?<name>\w+): capacity (?<capacity>-*\d+), durability (?<durability>-*\d+), flavor (?<flavor>-*\d+), texture (?<texture>-*\d+), calories (?<calories>-*\d+)";
-        private const int TotalIngredientsQuantity = 100;
-        private const int WantedCalories = 500;
-        private int TotalQuantityPerIngredient;
-
-
-        public Problem_2015_15() : base()
-        { }
-
-        public override string Solve()
+        foreach (string line in InputLines)
         {
-            Regex pattern = InputRegex();
-            List<Ingredient> ingredientsList = [];
-
-            foreach (string line in InputLines)
+            Match match = pattern.Match(line);
+            if (!match.Success)
             {
-                Match match = pattern.Match(line);
-                if (!match.Success)
-                {
-                    throw new Exception(Messages.InvalidInputErrorMessage);
-                }
-                else
-                {
-                    string ingredientName = match.Groups[1].Value;
-                    int capacityValue = int.Parse(match.Groups[2].Value);
-                    int durabilityValue = int.Parse(match.Groups[3].Value);
-                    int flavorValue = int.Parse(match.Groups[4].Value);
-                    int textureValue = int.Parse(match.Groups[5].Value);
-                    int caloriesValue = int.Parse(match.Groups[6].Value);
-                    ingredientsList.Add(new Ingredient(ingredientName, capacityValue, durabilityValue, flavorValue, textureValue, caloriesValue));
-                }
+                throw new Exception(Messages.InvalidInputErrorMessage);
             }
-
-            TotalQuantityPerIngredient = TotalIngredientsQuantity - ingredientsList.Count + 1;
-
-            IngredientsQuantityInitializer ingredientsQuantityInitializer = new(new MinimumQuantityInitializerStrategy(), ingredientsList, TotalIngredientsQuantity);
-            IEnumerable<Ingredient> weightedIngredientsList = ingredientsQuantityInitializer.Initialize();
-            IEnumerable<Cookie> possibleCookies = GenerateAllPossibleCookies(weightedIngredientsList, []);
-
-            string part1 = SolvePart1(possibleCookies);
-            string part2 = SolvePart2(possibleCookies);
-
-            return string.Format(SolutionFormat, part1, part2);
-
-        }
-
-        private static string SolvePart1(IEnumerable<Cookie> possibleCookies)
-        {
-            return possibleCookies.OrderByDescending(cookie => cookie.TotalValue).First().TotalValue.ToString();
-        }
-
-        private static string SolvePart2(IEnumerable<Cookie> possibleCookies)
-        {
-            possibleCookies = possibleCookies.Where(cookie => cookie.Calories == WantedCalories);
-            return possibleCookies.OrderByDescending(cookie => cookie.TotalValue).First().TotalValue.ToString();
-        }
-
-        private List<Cookie> GenerateAllPossibleCookies(IEnumerable<Ingredient> ingredientsList, List<Cookie> possibleCookies)
-        {
-            Ingredient? ingredientToIncrease;
-
-            while ((ingredientToIncrease = UpdateIngredientsQuantity(ingredientsList)) != null)
+            else
             {
-                ingredientToIncrease.Quantity++;
-                int totalQuantity = ingredientsList.Sum(ing => ing.Quantity);
-                if (TotalIngredientsQuantity == totalQuantity)
-                {
-                    Cookie cookie = new([.. ((List<Ingredient>)ingredientsList).ConvertAll(ing => ing.Clone())]);
-                    possibleCookies.Add(cookie);
-                }
+                string ingredientName = match.Groups[1].Value;
+                int capacityValue = int.Parse(match.Groups[2].Value);
+                int durabilityValue = int.Parse(match.Groups[3].Value);
+                int flavorValue = int.Parse(match.Groups[4].Value);
+                int textureValue = int.Parse(match.Groups[5].Value);
+                int caloriesValue = int.Parse(match.Groups[6].Value);
+                ingredientsList.Add(new Ingredient(ingredientName, capacityValue, durabilityValue, flavorValue, textureValue, caloriesValue));
             }
-            return possibleCookies;
         }
 
-        private Ingredient? UpdateIngredientsQuantity(IEnumerable<Ingredient> ingredientsList)
-        {
-            for (int i = ingredientsList.Count() - 1; i > 0; i--)
-            {
-                if (ingredientsList.ElementAt(i).Quantity == TotalQuantityPerIngredient ||
-                    ingredientsList.Sum(ing => ing.Quantity) >= TotalIngredientsQuantity)
-                {
-                    if (i == 0)
-                    {
-                        return null;
-                    }
-                    if (ingredientsList.ElementAt(i - 1).Quantity == TotalQuantityPerIngredient)
-                    {
-                        ingredientsList.ElementAt(i).Quantity = 1;
-                        continue;
-                    }
-                    else
-                    {
-                        ingredientsList.ElementAt(i).Quantity = 1;
-                        return ingredientsList.ElementAt(i - 1);
-                    }
-                }
-                else
-                {
-                    return ingredientsList.ElementAt(i);
-                }
+        TotalQuantityPerIngredient = TotalIngredientsQuantity - ingredientsList.Count + 1;
 
-            }
-            return null;
-        }
+        IngredientsQuantityInitializer ingredientsQuantityInitializer = new(new MinimumQuantityInitializerStrategy(), ingredientsList, TotalIngredientsQuantity);
+        IEnumerable<Ingredient> weightedIngredientsList = ingredientsQuantityInitializer.Initialize();
+        IEnumerable<Cookie> possibleCookies = GenerateAllPossibleCookies(weightedIngredientsList, []);
 
-        [GeneratedRegex(IngredientPattern, RegexOptions.Compiled)]
-        private static partial Regex InputRegex();
+        string part1 = SolvePart1(possibleCookies);
+        string part2 = SolvePart2(possibleCookies);
+
+        return string.Format(SolutionFormat, part1, part2);
+
     }
+
+    private static string SolvePart1(IEnumerable<Cookie> possibleCookies)
+    {
+        return possibleCookies.OrderByDescending(cookie => cookie.TotalValue).First().TotalValue.ToString();
+    }
+
+    private static string SolvePart2(IEnumerable<Cookie> possibleCookies)
+    {
+        possibleCookies = possibleCookies.Where(cookie => cookie.Calories == WantedCalories);
+        return possibleCookies.OrderByDescending(cookie => cookie.TotalValue).First().TotalValue.ToString();
+    }
+
+    private List<Cookie> GenerateAllPossibleCookies(IEnumerable<Ingredient> ingredientsList, List<Cookie> possibleCookies)
+    {
+        Ingredient? ingredientToIncrease;
+
+        while ((ingredientToIncrease = UpdateIngredientsQuantity(ingredientsList)) != null)
+        {
+            ingredientToIncrease.Quantity++;
+            int totalQuantity = ingredientsList.Sum(ing => ing.Quantity);
+            if (TotalIngredientsQuantity == totalQuantity)
+            {
+                Cookie cookie = new([.. ((List<Ingredient>)ingredientsList).ConvertAll(ing => ing.Clone())]);
+                possibleCookies.Add(cookie);
+            }
+        }
+        return possibleCookies;
+    }
+
+    private Ingredient? UpdateIngredientsQuantity(IEnumerable<Ingredient> ingredientsList)
+    {
+        for (int i = ingredientsList.Count() - 1; i > 0; i--)
+        {
+            if (ingredientsList.ElementAt(i).Quantity == TotalQuantityPerIngredient ||
+                ingredientsList.Sum(ing => ing.Quantity) >= TotalIngredientsQuantity)
+            {
+                if (i == 0)
+                {
+                    return null;
+                }
+                if (ingredientsList.ElementAt(i - 1).Quantity == TotalQuantityPerIngredient)
+                {
+                    ingredientsList.ElementAt(i).Quantity = 1;
+                    continue;
+                }
+                else
+                {
+                    ingredientsList.ElementAt(i).Quantity = 1;
+                    return ingredientsList.ElementAt(i - 1);
+                }
+            }
+            else
+            {
+                return ingredientsList.ElementAt(i);
+            }
+
+        }
+        return null;
+    }
+
+    [GeneratedRegex(IngredientPattern, RegexOptions.Compiled)]
+    private static partial Regex InputRegex();
 }

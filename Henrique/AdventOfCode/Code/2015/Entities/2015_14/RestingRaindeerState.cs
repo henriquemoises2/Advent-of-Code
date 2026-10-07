@@ -1,42 +1,41 @@
-﻿namespace AdventOfCode._2015_14
+﻿namespace AdventOfCode._2015_14;
+
+internal class RestingRaindeerState : RaindeerState
 {
-    internal class RestingRaindeerState : RaindeerState
+    internal RestingRaindeerState(Raindeer raindeer) : base(raindeer)
     {
-        internal RestingRaindeerState(Raindeer raindeer) : base(raindeer)
-        {
-            SecondsInState = 0;
-        }
+        SecondsInState = 0;
+    }
 
-        internal override void ActForN(int seconds)
+    internal override void ActForN(int seconds)
+    {
+        int realRestingTime;
+        if (seconds - Raindeer.RestTime >= 0)
         {
-            int realRestingTime;
-            if (seconds - Raindeer.RestTime >= 0)
-            {
-                realRestingTime = Raindeer.RestTime;
-            }
-            else
-            {
-                realRestingTime = seconds;
-            }
-            seconds = Math.Max(0, seconds - realRestingTime);
-
-            if (seconds == 0)
-            {
-                return;
-            }
-            else
-            {
-                Raindeer.ChangeState(new FlyingRaindeerState(Raindeer));
-                Raindeer.ActForN(seconds);
-            }
+            realRestingTime = Raindeer.RestTime;
         }
-        internal override void ActForSingle()
+        else
         {
-            SecondsInState++;
-            if (SecondsInState == Raindeer.RestTime)
-            {
-                Raindeer.ChangeState(new FlyingRaindeerState(Raindeer));
-            }
+            realRestingTime = seconds;
+        }
+        seconds = Math.Max(0, seconds - realRestingTime);
+
+        if (seconds == 0)
+        {
+            return;
+        }
+        else
+        {
+            Raindeer.ChangeState(new FlyingRaindeerState(Raindeer));
+            Raindeer.ActForN(seconds);
+        }
+    }
+    internal override void ActForSingle()
+    {
+        SecondsInState++;
+        if (SecondsInState == Raindeer.RestTime)
+        {
+            Raindeer.ChangeState(new FlyingRaindeerState(Raindeer));
         }
     }
 }

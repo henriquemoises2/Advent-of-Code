@@ -1,8 +1,7 @@
 ﻿
-namespace AdventOfCode._2015_7
+namespace AdventOfCode._2015_7;
+
+interface ISource
 {
-    interface ISource
-    {
-        internal ushort Evaluate(IDictionary<string, ISource> circuit);
-    }
+    internal ushort Evaluate(IDictionary<string, ISource> circuit);
 }

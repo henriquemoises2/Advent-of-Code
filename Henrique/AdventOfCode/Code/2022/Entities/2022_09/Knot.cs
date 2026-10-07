@@ -1,46 +1,46 @@
 ﻿using AdventOfCode._2022_09;
+using AdventOfCode.DataStructures;
 
-namespace AdventOfCode.Code._2022.Entities._2022_09
+namespace AdventOfCode.Code._2022.Entities._2022_09;
+
+internal abstract class Knot
 {
-    internal abstract class Knot
+    internal int x;
+    internal int y;
+
+    internal List<Coordinates> VisitedCoordinates = [];
+    internal Knot()
     {
-        internal int x;
-        internal int y;
+        AddVisitedCoordinate(0, 0);
+    }
 
-        internal List<Tuple<int, int>> VisitedCoordinates = [];
-        internal Knot()
+    internal virtual void Move(Direction direction)
+    {
+        switch (direction)
         {
-            AddVisitedCoordinate(0, 0);
+            case Direction.Left:
+                x--;
+                break;
+            case Direction.Right:
+                x++;
+                break;
+            case Direction.Down:
+                y--;
+                break;
+            case Direction.Up:
+                y++;
+                break;
+            default:
+                break;
         }
+    }
 
-        internal virtual void Move(Direction direction)
+    internal void AddVisitedCoordinate(int x, int y)
+    {
+        Coordinates newCoordinate = new(x, y);
+        if (!VisitedCoordinates.Contains(newCoordinate))
         {
-            switch (direction)
-            {
-                case Direction.Left:
-                    x--;
-                    break;
-                case Direction.Right:
-                    x++;
-                    break;
-                case Direction.Down:
-                    y--;
-                    break;
-                case Direction.Up:
-                    y++;
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        internal void AddVisitedCoordinate(int x, int y)
-        {
-            Tuple<int, int> newCoordinate = new(x, y);
-            if (!VisitedCoordinates.Contains(newCoordinate))
-            {
-                VisitedCoordinates.Add(newCoordinate);
-            }
+            VisitedCoordinates.Add(newCoordinate);
         }
     }
 }

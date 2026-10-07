@@ -1,129 +1,128 @@
 ﻿using AdventOfCode.Constants;
 
-namespace AdventOfCode.Code
+namespace AdventOfCode.Code;
+
+public class Problem_2022_03 : Problem
 {
-    public class Problem_2022_03 : Problem
+    public Problem_2022_03() : base()
     {
-        public Problem_2022_03() : base()
+    }
+
+    public override string Solve()
+    {
+        string part1 = SolvePart1(InputLines);
+        string part2 = SolvePart2(InputLines);
+
+        return string.Format(SolutionFormat, part1, part2);
+
+    }
+
+    private static string SolvePart1(IEnumerable<string> InputLines)
+    {
+        try
         {
-        }
-
-        public override string Solve()
-        {
-            string part1 = SolvePart1(InputLines);
-            string part2 = SolvePart2(InputLines);
-
-            return string.Format(SolutionFormat, part1, part2);
-
-        }
-
-        private static string SolvePart1(IEnumerable<string> InputLines)
-        {
-            try
+            int totalValue = 0;
+            foreach (string line in InputLines)
             {
-                int totalValue = 0;
-                foreach (string line in InputLines)
+                Dictionary<char, int> itemsCountTracker = [];
+                char? commonItem = null;
+                foreach (char character in line.Take(line.Length / 2))
                 {
-                    Dictionary<char, int> itemsCountTracker = [];
-                    char? commonItem = null;
-                    foreach (char character in line.Take(line.Length / 2))
+                    if (!itemsCountTracker.TryAdd(character, 1))
                     {
-                        if (!itemsCountTracker.TryAdd(character, 1))
-                        {
-                            itemsCountTracker[character]++;
-                        }
+                        itemsCountTracker[character]++;
                     }
-                    foreach (char character in line.Skip(line.Length / 2))
+                }
+                foreach (char character in line.Skip(line.Length / 2))
+                {
+                    if (itemsCountTracker.ContainsKey(character))
+                    {
+                        commonItem = character;
+                        break;
+                    }
+                }
+
+                if (commonItem != null)
+                {
+                    totalValue += ComputeItemValue(commonItem.Value);
+                }
+            }
+            return totalValue.ToString();
+        }
+        catch
+        {
+            throw new Exception(Messages.InvalidInputErrorMessage);
+        }
+    }
+
+    private static string SolvePart2(IEnumerable<string> InputLines)
+    {
+
+        try
+        {
+            int totalValue = 0;
+            int elfNumber = 1;
+            Dictionary<char, int> itemsCountTracker = [];
+            char? commonItem = null;
+            foreach (string line in InputLines)
+            {
+
+                if (elfNumber > 3)
+                {
+                    itemsCountTracker = [];
+                    commonItem = null;
+                    elfNumber = 1;
+                }
+
+                foreach (char character in line)
+                {
+
+                    if (elfNumber == 1)
+                    {
+                        itemsCountTracker.TryAdd(character, 1);
+                    }
+                    else if (elfNumber == 2)
                     {
                         if (itemsCountTracker.ContainsKey(character))
+                        {
+                            itemsCountTracker[character] = 2;
+                        }
+                    }
+                    else
+                    {
+                        if (itemsCountTracker.TryGetValue(character, out int value) && value == 2)
                         {
                             commonItem = character;
                             break;
                         }
                     }
-
-                    if (commonItem != null)
-                    {
-                        totalValue += ComputeItemValue(commonItem.Value);
-                    }
                 }
-                return totalValue.ToString();
-            }
-            catch
-            {
-                throw new Exception(Messages.InvalidInputErrorMessage);
-            }
-        }
-
-        private static string SolvePart2(IEnumerable<string> InputLines)
-        {
-
-            try
-            {
-                int totalValue = 0;
-                int elfNumber = 1;
-                Dictionary<char, int> itemsCountTracker = [];
-                char? commonItem = null;
-                foreach (string line in InputLines)
+                if (commonItem != null)
                 {
-
-                    if (elfNumber > 3)
-                    {
-                        itemsCountTracker = [];
-                        commonItem = null;
-                        elfNumber = 1;
-                    }
-
-                    foreach (char character in line)
-                    {
-
-                        if (elfNumber == 1)
-                        {
-                            itemsCountTracker.TryAdd(character, 1);
-                        }
-                        else if (elfNumber == 2)
-                        {
-                            if (itemsCountTracker.ContainsKey(character))
-                            {
-                                itemsCountTracker[character] = 2;
-                            }
-                        }
-                        else
-                        {
-                            if (itemsCountTracker.TryGetValue(character, out int value) && value == 2)
-                            {
-                                commonItem = character;
-                                break;
-                            }
-                        }
-                    }
-                    if (commonItem != null)
-                    {
-                        totalValue += ComputeItemValue(commonItem.Value);
-                    }
-
-                    elfNumber++;
-
+                    totalValue += ComputeItemValue(commonItem.Value);
                 }
-                return totalValue.ToString();
-            }
-            catch
-            {
-                throw new Exception(Messages.InvalidInputErrorMessage);
-            }
-        }
 
-        private static int ComputeItemValue(char item)
+                elfNumber++;
+
+            }
+            return totalValue.ToString();
+        }
+        catch
         {
-            if (Char.IsLower(item))
-            {
-                return item - 96;
-            }
-            else
-            {
-                return item - 38;
-            }
+            throw new Exception(Messages.InvalidInputErrorMessage);
         }
-
     }
+
+    private static int ComputeItemValue(char item)
+    {
+        if (Char.IsLower(item))
+        {
+            return item - 96;
+        }
+        else
+        {
+            return item - 38;
+        }
+    }
+
 }

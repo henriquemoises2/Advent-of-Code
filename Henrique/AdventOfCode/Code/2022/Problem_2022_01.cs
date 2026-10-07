@@ -1,56 +1,55 @@
 ﻿using AdventOfCode.Constants;
 
-namespace AdventOfCode.Code
+namespace AdventOfCode.Code;
+
+public class Problem_2022_01 : Problem
 {
-    public class Problem_2022_01 : Problem
+    public Problem_2022_01() : base()
     {
-        public Problem_2022_01() : base()
+    }
+
+    public override string Solve()
+    {
+        List<int> elfsList = [];
+
+        int totalCalories = 0;
+
+        try
         {
-        }
-
-        public override string Solve()
-        {
-            List<int> elfsList = [];
-
-            int totalCalories = 0;
-
-            try
+            foreach (string line in InputLines)
             {
-                foreach (string line in InputLines)
+                // New elf inventory
+                if (string.IsNullOrEmpty(line))
                 {
-                    // New elf inventory
-                    if (string.IsNullOrEmpty(line))
-                    {
-                        elfsList.Add(totalCalories);
-                        totalCalories = 0;
-                    }
-                    else
-                    {
-                        totalCalories += int.Parse(line);
-                    }
+                    elfsList.Add(totalCalories);
+                    totalCalories = 0;
+                }
+                else
+                {
+                    totalCalories += int.Parse(line);
                 }
             }
-            catch
-            {
-                throw new Exception(Messages.InvalidInputErrorMessage);
-            }
-
-            string part1 = SolvePart1(elfsList);
-            string part2 = SolvePart2(elfsList);
-
-            return string.Format(SolutionFormat, part1, part2);
-
         }
-
-        private static string SolvePart1(List<int> elfsList)
+        catch
         {
-            return elfsList.OrderByDescending(elf => elf).FirstOrDefault().ToString();
+            throw new Exception(Messages.InvalidInputErrorMessage);
         }
 
-        private static string SolvePart2(List<int> elfsList)
-        {
-            return elfsList.OrderByDescending(elf => elf).Take(3).Sum().ToString();
-        }
+        string part1 = SolvePart1(elfsList);
+        string part2 = SolvePart2(elfsList);
+
+        return string.Format(SolutionFormat, part1, part2);
 
     }
+
+    private static string SolvePart1(List<int> elfsList)
+    {
+        return elfsList.OrderByDescending(elf => elf).FirstOrDefault().ToString();
+    }
+
+    private static string SolvePart2(List<int> elfsList)
+    {
+        return elfsList.OrderByDescending(elf => elf).Take(3).Sum().ToString();
+    }
+
 }
